@@ -1,5 +1,37 @@
 const mobileNavButton = document.querySelector(".mobile-nav-toggle");
 const navPanel = document.querySelector(".nav-panel");
+const loginModal = document.getElementById("loginModal");
+const loginForm = document.getElementById("loginForm");
+const loginHelp = document.getElementById("loginHelp");
+const loginUserId = document.getElementById("loginUserId");
+const loginPassword = document.getElementById("loginPassword");
+const loginCloseButton = document.getElementById("loginCloseButton");
+const loginSkipButton = document.getElementById("loginSkipButton");
+
+function closeLoginModal() {
+  if (!loginModal) {
+    return;
+  }
+
+  loginModal.classList.add("is-hidden");
+  document.body.classList.remove("login-locked");
+  sessionStorage.setItem("gnHomepageLoginSeen", "true");
+}
+
+function openLoginModal() {
+  if (!loginModal) {
+    return;
+  }
+
+  loginModal.classList.remove("is-hidden");
+  document.body.classList.add("login-locked");
+
+  window.setTimeout(() => {
+    if (loginUserId) {
+      loginUserId.focus();
+    }
+  }, 120);
+}
 
 if (mobileNavButton && navPanel) {
   mobileNavButton.addEventListener("click", () => {
@@ -28,6 +60,61 @@ document.querySelectorAll(".nav-link").forEach((link) => {
     }
   });
 });
+
+if (loginModal) {
+  const shouldOpenLogin = sessionStorage.getItem("gnHomepageLoginSeen") !== "true";
+
+  if (shouldOpenLogin) {
+    openLoginModal();
+  }
+
+  loginCloseButton?.addEventListener("click", closeLoginModal);
+  loginSkipButton?.addEventListener("click", closeLoginModal);
+
+  loginModal.addEventListener("click", (event) => {
+    if (event.target === loginModal) {
+      closeLoginModal();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !loginModal.classList.contains("is-hidden")) {
+      closeLoginModal();
+    }
+  });
+
+  loginForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const userId = loginUserId?.value.trim() ?? "";
+    const password = loginPassword?.value.trim() ?? "";
+
+    if (!userId || !password) {
+      if (loginHelp) {
+        loginHelp.textContent = "아이디와 비밀번호를 모두 입력해 주세요.";
+        loginHelp.classList.remove("text-slate-500");
+        loginHelp.classList.add("text-rose-600");
+      }
+      return;
+    }
+
+    if (loginHelp) {
+      loginHelp.textContent = `${userId}님, 메인 화면으로 입장합니다.`;
+      loginHelp.classList.remove("text-rose-600");
+      loginHelp.classList.add("text-emerald-600");
+    }
+
+    window.setTimeout(() => {
+      closeLoginModal();
+      loginForm.reset();
+      if (loginHelp) {
+        loginHelp.textContent = "데모 로그인 창입니다. 입력 후 바로 메인 화면으로 이동합니다.";
+        loginHelp.classList.remove("text-emerald-600");
+        loginHelp.classList.add("text-slate-500");
+      }
+    }, 350);
+  });
+}
 
 const revealTargets = document.querySelectorAll(".reveal");
 

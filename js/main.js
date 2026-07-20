@@ -1,37 +1,146 @@
 const mobileNavButton = document.querySelector(".mobile-nav-toggle");
 const navPanel = document.querySelector(".nav-panel");
-const loginModal = document.getElementById("loginModal");
-const loginForm = document.getElementById("loginForm");
-const loginHelp = document.getElementById("loginHelp");
-const loginUserId = document.getElementById("loginUserId");
-const loginPassword = document.getElementById("loginPassword");
-const loginCloseButton = document.getElementById("loginCloseButton");
-const demoLoginId = "admin";
-const demoLoginPassword = "gn2026!";
+const authPageType = document.body.dataset.authPage;
+const authControls = document.querySelector("[data-auth-controls]");
+const authUser = document.querySelector("[data-auth-user]");
+const logoutButton = document.querySelector("[data-auth-logout]");
 
-function closeLoginModal() {
-  if (!loginModal) {
-    return;
+const simpleAccounts = [
+  { id: "gn01", password: "1001", label: "gn01" },
+  { id: "gn02", password: "1002", label: "gn02" },
+  { id: "gn03", password: "1003", label: "gn03" },
+  { id: "gn04", password: "1004", label: "gn04" },
+  { id: "gn05", password: "1005", label: "gn05" },
+  { id: "gn06", password: "1006", label: "gn06" },
+  { id: "gn07", password: "1007", label: "gn07" },
+  { id: "gn08", password: "1008", label: "gn08" },
+  { id: "gn09", password: "1009", label: "gn09" },
+  { id: "gn10", password: "1010", label: "gn10" }
+];
+
+const authStorageKey = "gnFieldProfessorCurrentUser";
+
+function getCurrentUser() {
+  const raw = localStorage.getItem(authStorageKey);
+  if (!raw) {
+    return null;
   }
 
-  loginModal.classList.add("is-hidden");
-  document.body.classList.remove("login-locked");
-  sessionStorage.setItem("gnHomepageLoginSeen", "true");
+  try {
+    return JSON.parse(raw);
+  } catch {
+    localStorage.removeItem(authStorageKey);
+    return null;
+  }
 }
 
-function openLoginModal() {
-  if (!loginModal) {
+function setCurrentUser(user) {
+  localStorage.setItem(authStorageKey, JSON.stringify(user));
+}
+
+function clearCurrentUser() {
+  localStorage.removeItem(authStorageKey);
+}
+
+function createLoginModal() {
+  const wrapper = document.createElement("div");
+  wrapper.id = "simpleLoginModal";
+  wrapper.className = "fixed inset-0 z-[90] flex items-center justify-center bg-slate-900/60 px-4 py-8 backdrop-blur-md";
+  wrapper.innerHTML = `
+    <section class="w-full max-w-md rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_28px_70px_-30px_rgba(15,23,42,0.45)] sm:p-10">
+      <span class="inline-flex rounded-full bg-sky-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a365d]">
+        Member Login
+      </span>
+      <h2 class="mt-5 text-3xl font-black text-[#1a365d]">교수님 로그인</h2>
+      <p class="mt-4 break-keep-all text-sm leading-7 text-slate-600">
+        관리자에게 받은 아이디와 비밀번호를 입력해 주세요. 로그인해야 홈페이지 내용을 확인할 수 있습니다.
+      </p>
+      <form id="simpleLoginForm" class="mt-8 space-y-4">
+        <div>
+          <label for="simpleLoginId" class="mb-2 block text-sm font-semibold text-slate-600">아이디</label>
+          <input id="simpleLoginId" type="text" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: gn01" autocomplete="username">
+        </div>
+        <div>
+          <label for="simpleLoginPassword" class="mb-2 block text-sm font-semibold text-slate-600">비밀번호</label>
+          <input id="simpleLoginPassword" type="password" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: 1001" autocomplete="current-password">
+        </div>
+        <p id="simpleLoginHelp" class="min-h-[1.5rem] break-keep-all text-sm font-medium text-slate-500">
+          현재 계정 형식은 gn01~gn10 / 1001~1010 입니다.
+        </p>
+        <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full bg-[#1a365d] px-6 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
+          로그인
+        </button>
+      </form>
+    </section>
+  `;
+  return wrapper;
+}
+
+function updateAuthUi(user) {
+  if (!authControls || !authUser) {
     return;
   }
 
-  loginModal.classList.remove("is-hidden");
-  document.body.classList.add("login-locked");
+  authControls.classList.remove("hidden");
+  authControls.classList.add("flex");
+  authUser.textContent = `${user.label} 로그인`;
+}
 
-  window.setTimeout(() => {
-    if (loginUserId) {
-      loginUserId.focus();
+function protectPage() {
+  if (authPageType !== "protected") {
+    return;
+  }
+
+  const currentUser = getCurrentUser();
+
+  if (currentUser) {
+    updateAuthUi(currentUser);
+    return;
+  }
+
+  document.body.classList.add("overflow-hidden");
+  const modal = createLoginModal();
+  document.body.appendChild(modal);
+
+  const form = modal.querySelector("#simpleLoginForm");
+  const idInput = modal.querySelector("#simpleLoginId");
+  const passwordInput = modal.querySelector("#simpleLoginPassword");
+  const helpText = modal.querySelector("#simpleLoginHelp");
+
+  idInput?.focus();
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const userId = idInput?.value.trim() ?? "";
+    const password = passwordInput?.value.trim() ?? "";
+
+    if (!userId || !password) {
+      helpText.textContent = "아이디와 비밀번호를 모두 입력해 주세요.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
     }
-  }, 120);
+
+    const matchedAccount = simpleAccounts.find((account) => account.id === userId && account.password === password);
+
+    if (!matchedAccount) {
+      helpText.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    setCurrentUser(matchedAccount);
+    updateAuthUi(matchedAccount);
+    modal.remove();
+    document.body.classList.remove("overflow-hidden");
+  });
+}
+
+if (logoutButton) {
+  logoutButton.addEventListener("click", () => {
+    clearCurrentUser();
+    window.location.reload();
+  });
 }
 
 if (mobileNavButton && navPanel) {
@@ -62,72 +171,7 @@ document.querySelectorAll(".nav-link").forEach((link) => {
   });
 });
 
-if (loginModal) {
-  const shouldOpenLogin = sessionStorage.getItem("gnHomepageLoginSeen") !== "true";
-
-  if (shouldOpenLogin) {
-    openLoginModal();
-  }
-
-  loginCloseButton?.addEventListener("click", () => {
-    if (loginHelp) {
-      loginHelp.textContent = "로그인 후 이용 가능합니다. 아이디는 admin, 비밀번호는 gn2026! 입니다.";
-      loginHelp.classList.remove("text-slate-500", "text-emerald-600");
-      loginHelp.classList.add("text-amber-600");
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !loginModal.classList.contains("is-hidden")) {
-      if (loginHelp) {
-        loginHelp.textContent = "로그인 정보를 입력해야 화면을 닫을 수 있습니다.";
-        loginHelp.classList.remove("text-slate-500", "text-emerald-600");
-        loginHelp.classList.add("text-amber-600");
-      }
-    }
-  });
-
-  loginForm?.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const userId = loginUserId?.value.trim() ?? "";
-    const password = loginPassword?.value.trim() ?? "";
-
-    if (!userId || !password) {
-      if (loginHelp) {
-        loginHelp.textContent = "아이디와 비밀번호를 모두 입력해 주세요.";
-        loginHelp.classList.remove("text-slate-500");
-        loginHelp.classList.add("text-rose-600");
-      }
-      return;
-    }
-
-    if (userId !== demoLoginId || password !== demoLoginPassword) {
-      if (loginHelp) {
-        loginHelp.textContent = "아이디 또는 비밀번호가 올바르지 않습니다. admin / gn2026! 로 다시 시도해 주세요.";
-        loginHelp.classList.remove("text-slate-500", "text-emerald-600", "text-amber-600");
-        loginHelp.classList.add("text-rose-600");
-      }
-      return;
-    }
-
-    if (loginHelp) {
-      loginHelp.textContent = `${userId}님, 메인 화면으로 입장합니다.`;
-      loginHelp.classList.remove("text-rose-600", "text-amber-600");
-      loginHelp.classList.add("text-emerald-600");
-    }
-
-    window.setTimeout(() => {
-      closeLoginModal();
-      loginForm.reset();
-      if (loginHelp) {
-        loginHelp.textContent = "데모 계정으로 로그인해 주세요. 아이디는 admin, 비밀번호는 gn2026! 입니다.";
-        loginHelp.classList.remove("text-emerald-600", "text-rose-600", "text-amber-600");
-        loginHelp.classList.add("text-slate-500");
-      }
-    }, 350);
-  });
-}
+protectPage();
 
 const revealTargets = document.querySelectorAll(".reveal");
 

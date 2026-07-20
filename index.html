@@ -14,24 +14,24 @@
         extend: {
           colors: {
             council: {
-              navy: "#1a365d",
-              sky: "#90cdf4",
-              skydeep: "#5aa9e6",
-              mist: "#edf7ff",
-              fog: "#f8fbff",
-              line: "#d7e6f5",
-              text: "#1f2937"
+              navy: "#295286",
+              sky: "#a9dcff",
+              skydeep: "#78c6f6",
+              mist: "#f2f9ff",
+              fog: "#fcfeff",
+              line: "#dbeaf8",
+              text: "#24415f"
             }
           },
           fontFamily: {
             sans: ["Pretendard", "system-ui", "sans-serif"]
           },
           boxShadow: {
-            soft: "0 24px 70px -34px rgba(26, 54, 93, 0.30)",
-            glow: "0 30px 90px -45px rgba(90, 169, 230, 0.55)"
+            soft: "0 24px 70px -34px rgba(71, 138, 196, 0.22)",
+            glow: "0 30px 90px -45px rgba(123, 206, 255, 0.62)"
           },
           backgroundImage: {
-            premium: "radial-gradient(circle at top left, rgba(144,205,244,0.28), transparent 25%), radial-gradient(circle at 85% 15%, rgba(26,54,93,0.10), transparent 28%), linear-gradient(180deg, #f4f9ff 0%, #ffffff 52%, #f8fbff 100%)"
+            premium: "radial-gradient(circle at top left, rgba(169,220,255,0.44), transparent 26%), radial-gradient(circle at 85% 15%, rgba(120,198,246,0.16), transparent 28%), linear-gradient(180deg, #f7fbff 0%, #ffffff 52%, #fafdff 100%)"
           }
         }
       }
@@ -41,7 +41,7 @@
     body {
       font-family: "Pretendard", system-ui, sans-serif;
       background: #f8fbff;
-      color: #1f2937;
+      color: #24415f;
     }
 
     .break-keep {
@@ -51,22 +51,22 @@
     .glass-card {
       border: 1px solid rgba(215, 230, 245, 0.95);
       background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 24px 70px -34px rgba(26, 54, 93, 0.3);
+      box-shadow: 0 24px 70px -34px rgba(71, 138, 196, 0.22);
       backdrop-filter: blur(14px);
     }
 
     .soft-panel {
       border: 1px solid rgba(215, 230, 245, 0.9);
       background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,249,255,0.96));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 16px 45px -34px rgba(26,54,93,0.38);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.92), 0 16px 45px -34px rgba(71,138,196,0.24);
     }
 
     .hero-mesh {
       background:
-        radial-gradient(circle at 16% 18%, rgba(144,205,244,0.28), transparent 18%),
-        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.14), transparent 10%),
-        radial-gradient(circle at 72% 68%, rgba(144,205,244,0.18), transparent 15%),
-        linear-gradient(145deg, rgba(18,42,74,0.98), rgba(43,85,135,0.94));
+        radial-gradient(circle at 16% 18%, rgba(196,235,255,0.58), transparent 18%),
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.34), transparent 10%),
+        radial-gradient(circle at 72% 68%, rgba(169,220,255,0.34), transparent 15%),
+        linear-gradient(145deg, rgba(99,157,212,0.96), rgba(132,186,235,0.92));
     }
 
     .hero-grid::before {
@@ -74,8 +74,8 @@
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px);
       background-size: 28px 28px;
       mask-image: linear-gradient(180deg, rgba(0,0,0,0.92), rgba(0,0,0,0.18));
       pointer-events: none;
@@ -135,7 +135,7 @@
     <header class="sticky top-0 z-40 border-b border-white/70 bg-white/80 backdrop-blur-xl">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a href="./index.html" class="flex items-center gap-3">
-          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-council-navy text-lg font-black text-white shadow-soft">KP</span>
+          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-council-skydeep to-council-navy text-lg font-black text-white shadow-soft">KP</span>
           <span class="block">
             <span class="block text-[11px] font-bold uppercase tracking-[0.24em] text-sky-700">Korea Field Professor</span>
             <span class="block text-base font-black text-council-navy sm:text-lg">대한민국산업현장교수 경남협의회</span>
@@ -149,7 +149,7 @@
         <div class="flex items-center gap-3">
           <nav id="global-nav" class="nav-panel hidden lg:block" aria-label="주요 메뉴">
             <ul class="flex items-center gap-2">
-              <li><a class="inline-flex rounded-full bg-council-mist px-4 py-3 text-sm font-bold text-council-navy" href="./index.html">메인</a></li>
+              <li><a class="inline-flex rounded-full bg-council-mist px-4 py-3 text-sm font-bold text-council-navy shadow-[0_12px_28px_-20px_rgba(120,198,246,0.85)]" href="./index.html">메인</a></li>
               <li><a class="inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./organization.html">조직도</a></li>
               <li><a class="inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./statistics.html">통계</a></li>
               <li><a class="inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./ai-tf.html">AI교재TF</a></li>
@@ -161,7 +161,7 @@
 
           <div class="hidden items-center gap-3 lg:flex" data-auth-controls>
             <span class="rounded-full bg-council-mist px-4 py-2 text-xs font-bold text-council-navy" data-auth-user>로그인 확인 중</span>
-            <a href="./admin.html" data-admin-link class="hidden min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
+            <a href="./admin.html" data-admin-link class="hidden min-h-[44px] items-center justify-center rounded-full bg-gradient-to-r from-council-skydeep to-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
               관리자
             </a>
             <button type="button" data-auth-change-password class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-4 py-2 text-sm font-semibold text-council-navy transition hover:bg-council-mist">
@@ -197,7 +197,7 @@
             </div>
 
             <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#process" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-council-navy px-7 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
+              <a href="#process" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-gradient-to-r from-council-skydeep to-council-navy px-7 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
                 기술지원 절차 보기
                 <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
                   <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
@@ -227,12 +227,12 @@
             </div>
           </div>
 
-          <div class="hero-mesh hero-grid reveal relative overflow-hidden rounded-[2rem] border border-white/10 p-6 text-white shadow-glow">
+          <div class="hero-mesh hero-grid reveal relative overflow-hidden rounded-[2rem] border border-white/30 p-6 text-white shadow-glow">
             <span class="floating-orb left-10 top-10 h-12 w-12 bg-white/12"></span>
             <span class="floating-orb right-12 top-28 h-7 w-7 bg-sky-200/30" style="animation-delay: 1.2s;"></span>
             <span class="floating-orb bottom-10 left-16 h-10 w-10 bg-sky-100/20" style="animation-delay: 2.2s;"></span>
 
-            <div class="relative z-10 flex min-h-[560px] flex-col justify-between rounded-[1.8rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm">
+            <div class="relative z-10 flex min-h-[560px] flex-col justify-between rounded-[1.8rem] border border-white/25 bg-white/12 p-6 backdrop-blur-sm">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <span class="rounded-full bg-white/10 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-sky-100">
                   Hero Banner
@@ -578,10 +578,10 @@
 
       <section class="px-4 pt-8 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-7xl reveal">
-          <div class="overflow-hidden rounded-[2rem] bg-council-navy p-8 text-white shadow-soft sm:p-10 lg:p-12">
+          <div class="overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#6db9ee] via-[#8cd5fb] to-[#9fdfff] p-8 text-council-navy shadow-soft sm:p-10 lg:p-12">
             <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div class="max-w-3xl break-keep">
-                <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-sky-100">
+                <span class="inline-flex rounded-full bg-white/50 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">
                   Council Message
                 </span>
                 <h2 class="mt-6 text-3xl font-black leading-tight tracking-[-0.04em] sm:text-4xl">
@@ -589,7 +589,7 @@
                   <br>
                   마지막 현장까지 도달하도록 연결하겠습니다.
                 </h2>
-                <p class="mt-4 text-base leading-8 text-sky-50 sm:text-lg">
+                <p class="mt-4 text-base leading-8 text-council-navy/80 sm:text-lg">
                   협의회의 조직 체계, 임원진, 전문위원 제도, 직종별 통계 페이지도 함께 구축되어 있어 대외 소개와 내부 운영을 모두 지원할 수 있습니다.
                 </p>
               </div>
@@ -600,7 +600,7 @@
                     <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
                   </span>
                 </a>
-                <a href="./statistics.html" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full border border-white/20 bg-white/10 px-7 py-4 text-base font-semibold text-white transition hover:bg-white/15">
+                <a href="./statistics.html" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full border border-white/70 bg-white/50 px-7 py-4 text-base font-semibold text-council-navy transition hover:bg-white/70">
                   통계 페이지 보기
                   <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
                     <iconify-icon icon="solar:chart-2-linear"></iconify-icon>

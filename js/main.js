@@ -147,7 +147,7 @@ function createLoginModal() {
           <input id="simpleLoginPassword" type="password" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: 1101" autocomplete="current-password">
         </div>
         <p id="simpleLoginHelp" class="min-h-[1.5rem] break-keep-all text-sm font-medium text-slate-500">
-          교수님 계정은 gn101~gn119 / 1101~1119, 유관기관은 gn301~gn305 / 1301~1305 형식입니다.
+          관리자에게 안내받은 아이디와 비밀번호를 입력해 주세요.
         </p>
         <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full bg-[#1a365d] px-6 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
           로그인

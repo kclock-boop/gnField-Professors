@@ -4,21 +4,54 @@ const authPageType = document.body.dataset.authPage;
 const authControls = document.querySelector("[data-auth-controls]");
 const authUser = document.querySelector("[data-auth-user]");
 const logoutButton = document.querySelector("[data-auth-logout]");
+const changePasswordButton = document.querySelector("[data-auth-change-password]");
 
-const simpleAccounts = [
-  { id: "gn01", password: "1001", label: "gn01" },
-  { id: "gn02", password: "1002", label: "gn02" },
-  { id: "gn03", password: "1003", label: "gn03" },
-  { id: "gn04", password: "1004", label: "gn04" },
-  { id: "gn05", password: "1005", label: "gn05" },
-  { id: "gn06", password: "1006", label: "gn06" },
-  { id: "gn07", password: "1007", label: "gn07" },
-  { id: "gn08", password: "1008", label: "gn08" },
-  { id: "gn09", password: "1009", label: "gn09" },
-  { id: "gn10", password: "1010", label: "gn10" }
+const defaultAccounts = [
+  { id: "admin", password: "admin1234", label: "관리자", role: "admin" },
+  { id: "gn01", password: "1001", label: "김교수", role: "member" },
+  { id: "gn02", password: "1002", label: "이교수", role: "member" },
+  { id: "gn03", password: "1003", label: "박교수", role: "member" },
+  { id: "gn04", password: "1004", label: "최교수", role: "member" },
+  { id: "gn05", password: "1005", label: "정교수", role: "member" },
+  { id: "gn06", password: "1006", label: "강교수", role: "member" },
+  { id: "gn07", password: "1007", label: "조교수", role: "member" },
+  { id: "gn08", password: "1008", label: "윤교수", role: "member" },
+  { id: "gn09", password: "1009", label: "장교수", role: "member" },
+  { id: "gn10", password: "1010", label: "임교수", role: "member" }
 ];
 
 const authStorageKey = "gnFieldProfessorCurrentUser";
+const passwordStorageKey = "gnFieldProfessorPasswords";
+
+function getPasswordOverrides() {
+  const raw = localStorage.getItem(passwordStorageKey);
+  if (!raw) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    localStorage.removeItem(passwordStorageKey);
+    return {};
+  }
+}
+
+function setPasswordOverrides(overrides) {
+  localStorage.setItem(passwordStorageKey, JSON.stringify(overrides));
+}
+
+function getAccounts() {
+  const overrides = getPasswordOverrides();
+  return defaultAccounts.map((account) => ({
+    ...account,
+    password: overrides[account.id] || account.password
+  }));
+}
+
+function getAccountById(userId) {
+  return getAccounts().find((account) => account.id === userId) || null;
+}
 
 function getCurrentUser() {
   const raw = localStorage.getItem(authStorageKey);
@@ -51,7 +84,7 @@ function createLoginModal() {
       <span class="inline-flex rounded-full bg-sky-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a365d]">
         Member Login
       </span>
-      <h2 class="mt-5 text-3xl font-black text-[#1a365d]">교수님 로그인</h2>
+      <h2 class="mt-5 text-3xl font-black text-[#1a365d]">교수진 로그인</h2>
       <p class="mt-4 break-keep-all text-sm leading-7 text-slate-600">
         관리자에게 받은 아이디와 비밀번호를 입력해 주세요. 로그인해야 홈페이지 내용을 확인할 수 있습니다.
       </p>
@@ -65,10 +98,55 @@ function createLoginModal() {
           <input id="simpleLoginPassword" type="password" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: 1001" autocomplete="current-password">
         </div>
         <p id="simpleLoginHelp" class="min-h-[1.5rem] break-keep-all text-sm font-medium text-slate-500">
-          현재 계정 형식은 gn01~gn10 / 1001~1010 입니다.
+          현재 계정 형식은 gn01~gn10 / 1001~1010 이며, 관리자 계정은 admin / admin1234 입니다.
         </p>
         <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full bg-[#1a365d] px-6 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
           로그인
+        </button>
+      </form>
+    </section>
+  `;
+  return wrapper;
+}
+
+function createChangePasswordModal(currentUser) {
+  const wrapper = document.createElement("div");
+  wrapper.id = "changePasswordModal";
+  wrapper.className = "fixed inset-0 z-[95] flex items-center justify-center bg-slate-900/60 px-4 py-8 backdrop-blur-md";
+  wrapper.innerHTML = `
+    <section class="w-full max-w-md rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_28px_70px_-30px_rgba(15,23,42,0.45)] sm:p-10">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <span class="inline-flex rounded-full bg-sky-50 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a365d]">
+            Password Update
+          </span>
+          <h2 class="mt-4 text-3xl font-black text-[#1a365d]">비밀번호 변경</h2>
+        </div>
+        <button type="button" data-close-password-modal class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50">
+          ✕
+        </button>
+      </div>
+      <p class="mt-4 break-keep-all text-sm leading-7 text-slate-600">
+        ${currentUser.label} (${currentUser.id}) 계정의 비밀번호를 새로 설정합니다.
+      </p>
+      <form id="changePasswordForm" class="mt-8 space-y-4">
+        <div>
+          <label for="currentPassword" class="mb-2 block text-sm font-semibold text-slate-600">현재 비밀번호</label>
+          <input id="currentPassword" type="password" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" autocomplete="current-password">
+        </div>
+        <div>
+          <label for="newPassword" class="mb-2 block text-sm font-semibold text-slate-600">새 비밀번호</label>
+          <input id="newPassword" type="password" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" autocomplete="new-password">
+        </div>
+        <div>
+          <label for="confirmPassword" class="mb-2 block text-sm font-semibold text-slate-600">새 비밀번호 확인</label>
+          <input id="confirmPassword" type="password" class="w-full rounded-2xl border border-slate-200 px-4 py-4 text-base outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" autocomplete="new-password">
+        </div>
+        <p id="changePasswordHelp" class="min-h-[1.5rem] break-keep-all text-sm font-medium text-slate-500">
+          숫자 4자리 이상으로 바꾸면 교수님들이 쓰기 편합니다.
+        </p>
+        <button type="submit" class="inline-flex min-h-[54px] w-full items-center justify-center rounded-full bg-[#1a365d] px-6 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
+          변경 저장
         </button>
       </form>
     </section>
@@ -121,7 +199,7 @@ function protectPage() {
       return;
     }
 
-    const matchedAccount = simpleAccounts.find((account) => account.id === userId && account.password === password);
+    const matchedAccount = getAccounts().find((account) => account.id === userId && account.password === password);
 
     if (!matchedAccount) {
       helpText.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
@@ -136,11 +214,91 @@ function protectPage() {
   });
 }
 
+function openChangePasswordModal() {
+  const currentUser = getCurrentUser();
+
+  if (!currentUser) {
+    return;
+  }
+
+  const existingModal = document.getElementById("changePasswordModal");
+  if (existingModal) {
+    existingModal.remove();
+  }
+
+  const modal = createChangePasswordModal(currentUser);
+  document.body.appendChild(modal);
+  document.body.classList.add("overflow-hidden");
+
+  const closeButton = modal.querySelector("[data-close-password-modal]");
+  const form = modal.querySelector("#changePasswordForm");
+  const currentPasswordInput = modal.querySelector("#currentPassword");
+  const newPasswordInput = modal.querySelector("#newPassword");
+  const confirmPasswordInput = modal.querySelector("#confirmPassword");
+  const helpText = modal.querySelector("#changePasswordHelp");
+
+  currentPasswordInput?.focus();
+
+  function closeModal() {
+    modal.remove();
+    document.body.classList.remove("overflow-hidden");
+  }
+
+  closeButton?.addEventListener("click", closeModal);
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const liveAccount = getAccountById(currentUser.id);
+    const currentPassword = currentPasswordInput?.value.trim() ?? "";
+    const newPassword = newPasswordInput?.value.trim() ?? "";
+    const confirmPassword = confirmPasswordInput?.value.trim() ?? "";
+
+    if (!liveAccount) {
+      helpText.textContent = "계정 정보를 다시 확인해 주세요.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (liveAccount.password !== currentPassword) {
+      helpText.textContent = "현재 비밀번호가 맞지 않습니다.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (newPassword.length < 4) {
+      helpText.textContent = "새 비밀번호는 4자리 이상으로 입력해 주세요.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      helpText.textContent = "새 비밀번호 확인이 일치하지 않습니다.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    const overrides = getPasswordOverrides();
+    overrides[currentUser.id] = newPassword;
+    setPasswordOverrides(overrides);
+    setCurrentUser({ ...currentUser, password: newPassword });
+
+    helpText.textContent = "비밀번호가 변경되었습니다. 다음 로그인부터 새 비밀번호를 사용해 주세요.";
+    helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-emerald-600";
+
+    window.setTimeout(closeModal, 900);
+  });
+}
+
 if (logoutButton) {
   logoutButton.addEventListener("click", () => {
     clearCurrentUser();
     window.location.reload();
   });
+}
+
+if (changePasswordButton) {
+  changePasswordButton.addEventListener("click", openChangePasswordModal);
 }
 
 if (mobileNavButton && navPanel) {

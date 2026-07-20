@@ -1,0 +1,12 @@
+/.agents/
+/.codex/
+
+*.hwp
+*.hwpx
+*.xlsx
+*.xls
+*.pdf
+*.txt
+
+Thumbs.db
+Desktop.ini

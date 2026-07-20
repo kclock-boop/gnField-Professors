@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>조직도 | 대한민국산업현장교수 경남협의회</title>
-  <meta name="description" content="대한민국산업현장교수 경남협의회의 조직 체계, 제7대 임원진 연락처, 전문위원 제도 운영 안내를 제공합니다.">
+  <meta name="description" content="대한민국산업현장교수 경남협의회의 조직 체계, 7대 임원진, 전문위원 제도 운영 안내를 확인할 수 있습니다.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
@@ -16,18 +16,20 @@
             council: {
               navy: "#1a365d",
               sky: "#90cdf4",
-              mist: "#ebf8ff",
-              pale: "#d9efff",
+              mist: "#edf7ff",
               line: "#d7e6f5",
-              ink: "#1f2937"
+              text: "#1f2937"
             }
           },
           fontFamily: {
             sans: ["Pretendard", "system-ui", "sans-serif"]
           },
           boxShadow: {
-            soft: "0 20px 60px -24px rgba(26, 54, 93, 0.28)",
-            card: "0 22px 54px -30px rgba(26, 54, 93, 0.22)"
+            soft: "0 24px 70px -34px rgba(26, 54, 93, 0.30)",
+            glow: "0 30px 90px -45px rgba(90, 169, 230, 0.40)"
+          },
+          backgroundImage: {
+            premium: "radial-gradient(circle at top left, rgba(144,205,244,0.28), transparent 25%), radial-gradient(circle at 85% 15%, rgba(26,54,93,0.10), transparent 28%), linear-gradient(180deg, #f4f9ff 0%, #ffffff 52%, #f8fbff 100%)"
           }
         }
       }
@@ -36,51 +38,51 @@
   <style>
     body {
       font-family: "Pretendard", system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(144, 205, 244, 0.2), transparent 24%),
-        linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      background: #f8fbff;
       color: #1f2937;
     }
 
-    .break-keep-all {
+    .break-keep {
       word-break: keep-all;
     }
 
-    .spring {
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .spring:hover {
-      transform: translateY(-4px);
-    }
-
-    .shell-card {
+    .glass-card {
       border: 1px solid rgba(215, 230, 245, 0.95);
-      border-radius: 2rem;
-      background: rgba(255, 255, 255, 0.94);
-      box-shadow: 0 22px 54px -30px rgba(26, 54, 93, 0.22);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 24px 70px -34px rgba(26, 54, 93, 0.3);
+      backdrop-filter: blur(14px);
     }
 
-    .inner-card {
-      border-radius: 1.5rem;
+    .soft-panel {
       border: 1px solid rgba(215, 230, 245, 0.9);
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,250,255,0.96));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 16px 34px -28px rgba(26,54,93,0.35);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,249,255,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 16px 45px -34px rgba(26,54,93,0.38);
     }
 
-    .org-link {
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .org-node {
       position: relative;
     }
 
-    .org-link::after {
+    .org-stem::after {
       content: "";
       position: absolute;
       left: 50%;
       top: 100%;
       width: 2px;
-      height: 1.25rem;
+      height: 1.2rem;
       transform: translateX(-50%);
-      background: linear-gradient(180deg, rgba(144,205,244,0.95), rgba(26,54,93,0.15));
+      background: linear-gradient(180deg, rgba(144,205,244,0.95), rgba(26,54,93,0.12));
     }
 
     .org-branch {
@@ -90,14 +92,14 @@
     .org-branch::before {
       content: "";
       position: absolute;
-      left: 12.5%;
-      right: 12.5%;
+      left: 12%;
+      right: 12%;
       top: -1rem;
       height: 2px;
-      background: linear-gradient(90deg, rgba(144,205,244,0.2), rgba(144,205,244,0.9), rgba(144,205,244,0.2));
+      background: linear-gradient(90deg, rgba(144,205,244,0.16), rgba(144,205,244,0.92), rgba(144,205,244,0.16));
     }
 
-    .org-branch > div::before {
+    .org-branch > article::before {
       content: "";
       position: absolute;
       left: 50%;
@@ -105,59 +107,51 @@
       width: 2px;
       height: 1rem;
       transform: translateX(-50%);
-      background: linear-gradient(180deg, rgba(144,205,244,0.95), rgba(26,54,93,0.15));
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
+      background: linear-gradient(180deg, rgba(144,205,244,0.95), rgba(26,54,93,0.12));
     }
 
     @media (max-width: 767px) {
+      .org-stem::after,
       .org-branch::before,
-      .org-branch > div::before,
-      .org-link::after {
+      .org-branch > article::before {
         display: none;
       }
     }
   </style>
 </head>
-<body class="text-council-ink" data-auth-page="protected">
+<body class="bg-premium text-council-text" data-auth-page="protected">
   <div class="min-h-[100dvh]">
-    <header class="sticky top-0 z-40 border-b border-white/70 bg-white/85 backdrop-blur-xl">
+    <header class="sticky top-0 z-40 border-b border-white/70 bg-white/80 backdrop-blur-xl">
       <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a href="./index.html" class="flex items-center gap-3">
           <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-council-navy text-lg font-black text-white shadow-soft">KP</span>
           <span class="block">
-            <span class="block text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">Organization</span>
-            <span class="block text-base font-bold text-council-navy sm:text-lg">대한민국산업현장교수 경남협의회</span>
+            <span class="block text-[11px] font-bold uppercase tracking-[0.24em] text-sky-700">Organization</span>
+            <span class="block text-base font-black text-council-navy sm:text-lg">대한민국산업현장교수 경남협의회</span>
           </span>
         </a>
+
         <button type="button" class="mobile-nav-toggle inline-flex items-center rounded-full border border-council-line px-4 py-2 text-sm font-semibold text-council-navy lg:hidden" aria-expanded="false" aria-controls="global-nav">
           메뉴
         </button>
+
         <div class="flex items-center gap-3">
-          <nav id="global-nav" class="nav-panel hidden lg:block">
+          <nav id="global-nav" class="nav-panel hidden lg:block" aria-label="주요 메뉴">
             <ul class="flex items-center gap-2">
-              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./index.html">메인</a></li>
-              <li><a class="nav-link inline-flex rounded-full bg-council-mist px-4 py-3 text-sm font-semibold text-council-navy" href="./organization.html">조직도</a></li>
-              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./statistics.html">통계</a></li>
-              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./ai-tf.html">AI교재TF</a></li>
-              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./notices.html">공지사항</a></li>
-              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./resources.html">자료실</a></li>
-              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./schedule.html">일정</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./index.html">메인</a></li>
+              <li><a class="nav-link inline-flex rounded-full bg-council-mist px-4 py-3 text-sm font-bold text-council-navy" href="./organization.html">조직도</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./statistics.html">통계</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./ai-tf.html">AI교재TF</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./notices.html">공지사항</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./resources.html">자료실</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./schedule.html">일정</a></li>
             </ul>
           </nav>
+
           <div class="hidden items-center gap-3 lg:flex" data-auth-controls>
-            <span class="rounded-full bg-council-mist px-4 py-2 text-xs font-semibold text-council-navy" data-auth-user>로그인 확인 중</span>
+            <span class="rounded-full bg-council-mist px-4 py-2 text-xs font-bold text-council-navy" data-auth-user>로그인 확인 중</span>
             <a href="./admin.html" data-admin-link class="hidden min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
-              관리 페이지
+              관리자
             </a>
             <button type="button" data-auth-change-password class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-4 py-2 text-sm font-semibold text-council-navy transition hover:bg-council-mist">
               비밀번호 변경
@@ -172,141 +166,176 @@
 
     <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
       <section class="mx-auto max-w-7xl reveal">
-        <div class="shell-card overflow-hidden p-8 sm:p-10 lg:p-12">
-          <div class="max-w-3xl break-keep-all">
-            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
-              Organization Structure
-            </span>
-            <h1 class="mt-6 text-4xl font-black leading-tight text-council-navy sm:text-5xl">
-              협의회 조직 체계와 운영 구조
-            </h1>
-            <p class="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
-              사용자가 직관적으로 체계를 이해할 수 있도록 상단은 계층형 조직도, 하단은 임무 중심 그리드와 연락처 테이블로 구성했습니다.
-            </p>
-          </div>
-
-          <div class="mt-10 space-y-6">
-            <div class="flex justify-center">
-              <div class="org-link inner-card relative w-full max-w-sm p-6 text-center">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Chairman</p>
-                <h2 class="mt-3 text-2xl font-black text-council-navy">회장</h2>
-                <p class="mt-2 text-sm font-semibold text-slate-600">협의회 총괄 운영 및 대외 대표</p>
-              </div>
+        <div class="glass-card overflow-hidden rounded-[2rem] p-8 sm:p-10 lg:p-12">
+          <div class="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
+            <div class="break-keep">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">
+                Organization Overview
+              </span>
+              <h1 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] text-council-navy sm:text-5xl">
+                협의회의 체계와
+                <br>
+                역할 구조를 한눈에
+              </h1>
+              <p class="mt-5 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
+                회장단, 감사·고문, 정책기획단, 사무국, AX사업추진단, 그리고 사무국 산하 7개 단의 역할을 계층형 구조와 운영 카드로 정리했습니다. 방문자는 이 페이지에서 협의회의 실제 운영 체계를 빠르게 파악할 수 있습니다.
+              </p>
             </div>
 
-            <div class="org-branch grid gap-4 pt-5 md:grid-cols-3">
-              <div class="inner-card relative p-6 text-center">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Vice Chairmen</p>
-                <h3 class="mt-3 text-xl font-black text-council-navy">부회장 2명</h3>
-                <p class="mt-2 text-sm leading-7 text-slate-600">수석부회장 포함, 회장 보좌 및 권역별 사업 조정</p>
-              </div>
-              <div class="inner-card relative p-6 text-center">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Audit Office</p>
-                <h3 class="mt-3 text-xl font-black text-council-navy">감사실 2명</h3>
-                <p class="mt-2 text-sm leading-7 text-slate-600">운영 점검, 회무 감사, 재정 집행 검토</p>
-              </div>
-              <div class="inner-card relative p-6 text-center">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Advisors</p>
-                <h3 class="mt-3 text-xl font-black text-council-navy">고문 3명</h3>
-                <p class="mt-2 text-sm leading-7 text-slate-600">대외 자문, 운영 방향 검토, 네트워크 지원</p>
-              </div>
-            </div>
-
-            <div class="grid gap-4 pt-2 md:grid-cols-3">
-              <div class="inner-card p-6 text-center">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Policy Planning</p>
-                <h3 class="mt-3 text-xl font-black text-council-navy">정책기획단 2명</h3>
-                <p class="mt-2 text-sm leading-7 text-slate-600">운영 전략 기획, 제도 연계 과제 발굴, 중장기 방향 수립</p>
-              </div>
-              <div class="inner-card p-6 text-center ring-2 ring-council-sky/40">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Secretariat</p>
-                <h3 class="mt-3 text-xl font-black text-council-navy">사무국</h3>
-                <p class="mt-2 text-sm leading-7 text-slate-600">협의회 행정, 실행 관리, 산하 단 운영 조정</p>
-              </div>
-              <div class="inner-card p-6 text-center">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">AX Task Force</p>
-                <h3 class="mt-3 text-xl font-black text-council-navy">AX사업추진단 2명</h3>
-                <p class="mt-2 text-sm leading-7 text-slate-600">4차산업, AX·DX 전환, 스마트공장, GPT 기술 지원</p>
-              </div>
+            <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+              <article class="soft-panel rounded-[1.6rem] p-5">
+                <p class="text-sm font-bold text-slate-500">조직 성격</p>
+                <strong class="mt-2 block text-3xl font-black text-council-navy">현장형 협력 네트워크</strong>
+              </article>
+              <article class="soft-panel rounded-[1.6rem] p-5">
+                <p class="text-sm font-bold text-slate-500">핵심 기능</p>
+                <strong class="mt-2 block text-3xl font-black text-council-navy">기술지원 · 기획 · 연계</strong>
+              </article>
+              <article class="soft-panel rounded-[1.6rem] p-5">
+                <p class="text-sm font-bold text-slate-500">운영 포인트</p>
+                <strong class="mt-2 block text-3xl font-black text-council-navy">학교와 기업 동시 지원</strong>
+              </article>
             </div>
           </div>
         </div>
       </section>
 
       <section class="mx-auto mt-8 max-w-7xl reveal">
-        <div class="shell-card p-8 sm:p-10 lg:p-12">
-          <div class="max-w-3xl break-keep-all">
-            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
-              Secretariat Missions
+        <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
+          <div class="max-w-3xl break-keep">
+            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">
+              Hierarchy UI
             </span>
-            <h2 class="mt-6 text-3xl font-black leading-tight text-council-navy sm:text-4xl">
-              사무국 산하 7개 단과 주요 임무
+            <h2 class="mt-6 text-3xl font-black leading-tight tracking-[-0.04em] text-council-navy sm:text-4xl">
+              상단 조직도
             </h2>
             <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
-              각 단의 역할을 짧은 미션 문장으로 정리해 사용자가 조직 기능을 빠르게 파악할 수 있도록 구성했습니다.
+              회장단을 중심으로 정책, 운영, AX 실행 조직이 연결되는 구조를 계층형 UI로 구성했습니다.
+            </p>
+          </div>
+
+          <div class="mt-10 space-y-6">
+            <div class="flex justify-center">
+              <article class="org-node org-stem soft-panel relative w-full max-w-sm rounded-[1.7rem] p-6 text-center">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Chairman</p>
+                <h3 class="mt-3 text-3xl font-black text-council-navy">회장</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">협의회 총괄 운영과 대외 대표 역할 수행</p>
+              </article>
+            </div>
+
+            <div class="org-branch grid gap-4 pt-5 md:grid-cols-3">
+              <article class="org-node soft-panel relative rounded-[1.7rem] p-6 text-center">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Vice Chairmen</p>
+                <h3 class="mt-3 text-2xl font-black text-council-navy">부회장 2명</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">수석부회장 포함, 회장 보좌 및 권역별 운영 조정</p>
+              </article>
+              <article class="org-node soft-panel relative rounded-[1.7rem] p-6 text-center">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Audit Office</p>
+                <h3 class="mt-3 text-2xl font-black text-council-navy">감사실 2명</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">운영 점검, 재무 감사, 집행 검토 기능 수행</p>
+              </article>
+              <article class="org-node soft-panel relative rounded-[1.7rem] p-6 text-center">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Advisors</p>
+                <h3 class="mt-3 text-2xl font-black text-council-navy">고문 3명</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">대외 자문, 운영 방향 검토, 주요 네트워크 지원</p>
+              </article>
+            </div>
+
+            <div class="grid gap-4 pt-2 md:grid-cols-3">
+              <article class="soft-panel rounded-[1.7rem] p-6 text-center">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Policy Planning</p>
+                <h3 class="mt-3 text-2xl font-black text-council-navy">정책기획단 2명</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">중장기 계획 수립, 협력 과제 발굴, 운영 정책 설계</p>
+              </article>
+              <article class="rounded-[1.7rem] border border-council-sky/60 bg-council-navy p-6 text-center text-white shadow-glow">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-sky-100">Secretariat</p>
+                <h3 class="mt-3 text-2xl font-black">사무국</h3>
+                <p class="mt-3 text-sm leading-7 text-sky-50">행정 총괄, 회의 운영, 대내외 실무 조정의 중심 축</p>
+              </article>
+              <article class="soft-panel rounded-[1.7rem] p-6 text-center">
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">AX Task Force</p>
+                <h3 class="mt-3 text-2xl font-black text-council-navy">AX사업추진단 2명</h3>
+                <p class="mt-3 text-sm leading-7 text-slate-600">4차산업, AX·DX 전환, 스마트공장 및 GPT 기술 지원</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
+          <div class="max-w-3xl break-keep">
+            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">
+              Secretariat Missions
+            </span>
+            <h2 class="mt-6 text-3xl font-black leading-tight tracking-[-0.04em] text-council-navy sm:text-4xl">
+              사무국 산하 7개 단
+            </h2>
+            <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+              각 단의 핵심 역할이 바로 읽히도록 미션 중심 카드로 재구성했습니다.
             </p>
           </div>
 
           <div class="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            <article class="inner-card p-6 spring">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 01</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">HRDK지원단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">HRDK 경남·서부지사 연계 사업 대응, 제도 안내, 현장교수 지원 실무를 총괄합니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 01</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">HRDK지원단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">HRDK 경남·서부지사 연계 사업 대응, 제도 안내, 현장교수 지원 실무 총괄</p>
             </article>
-            <article class="inner-card p-6 spring">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 02</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">산학협력단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">학교와 기업을 연결해 공동 과제, 현장실습, 기술협력 수요를 발굴하고 연계합니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 02</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">산학협력단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">학교와 기업을 연결해 공동과제, 실습, 현장형 산학협력 수요 발굴</p>
             </article>
-            <article class="inner-card p-6 spring">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 03</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">재무회계단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">회비, 집행, 정산, 회계 자료 관리와 예산 투명성 확보를 담당합니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 03</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">재무회계단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">예산 집행, 회계 관리, 운영비 정산, 재무 투명성 관리</p>
             </article>
-            <article class="inner-card p-6 spring">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 04</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">교육훈련단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">숙련기술 전수 프로그램, 특강, 실습, 취업 연계형 교육 기획을 맡습니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 04</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">교육훈련단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">직종별 훈련, 교안 운영, 현장 교육 프로그램 기획 및 지원</p>
             </article>
-            <article class="inner-card p-6 spring">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 05</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">여성청소년단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">여성과 청소년 대상 진로 확산, 기술체험, 성장 지원 프로그램을 운영합니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 05</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">여성청소년단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">여성·청소년 대상 진로지원, 기술체험, 현장 멘토링 프로그램 운영</p>
             </article>
-            <article class="inner-card p-6 spring">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 06</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">전문위원단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">직종별 전문위원 풀을 운영하며 현장 자문, 멘토링, 기술지원 매칭을 수행합니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 06</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">전문위원단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">전문위원 선임, 운영 기준 관리, 자문 인력 배치 및 연계</p>
             </article>
-            <article class="inner-card p-6 spring md:col-span-2 xl:col-span-1">
-              <p class="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">Mission 07</p>
-              <h3 class="mt-3 text-xl font-black text-council-navy">대외협력단</h3>
-              <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">유관기관, 지자체, 기업 네트워크와의 소통 창구를 맡아 협력 기반을 넓힙니다.</p>
+            <article class="soft-panel rounded-[1.7rem] p-6 md:col-span-2 xl:col-span-2">
+              <p class="text-xs font-black uppercase tracking-[0.2em] text-slate-500">Mission 07</p>
+              <h3 class="mt-3 text-2xl font-black text-council-navy">대외협력단</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-600">유관기관, 지자체, 기업 네트워크와의 소통 창구를 맡아 협력 기반을 확장</p>
             </article>
           </div>
         </div>
       </section>
 
       <section id="executives" class="mx-auto mt-8 max-w-7xl reveal">
-        <div class="shell-card p-8 sm:p-10 lg:p-12">
+        <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
           <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div class="max-w-3xl break-keep-all">
-              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+            <div class="max-w-3xl break-keep">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">
                 Executive Table
               </span>
-              <h2 class="mt-6 text-3xl font-black leading-tight text-council-navy sm:text-4xl">
+              <h2 class="mt-6 text-3xl font-black leading-tight tracking-[-0.04em] text-council-navy sm:text-4xl">
                 제7대 임원진 상세 표
               </h2>
               <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
-                모바일에서는 좌우 스크롤이 가능하고, 확인된 연락처는 바로 전화 연결되도록 `tel:` 링크를 적용했습니다.
+                모바일에서는 좌우 스크롤이 가능하며, 연락처는 `tel:` 링크로 바로 연결됩니다.
               </p>
             </div>
             <div class="rounded-full bg-amber-50 px-5 py-3 text-sm font-semibold text-amber-700 ring-1 ring-amber-200">
-              확인된 연락처 우선 반영, 미확인 항목은 운영본 확정 후 즉시 보완 가능
+              확인 중인 항목은 운영 정보 확정 후 즉시 보완 가능합니다
             </div>
           </div>
 
-          <div class="mt-8 overflow-x-auto rounded-[28px] border border-council-line">
+          <div class="mt-8 overflow-x-auto rounded-[1.8rem] border border-council-line">
             <table class="min-w-[980px] w-full border-collapse bg-white text-left">
               <thead class="bg-council-navy text-white">
                 <tr>
@@ -323,91 +352,91 @@
                   <td class="px-5 py-4">회장</td>
                   <td class="px-5 py-4 font-semibold">송경민</td>
                   <td class="px-5 py-4"><a class="font-semibold text-sky-700 hover:text-council-navy" href="tel:01055888978">010-5588-8978</a></td>
-                  <td class="px-5 py-4 break-keep-all">협의회 총괄, 대외 대표, 주요 정책 및 운영 의사결정</td>
+                  <td class="px-5 py-4">협의회 총괄, 대외 대표, 주요 정책 및 운영 의사결정</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">회장단</td>
                   <td class="px-5 py-4">부회장(수석)</td>
                   <td class="px-5 py-4 font-semibold">김일록</td>
                   <td class="px-5 py-4"><a class="font-semibold text-sky-700 hover:text-council-navy" href="tel:01035820228">010-3582-0228</a></td>
-                  <td class="px-5 py-4 break-keep-all">회장 보좌, 사업 총괄 조정, 조직 운영 지원</td>
+                  <td class="px-5 py-4">회장 보좌, 사업 총괄 조정, 조직 운영 지원</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">회장단</td>
                   <td class="px-5 py-4">부회장</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">권역별 협력, 회원 관리, 사업 연계 지원</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">권역별 협력 지원 및 대외 협의 보조</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">감사실</td>
                   <td class="px-5 py-4">감사실장</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">조직 운영 점검, 감사 업무 총괄</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">운영 점검 및 감사 총괄</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">감사실</td>
                   <td class="px-5 py-4">감사</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">회계 및 회무 감사, 집행 검토 지원</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">회계 및 집행 검토 지원</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">고문단</td>
                   <td class="px-5 py-4">고문 1</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">정책 및 대외협력 자문</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">정책 자문 및 대외 협력 자문</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">고문단</td>
                   <td class="px-5 py-4">고문 2</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">조직 운영 자문, 대외 네트워크 지원</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">운영 방향 및 네트워크 지원</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">고문단</td>
                   <td class="px-5 py-4">고문 3</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">협의회 방향성 검토 및 자문</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">협의회 발전 방향 자문</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">정책기획단</td>
                   <td class="px-5 py-4">정책기획단장</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">중장기 기획, 정책 과제 발굴, 제도 개선안 수립</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">중장기 계획 수립 및 정책 과제 발굴</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">정책기획단</td>
                   <td class="px-5 py-4">정책기획위원</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">기획 자료 수집, 사업안 검토, 정책 지원</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">기획 자료 수집 및 검토 지원</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">사무국</td>
                   <td class="px-5 py-4">사무국장</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">행정 총괄, 회의 운영, 산하 7개 단 조정</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">행정 총괄, 회의 운영, 산하 조직 조정</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">AX사업추진단</td>
                   <td class="px-5 py-4">AX사업추진단장</td>
                   <td class="px-5 py-4 font-semibold">김태종</td>
                   <td class="px-5 py-4"><a class="font-semibold text-sky-700 hover:text-council-navy" href="tel:01093342108">010-9334-2108</a></td>
-                  <td class="px-5 py-4 break-keep-all">4차산업, AX/DX 전환, 스마트공장 및 GPT 기술 지원 총괄</td>
+                  <td class="px-5 py-4">4차산업, AX/DX 전환, 스마트공장 및 GPT 기술 지원 총괄</td>
                 </tr>
                 <tr class="hover:bg-slate-50">
                   <td class="px-5 py-4 font-semibold text-council-navy">AX사업추진단</td>
                   <td class="px-5 py-4">AX사업추진위원</td>
                   <td class="px-5 py-4">확인 중</td>
-                  <td class="px-5 py-4 text-slate-400">운영본 확인 후 반영</td>
-                  <td class="px-5 py-4 break-keep-all">스마트 제조 전환 과제 실행 지원, 디지털 도구 확산</td>
+                  <td class="px-5 py-4 text-slate-400">운영정보 확인 후 반영</td>
+                  <td class="px-5 py-4">스마트 제조 전환 과제 실무 및 보급 확산 지원</td>
                 </tr>
               </tbody>
             </table>
@@ -416,20 +445,20 @@
       </section>
 
       <section class="mx-auto mt-8 max-w-7xl reveal">
-        <div class="shell-card p-8 sm:p-10 lg:p-12">
-          <div class="max-w-3xl break-keep-all">
-            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+        <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
+          <div class="max-w-3xl break-keep">
+            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">
               Advisory Notice
             </span>
-            <h2 class="mt-6 text-3xl font-black leading-tight text-council-navy sm:text-4xl">
+            <h2 class="mt-6 text-3xl font-black leading-tight tracking-[-0.04em] text-council-navy sm:text-4xl">
               전문위원 제도 운영 안내
             </h2>
             <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
-              위촉 만료된 경남협의회 교수 대상 전문위원 제도 운영 원칙을 정보 상자 형태로 강조해 배치했습니다.
+              위촉이 만료된 경남협의회 교수 대상 전문위원 선임 제도를 정보 상자 형태로 정리했습니다.
             </p>
           </div>
 
-          <div class="mt-10 rounded-[30px] border border-sky-200 bg-gradient-to-br from-council-mist via-white to-sky-50 p-6 shadow-soft sm:p-8">
+          <div class="mt-10 rounded-[2rem] border border-sky-200 bg-gradient-to-br from-council-mist via-white to-sky-50 p-6 shadow-soft sm:p-8">
             <div class="flex items-start gap-4">
               <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-council-navy text-2xl text-white">
                 <iconify-icon icon="solar:shield-user-linear"></iconify-icon>
@@ -437,30 +466,22 @@
               <div class="flex-1">
                 <h3 class="text-2xl font-black text-council-navy">Info Box</h3>
                 <div class="mt-5 grid gap-4 lg:grid-cols-2">
-                  <div class="inner-card p-5">
+                  <article class="soft-panel rounded-[1.5rem] p-5">
                     <p class="text-sm font-semibold text-slate-500">선임 요건</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">
-                      위촉 기간이 만료된 경남협의회 교수 중 협의회 활동 취지에 공감하고, 지속적인 숙련기술 지원 활동이 가능한 경우 전문위원으로 선임할 수 있습니다.
-                    </p>
-                  </div>
-                  <div class="inner-card p-5">
+                    <p class="mt-3 text-sm leading-7 text-slate-600">위촉 만료된 경남협의회 교수 중 협의회 활동 취지에 공감하고 지속적인 숙련기술 지원 활동이 가능한 경우 전문위원으로 선임할 수 있습니다.</p>
+                  </article>
+                  <article class="soft-panel rounded-[1.5rem] p-5">
                     <p class="text-sm font-semibold text-slate-500">선임 절차</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">
-                      사무국 접수, 운영진 검토, 필요 시 회장단 승인 절차를 거쳐 전문위원으로 위촉하며, 분야별 배치가 함께 확정됩니다.
-                    </p>
-                  </div>
-                  <div class="inner-card p-5">
-                    <p class="text-sm font-semibold text-slate-500">회비 및 기준</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">
-                      회비 및 경조사 기준은 현직 교수와 동등한 수준을 적용하며, 협의회 공통 운영 기준을 동일하게 따릅니다.
-                    </p>
-                  </div>
-                  <div class="inner-card p-5">
+                    <p class="mt-3 text-sm leading-7 text-slate-600">사무국 접수, 운영진 검토, 회장 승인 절차를 거쳐 전문위원으로 위촉되며 분야별 배치가 함께 확정됩니다.</p>
+                  </article>
+                  <article class="soft-panel rounded-[1.5rem] p-5">
+                    <p class="text-sm font-semibold text-slate-500">회비 및 경조사 기준</p>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">회비와 경조사 기준은 현직 교수와 동등한 수준으로 적용하며 협의회 운영 기준을 동일하게 따릅니다.</p>
+                  </article>
+                  <article class="soft-panel rounded-[1.5rem] p-5">
                     <p class="text-sm font-semibold text-slate-500">업무 범위</p>
-                    <p class="mt-3 text-sm leading-7 text-slate-600 break-keep-all">
-                      현직 교수와 동등한 범위의 숙련기술 지원, 현장 멘토링, 자문, 특강, 경남 지역 확산 활동에 참여할 수 있습니다.
-                    </p>
-                  </div>
+                    <p class="mt-3 text-sm leading-7 text-slate-600">현직 교수와 동등한 범위에서 숙련기술 지원, 현장 멘토링, 자문, 강의, 지역사회 기술 전파 활동에 참여합니다.</p>
+                  </article>
                 </div>
               </div>
             </div>
@@ -485,18 +506,5 @@
   </div>
 
   <script src="./js/main.js"></script>
-  <script>
-    const revealTargets = document.querySelectorAll(".reveal");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealTargets.forEach((target) => observer.observe(target));
-  </script>
 </body>
 </html>

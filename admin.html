@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리 페이지 | 대한민국산업현장교수 경남협의회</title>
+  <meta name="description" content="관리자 전용 교수님 ID 목록과 시험용 계정 운영 정보를 확인하는 페이지입니다.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            council: {
+              navy: "#1a365d",
+              sky: "#90cdf4",
+              mist: "#ebf8ff",
+              line: "#d7e6f5",
+              ink: "#1f2937"
+            }
+          },
+          fontFamily: {
+            sans: ["Pretendard", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Pretendard", system-ui, sans-serif;
+      background: #f8fbff;
+      color: #1f2937;
+    }
+    .section-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(215, 230, 245, 0.95);
+      border-radius: 2rem;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 22px 54px -30px rgba(26, 54, 93, 0.22);
+    }
+    .double-card {
+      border-radius: 1.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,250,255,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 18px 40px -28px rgba(26,54,93,0.32);
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="text-council-ink" data-auth-page="protected" data-auth-role="admin">
+  <div class="min-h-[100dvh]">
+    <header class="sticky top-0 z-40 border-b border-white/70 bg-white/85 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <a href="./index.html" class="flex items-center gap-3">
+          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-council-navy text-lg font-black text-white">KP</span>
+          <span class="block">
+            <span class="block text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">Korea Field Professor</span>
+            <span class="block text-base font-bold text-council-navy sm:text-lg">대한민국산업현장교수 경남협의회</span>
+          </span>
+        </a>
+        <button type="button" class="mobile-nav-toggle inline-flex items-center rounded-full border border-council-line px-4 py-2 text-sm font-semibold text-council-navy lg:hidden" aria-expanded="false" aria-controls="global-nav">
+          메뉴
+        </button>
+        <div class="flex items-center gap-3">
+          <nav id="global-nav" class="nav-panel hidden lg:block" aria-label="주요 메뉴">
+            <ul class="flex items-center gap-2">
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./index.html">메인</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./organization.html">조직도</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./statistics.html">통계</a></li>
+              <li><a class="nav-link inline-flex rounded-full bg-council-mist px-4 py-3 text-sm font-semibold text-council-navy" href="./admin.html">관리</a></li>
+            </ul>
+          </nav>
+          <div class="hidden items-center gap-3 lg:flex" data-auth-controls>
+            <span class="rounded-full bg-council-mist px-4 py-2 text-xs font-semibold text-council-navy" data-auth-user>로그인 확인 중</span>
+            <a href="./admin.html" data-admin-link class="hidden min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
+              관리 페이지
+            </a>
+            <button type="button" data-auth-change-password class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-4 py-2 text-sm font-semibold text-council-navy transition hover:bg-council-mist">
+              비밀번호 변경
+            </button>
+            <button type="button" data-auth-logout class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-4 py-2 text-sm font-semibold text-council-navy transition hover:bg-council-mist">
+              로그아웃
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+      <section class="mx-auto max-w-7xl reveal">
+        <div class="section-shell overflow-hidden bg-gradient-to-r from-council-navy to-sky-700 p-8 text-white sm:p-10 lg:p-12">
+          <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div class="max-w-3xl">
+              <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-sky-100">
+                Admin Dashboard
+              </span>
+              <h1 class="mt-6 text-4xl font-black leading-tight sm:text-5xl">
+                관리자 전용 계정 관리 페이지
+              </h1>
+              <p class="mt-4 text-base leading-8 text-sky-50 sm:text-lg">
+                교수님 시험용 계정과 초기 비밀번호 배정 현황을 확인하고, 실제 명단을 넣기 전 임시 운영 구조를 점검하는 페이지입니다.
+              </p>
+            </div>
+            <a href="./index.html" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-white px-7 py-4 text-base font-semibold text-council-navy">
+              메인으로 이동
+              <span class="flex h-8 w-8 items-center justify-center rounded-full bg-council-mist">
+                <iconify-icon icon="solar:arrow-left-linear"></iconify-icon>
+              </span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="double-card p-6">
+            <p class="text-sm font-semibold text-slate-500">관리자 계정</p>
+            <strong class="mt-2 block text-2xl font-black text-council-navy">admin</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600">초기 비밀번호 `admin1234`</p>
+          </div>
+          <div class="double-card p-6">
+            <p class="text-sm font-semibold text-slate-500">교수 계정 수</p>
+            <strong class="mt-2 block text-2xl font-black text-council-navy">19개</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600">gn101 부터 gn119 까지 배정</p>
+          </div>
+          <div class="double-card p-6">
+            <p class="text-sm font-semibold text-slate-500">유관기관 계정 수</p>
+            <strong class="mt-2 block text-2xl font-black text-council-navy">5개</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600">gn301 부터 gn305 까지 배정</p>
+          </div>
+          <div class="double-card p-6 md:col-span-3 lg:col-span-1">
+            <p class="text-sm font-semibold text-slate-500">운영 방식</p>
+            <strong class="mt-2 block text-2xl font-black text-council-navy">시험용 로그인</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600">실제 운영 전 임시 테스트용 구조</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="section-shell p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+                Professor IDs
+              </span>
+              <h2 class="mt-6 text-3xl font-black text-council-navy sm:text-4xl">교수님 ID 목록</h2>
+              <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                주신 실제 성함 기준으로 계정을 배정했습니다. 필요하면 이후에 비고란만 수정하면서 계속 운영하시면 됩니다.
+              </p>
+            </div>
+            <div class="inline-flex rounded-full bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-700 ring-1 ring-emerald-200">
+              실제 명단 반영 완료
+            </div>
+          </div>
+
+          <div class="mt-8 overflow-x-auto rounded-[28px] border border-council-line">
+            <table class="min-w-full divide-y divide-council-line bg-white text-left text-sm">
+              <thead class="bg-slate-50 text-council-navy">
+                <tr>
+                  <th class="px-5 py-4 font-bold">성함</th>
+                  <th class="px-5 py-4 font-bold">아이디</th>
+                  <th class="px-5 py-4 font-bold">초기 비밀번호</th>
+                  <th class="px-5 py-4 font-bold">비고</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-council-line text-slate-600">
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">송경민</td><td class="px-5 py-4">gn101</td><td class="px-5 py-4">1101</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김일록</td><td class="px-5 py-4">gn102</td><td class="px-5 py-4">1102</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이상배</td><td class="px-5 py-4">gn103</td><td class="px-5 py-4">1103</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">강원형</td><td class="px-5 py-4">gn104</td><td class="px-5 py-4">1104</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김성현</td><td class="px-5 py-4">gn105</td><td class="px-5 py-4">1105</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">옥운이</td><td class="px-5 py-4">gn106</td><td class="px-5 py-4">1106</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이종욱</td><td class="px-5 py-4">gn107</td><td class="px-5 py-4">1107</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">현종호</td><td class="px-5 py-4">gn108</td><td class="px-5 py-4">1108</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">박정만</td><td class="px-5 py-4">gn109</td><td class="px-5 py-4">1109</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이동주</td><td class="px-5 py-4">gn110</td><td class="px-5 py-4">1110</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">정만영</td><td class="px-5 py-4">gn111</td><td class="px-5 py-4">1111</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이량훈</td><td class="px-5 py-4">gn112</td><td class="px-5 py-4">1112</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">최영옥</td><td class="px-5 py-4">gn113</td><td class="px-5 py-4">1113</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김태종</td><td class="px-5 py-4">gn114</td><td class="px-5 py-4">1114</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">변점용</td><td class="px-5 py-4">gn115</td><td class="px-5 py-4">1115</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김미종</td><td class="px-5 py-4">gn116</td><td class="px-5 py-4">1116</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">송성빈</td><td class="px-5 py-4">gn117</td><td class="px-5 py-4">1117</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이민호</td><td class="px-5 py-4">gn118</td><td class="px-5 py-4">1118</td><td class="px-5 py-4">배정 완료</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">강진규</td><td class="px-5 py-4">gn119</td><td class="px-5 py-4">1119</td><td class="px-5 py-4">배정 완료</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="section-shell p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+                Related Organizations
+              </span>
+              <h2 class="mt-6 text-3xl font-black text-council-navy sm:text-4xl">유관기관 ID 목록</h2>
+              <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                유관기관 계정은 교수 계정과 분리해 `gn301` 구간부터 배정했습니다. 외부 협력기관이나 관계자용 시험 계정으로 구분하기 좋습니다.
+              </p>
+            </div>
+            <div class="inline-flex rounded-full bg-sky-50 px-5 py-3 text-sm font-bold text-sky-700 ring-1 ring-sky-200">
+              유관기관 별도 구간 배정
+            </div>
+          </div>
+
+          <div class="mt-8 overflow-x-auto rounded-[28px] border border-council-line">
+            <table class="min-w-full divide-y divide-council-line bg-white text-left text-sm">
+              <thead class="bg-slate-50 text-council-navy">
+                <tr>
+                  <th class="px-5 py-4 font-bold">성함</th>
+                  <th class="px-5 py-4 font-bold">아이디</th>
+                  <th class="px-5 py-4 font-bold">초기 비밀번호</th>
+                  <th class="px-5 py-4 font-bold">구분</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-council-line text-slate-600">
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">박창문</td><td class="px-5 py-4">gn301</td><td class="px-5 py-4">1301</td><td class="px-5 py-4">유관기관</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이성희</td><td class="px-5 py-4">gn302</td><td class="px-5 py-4">1302</td><td class="px-5 py-4">유관기관</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">강소라</td><td class="px-5 py-4">gn303</td><td class="px-5 py-4">1303</td><td class="px-5 py-4">유관기관</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">박성준</td><td class="px-5 py-4">gn304</td><td class="px-5 py-4">1304</td><td class="px-5 py-4">유관기관</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김종득</td><td class="px-5 py-4">gn305</td><td class="px-5 py-4">1305</td><td class="px-5 py-4">유관기관</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="px-4 py-10 sm:px-6 lg:px-8">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 border-t border-council-line pt-8 text-sm text-slate-500 lg:flex-row lg:items-center lg:justify-between">
+        <p>© 2026 대한민국산업현장교수 경남협의회. All rights reserved.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="./index.html" class="font-semibold text-council-navy">메인</a>
+          <a href="./organization.html" class="font-semibold text-council-navy">조직도</a>
+          <a href="./statistics.html" class="font-semibold text-council-navy">통계</a>
+          <a href="./admin.html" class="font-semibold text-council-navy">관리</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="./js/main.js"></script>
+  <script>
+    const revealTargets = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    revealTargets.forEach((target) => observer.observe(target));
+  </script>
+</body>
+</html>

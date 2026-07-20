@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI교재TF | 대한민국산업현장교수 경남협의회</title>
+  <meta name="description" content="대한민국산업현장교수 경남협의회 AI교재TF의 추진 배경, 운영 방향, 개발 흐름, 주요 산출물을 안내합니다.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            council: {
+              navy: "#1a365d",
+              sky: "#90cdf4",
+              mist: "#ebf8ff",
+              pale: "#d9efff",
+              line: "#d7e6f5",
+              ink: "#1f2937"
+            }
+          },
+          fontFamily: {
+            sans: ["Pretendard", "system-ui", "sans-serif"]
+          },
+          boxShadow: {
+            soft: "0 20px 60px -24px rgba(26, 54, 93, 0.28)",
+            card: "0 22px 54px -30px rgba(26, 54, 93, 0.22)"
+          },
+          backgroundImage: {
+            mesh: "radial-gradient(circle at top left, rgba(144,205,244,0.24), transparent 24%), radial-gradient(circle at right center, rgba(26,54,93,0.16), transparent 26%), linear-gradient(180deg, #f8fbff 0%, #ffffff 100%)"
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Pretendard", system-ui, sans-serif;
+      background: #f8fbff;
+      color: #1f2937;
+    }
+
+    .break-keep-all {
+      word-break: keep-all;
+    }
+
+    .spring {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spring:hover {
+      transform: translateY(-4px);
+    }
+
+    .section-shell {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(215, 230, 245, 0.95);
+      border-radius: 2rem;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 22px 54px -30px rgba(26, 54, 93, 0.22);
+    }
+
+    .double-card {
+      border-radius: 1.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(246,250,255,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 18px 40px -28px rgba(26,54,93,0.32);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-mesh text-council-ink" data-auth-page="protected">
+  <div class="min-h-[100dvh]">
+    <header class="sticky top-0 z-40 border-b border-white/70 bg-white/85 backdrop-blur-xl">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <a href="./index.html" class="flex items-center gap-3">
+          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-council-navy text-lg font-black text-white shadow-soft">KP</span>
+          <span class="block">
+            <span class="block text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-700">Korea Field Professor</span>
+            <span class="block text-base font-bold text-council-navy sm:text-lg">대한민국산업현장교수 경남협의회</span>
+          </span>
+        </a>
+        <button type="button" class="mobile-nav-toggle inline-flex items-center rounded-full border border-council-line px-4 py-2 text-sm font-semibold text-council-navy lg:hidden" aria-expanded="false" aria-controls="global-nav">
+          메뉴
+        </button>
+        <div class="flex items-center gap-3">
+          <nav id="global-nav" class="nav-panel hidden lg:block" aria-label="주요 메뉴">
+            <ul class="flex items-center gap-2">
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./index.html">메인</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./organization.html">조직도</a></li>
+              <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-semibold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./statistics.html">통계</a></li>
+              <li><a class="nav-link inline-flex rounded-full bg-council-mist px-4 py-3 text-sm font-semibold text-council-navy" href="./ai-tf.html">AI교재TF</a></li>
+            </ul>
+          </nav>
+          <div class="hidden items-center gap-3 lg:flex" data-auth-controls>
+            <span class="rounded-full bg-council-mist px-4 py-2 text-xs font-semibold text-council-navy" data-auth-user>로그인 확인 중</span>
+            <a href="./admin.html" data-admin-link class="hidden min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
+              관리 페이지
+            </a>
+            <button type="button" data-auth-change-password class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-4 py-2 text-sm font-semibold text-council-navy transition hover:bg-council-mist">
+              비밀번호 변경
+            </button>
+            <button type="button" data-auth-logout class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-4 py-2 text-sm font-semibold text-council-navy transition hover:bg-council-mist">
+              로그아웃
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+      <section class="mx-auto max-w-7xl reveal">
+        <div class="section-shell bg-mesh p-8 sm:p-10 lg:p-12">
+          <div class="grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
+            <div class="break-keep-all">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+                AI Textbook TF
+              </span>
+              <h1 class="mt-6 text-4xl font-black leading-tight text-council-navy sm:text-5xl">
+                AI교재TF 상세 안내
+              </h1>
+              <p class="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+                AI교재TF는 현장교수의 숙련기술, 산업 사례, 생성형 AI 활용 역량을 결합해 교육용 교재와 실습 자료를 빠르게 개발하는 협업 조직입니다.
+                현장성과 실용성을 동시에 확보하는 것을 가장 중요한 원칙으로 삼습니다.
+              </p>
+              <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                <div class="double-card p-5">
+                  <p class="text-sm font-semibold text-slate-500">추진 배경</p>
+                  <strong class="mt-2 block text-2xl font-black text-council-navy">현장 맞춤형 교재 수요 증가</strong>
+                </div>
+                <div class="double-card p-5">
+                  <p class="text-sm font-semibold text-slate-500">핵심 방식</p>
+                  <strong class="mt-2 block text-2xl font-black text-council-navy">AI 초안 + 교수 검토</strong>
+                </div>
+                <div class="double-card p-5">
+                  <p class="text-sm font-semibold text-slate-500">기대 효과</p>
+                  <strong class="mt-2 block text-2xl font-black text-council-navy">제작 속도와 품질 향상</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-shell overflow-hidden bg-council-navy p-6 text-white">
+              <p class="text-sm font-semibold uppercase tracking-[0.16em] text-sky-100">TF Focus</p>
+              <div class="mt-5 grid gap-4">
+                <div class="rounded-[24px] bg-white/10 p-5">
+                  <h2 class="text-xl font-black">교안 기획</h2>
+                  <p class="mt-2 text-sm leading-7 text-sky-50">과목 목표, 주차별 구성, 실습 흐름을 표준 포맷으로 정리합니다.</p>
+                </div>
+                <div class="rounded-[24px] bg-white/10 p-5">
+                  <h2 class="text-xl font-black">콘텐츠 제작</h2>
+                  <p class="mt-2 text-sm leading-7 text-sky-50">AI 도구를 활용해 초안을 만들고, 교수진이 산업현장 관점으로 보정합니다.</p>
+                </div>
+                <div class="rounded-[24px] bg-white/10 p-5">
+                  <h2 class="text-xl font-black">공동 검증</h2>
+                  <p class="mt-2 text-sm leading-7 text-sky-50">수업 적용성, 용어 정확성, 실습 안전성을 함께 확인합니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <article class="section-shell p-8 sm:p-10 reveal">
+          <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+            Workflow
+          </span>
+          <h2 class="mt-6 text-3xl font-black text-council-navy">개발 흐름</h2>
+          <div class="mt-8 grid gap-4">
+            <div class="double-card p-5">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Step 1</p>
+              <h3 class="mt-2 text-xl font-black text-council-navy">주제 선정</h3>
+              <p class="mt-2 text-sm leading-7 text-slate-600">직종별 우선 과목과 산업 수요를 바탕으로 교재 주제를 정합니다.</p>
+            </div>
+            <div class="double-card p-5">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Step 2</p>
+              <h3 class="mt-2 text-xl font-black text-council-navy">AI 초안 작성</h3>
+              <p class="mt-2 text-sm leading-7 text-slate-600">학습목표, 목차, 실습지, 평가안의 초안을 빠르게 구성합니다.</p>
+            </div>
+            <div class="double-card p-5">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Step 3</p>
+              <h3 class="mt-2 text-xl font-black text-council-navy">교수 검토 및 보정</h3>
+              <p class="mt-2 text-sm leading-7 text-slate-600">현장성, 난이도, 용어, 안전기준을 반영해 콘텐츠를 다듬습니다.</p>
+            </div>
+            <div class="double-card p-5">
+              <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Step 4</p>
+              <h3 class="mt-2 text-xl font-black text-council-navy">시범 적용</h3>
+              <p class="mt-2 text-sm leading-7 text-slate-600">학교나 기업 교육 현장에서 적용한 뒤 피드백을 수집합니다.</p>
+            </div>
+          </div>
+        </article>
+
+        <div class="grid gap-8">
+          <article class="section-shell p-8 sm:p-10 reveal">
+            <span class="inline-flex rounded-full bg-slate-100 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">
+              Deliverables
+            </span>
+            <h2 class="mt-6 text-3xl font-black text-council-navy">주요 산출물 예시</h2>
+            <div class="mt-8 grid gap-4 md:grid-cols-2">
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">강의 교안</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">주차별 강의 흐름, 설명 포인트, 시각자료 구조를 정리한 문서</p>
+              </div>
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">실습 자료</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">실습 과제, 체크리스트, 평가표, 제출 양식을 포함한 세트</p>
+              </div>
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">사례집</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">경남 지역 산업현장 사례와 개선 포인트를 정리한 참고 자료</p>
+              </div>
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">평가 문항</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">이론·실습형 문항과 채점 기준을 묶은 평가 패키지</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="section-shell overflow-hidden bg-gradient-to-br from-council-navy to-sky-700 p-8 text-white reveal">
+            <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-sky-100">
+              Next Action
+            </span>
+            <h2 class="mt-6 text-3xl font-black">AI교재TF 운영 페이지를 계속 확장할 수 있습니다</h2>
+            <p class="mt-4 max-w-3xl text-base leading-8 text-sky-50">
+              다음 단계로 참여 교수 명단, 회의 일정, 교재 개발 현황판, 자료 다운로드 구역까지 이 페이지에 추가할 수 있습니다.
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="./index.html#ai-tf" class="inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-council-navy spring">
+                메인 소개 카드로 돌아가기
+              </a>
+              <a href="./organization.html" class="inline-flex min-h-[52px] items-center justify-center rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white spring">
+                조직도 보기
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="section-shell p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl break-keep-all">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+                TF Members
+              </span>
+              <h2 class="mt-6 text-3xl font-black text-council-navy sm:text-4xl">참여 교수 및 역할</h2>
+              <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                현재는 시험 운영용 예시 명단입니다. 실제 참여 교수 명단이 정해지면 성함, 담당 분야, 역할을 이 표에 그대로 바꿔 넣으면 됩니다.
+              </p>
+            </div>
+            <div class="inline-flex rounded-full bg-amber-50 px-5 py-3 text-sm font-bold text-amber-700 ring-1 ring-amber-200">
+              현재 표는 예시 명단 기준입니다
+            </div>
+          </div>
+
+          <div class="mt-8 overflow-x-auto rounded-[28px] border border-council-line">
+            <table class="min-w-full divide-y divide-council-line bg-white text-left text-sm">
+              <thead class="bg-slate-50 text-council-navy">
+                <tr>
+                  <th class="px-5 py-4 font-bold">성함</th>
+                  <th class="px-5 py-4 font-bold">아이디</th>
+                  <th class="px-5 py-4 font-bold">담당 분야</th>
+                  <th class="px-5 py-4 font-bold">역할</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-council-line text-slate-600">
+                <tr>
+                  <td class="px-5 py-4 font-semibold text-council-navy">송경민</td>
+                  <td class="px-5 py-4">gn101</td>
+                  <td class="px-5 py-4">총괄 / 기획</td>
+                  <td class="px-5 py-4">TF 총괄 및 교재 개발 방향 조정</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-4 font-semibold text-council-navy">김일록</td>
+                  <td class="px-5 py-4">gn102</td>
+                  <td class="px-5 py-4">실무 교안</td>
+                  <td class="px-5 py-4">현장형 교안 구성 및 초안 검토</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-4 font-semibold text-council-navy">이상배</td>
+                  <td class="px-5 py-4">gn103</td>
+                  <td class="px-5 py-4">사례 분석</td>
+                  <td class="px-5 py-4">현장 사례 수집 및 사례집 구성</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-4 font-semibold text-council-navy">강원형</td>
+                  <td class="px-5 py-4">gn104</td>
+                  <td class="px-5 py-4">실습 자료</td>
+                  <td class="px-5 py-4">실습지와 체크리스트 설계</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-4 font-semibold text-council-navy">김성현</td>
+                  <td class="px-5 py-4">gn105</td>
+                  <td class="px-5 py-4">평가 설계</td>
+                  <td class="px-5 py-4">평가 문항과 학습목표 정리</td>
+                </tr>
+                <tr>
+                  <td class="px-5 py-4 font-semibold text-council-navy">강진규</td>
+                  <td class="px-5 py-4">gn119</td>
+                  <td class="px-5 py-4">품질 검토</td>
+                  <td class="px-5 py-4">문장 정리, 구성 통일, 최종 검수 지원</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="grid gap-8 lg:grid-cols-3">
+          <article class="section-shell p-8 sm:p-10">
+            <span class="inline-flex rounded-full bg-slate-100 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">
+              Resource Room
+            </span>
+            <h2 class="mt-6 text-2xl font-black text-council-navy">자료실</h2>
+            <div class="mt-6 grid gap-4">
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">교안 초안 모음</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">AI로 만든 초안 문서와 검토 이력을 보관하는 공간입니다.</p>
+                <a href="#" class="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white spring">
+                  초안 보기
+                </a>
+              </div>
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">실습 자료 모음</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">실습지, 작업표준서, 체크리스트 파일을 관리합니다.</p>
+                <a href="#" class="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white spring">
+                  자료 열기
+                </a>
+              </div>
+              <div class="double-card p-5">
+                <h3 class="text-lg font-black text-council-navy">사례 아카이브</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">산업현장 사례와 우수 교육 적용 사례를 축적합니다.</p>
+                <a href="#" class="mt-4 inline-flex min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white spring">
+                  사례 보기
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <article class="section-shell p-8 sm:p-10">
+            <span class="inline-flex rounded-full bg-slate-100 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">
+              Meeting Schedule
+            </span>
+            <h2 class="mt-6 text-2xl font-black text-council-navy">회의 일정</h2>
+            <div class="mt-6 grid gap-4">
+              <div class="double-card p-5">
+                <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">정기 회의</p>
+                <h3 class="mt-2 text-lg font-black text-council-navy">2026년 7월 22일 수요일</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">교재 개발 현황, 검토 의견, 8월 시범 적용 과제를 공유합니다.</p>
+              </div>
+              <div class="double-card p-5">
+                <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">실무 점검</p>
+                <h3 class="mt-2 text-lg font-black text-council-navy">2026년 7월 29일 수요일</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">AI 초안 보정, 담당 파트 조정, 시범 적용 준비사항을 점검합니다.</p>
+              </div>
+              <div class="double-card p-5">
+                <p class="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">중간 보고</p>
+                <h3 class="mt-2 text-lg font-black text-council-navy">2026년 8월 12일 수요일</h3>
+                <p class="mt-2 text-sm leading-7 text-slate-600">분야별 초안 완성도와 자료실 정리 현황을 보고합니다.</p>
+              </div>
+              <div class="rounded-[24px] border border-dashed border-council-line bg-council-mist p-5">
+                <p class="text-sm font-semibold text-council-navy">추가 가능</p>
+                <p class="mt-2 text-sm leading-7 text-slate-600">원하시면 실제 회의 날짜, 장소, 참석 대상, 회의 안건 표도 바로 넣어드릴 수 있습니다.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="section-shell p-8 sm:p-10">
+            <span class="inline-flex rounded-full bg-slate-100 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-600">
+              Progress Board
+            </span>
+            <h2 class="mt-6 text-2xl font-black text-council-navy">교재 개발 현황</h2>
+            <div class="mt-6 grid gap-4">
+              <div class="double-card p-5">
+                <div class="flex items-center justify-between gap-3">
+                  <h3 class="text-lg font-black text-council-navy">기계 분야 교안</h3>
+                  <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">검토중</span>
+                </div>
+                <p class="mt-2 text-sm leading-7 text-slate-600">목차 및 실습안 1차 초안 완료</p>
+              </div>
+              <div class="double-card p-5">
+                <div class="flex items-center justify-between gap-3">
+                  <h3 class="text-lg font-black text-council-navy">재료 분야 사례집</h3>
+                  <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">초안작성</span>
+                </div>
+                <p class="mt-2 text-sm leading-7 text-slate-600">현장 사례 수집과 사진 정리 진행 중</p>
+              </div>
+              <div class="double-card p-5">
+                <div class="flex items-center justify-between gap-3">
+                  <h3 class="text-lg font-black text-council-navy">평가 문항 세트</h3>
+                  <span class="rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700">기획단계</span>
+                </div>
+                <p class="mt-2 text-sm leading-7 text-slate-600">평가 기준안 및 문항 유형 설계 예정</p>
+              </div>
+              <div class="rounded-[24px] border border-council-line bg-slate-50 p-5">
+                <div class="flex items-center justify-between gap-3">
+                  <h3 class="text-lg font-black text-council-navy">전체 진행률</h3>
+                  <span class="text-sm font-bold text-council-navy">약 48%</span>
+                </div>
+                <div class="mt-4 h-3 rounded-full bg-slate-200">
+                  <div class="h-3 w-[48%] rounded-full bg-gradient-to-r from-council-sky to-council-navy"></div>
+                </div>
+                <p class="mt-3 text-sm leading-7 text-slate-600">기획 완료, 초안 작성 진행, 공동 검토 단계로 넘어가는 상태를 가정한 시험용 표시입니다.</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="px-4 py-10 sm:px-6 lg:px-8">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 border-t border-council-line pt-8 text-sm text-slate-500 lg:flex-row lg:items-center lg:justify-between">
+        <p>© 2026 대한민국산업현장교수 경남협의회. All rights reserved.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="./index.html" class="font-semibold text-council-navy">메인</a>
+          <a href="./organization.html" class="font-semibold text-council-navy">조직도</a>
+          <a href="./statistics.html" class="font-semibold text-council-navy">통계</a>
+          <a href="./ai-tf.html" class="font-semibold text-council-navy">AI교재TF</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="./js/main.js"></script>
+  <script>
+    const revealTargets = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    revealTargets.forEach((target) => observer.observe(target));
+  </script>
+</body>
+</html>

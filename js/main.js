@@ -6,7 +6,8 @@ const loginHelp = document.getElementById("loginHelp");
 const loginUserId = document.getElementById("loginUserId");
 const loginPassword = document.getElementById("loginPassword");
 const loginCloseButton = document.getElementById("loginCloseButton");
-const loginSkipButton = document.getElementById("loginSkipButton");
+const demoLoginId = "admin";
+const demoLoginPassword = "gn2026!";
 
 function closeLoginModal() {
   if (!loginModal) {
@@ -68,18 +69,21 @@ if (loginModal) {
     openLoginModal();
   }
 
-  loginCloseButton?.addEventListener("click", closeLoginModal);
-  loginSkipButton?.addEventListener("click", closeLoginModal);
-
-  loginModal.addEventListener("click", (event) => {
-    if (event.target === loginModal) {
-      closeLoginModal();
+  loginCloseButton?.addEventListener("click", () => {
+    if (loginHelp) {
+      loginHelp.textContent = "로그인 후 이용 가능합니다. 아이디는 admin, 비밀번호는 gn2026! 입니다.";
+      loginHelp.classList.remove("text-slate-500", "text-emerald-600");
+      loginHelp.classList.add("text-amber-600");
     }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !loginModal.classList.contains("is-hidden")) {
-      closeLoginModal();
+      if (loginHelp) {
+        loginHelp.textContent = "로그인 정보를 입력해야 화면을 닫을 수 있습니다.";
+        loginHelp.classList.remove("text-slate-500", "text-emerald-600");
+        loginHelp.classList.add("text-amber-600");
+      }
     }
   });
 
@@ -98,9 +102,18 @@ if (loginModal) {
       return;
     }
 
+    if (userId !== demoLoginId || password !== demoLoginPassword) {
+      if (loginHelp) {
+        loginHelp.textContent = "아이디 또는 비밀번호가 올바르지 않습니다. admin / gn2026! 로 다시 시도해 주세요.";
+        loginHelp.classList.remove("text-slate-500", "text-emerald-600", "text-amber-600");
+        loginHelp.classList.add("text-rose-600");
+      }
+      return;
+    }
+
     if (loginHelp) {
       loginHelp.textContent = `${userId}님, 메인 화면으로 입장합니다.`;
-      loginHelp.classList.remove("text-rose-600");
+      loginHelp.classList.remove("text-rose-600", "text-amber-600");
       loginHelp.classList.add("text-emerald-600");
     }
 
@@ -108,8 +121,8 @@ if (loginModal) {
       closeLoginModal();
       loginForm.reset();
       if (loginHelp) {
-        loginHelp.textContent = "데모 로그인 창입니다. 입력 후 바로 메인 화면으로 이동합니다.";
-        loginHelp.classList.remove("text-emerald-600");
+        loginHelp.textContent = "데모 계정으로 로그인해 주세요. 아이디는 admin, 비밀번호는 gn2026! 입니다.";
+        loginHelp.classList.remove("text-emerald-600", "text-rose-600", "text-amber-600");
         loginHelp.classList.add("text-slate-500");
       }
     }, 350);

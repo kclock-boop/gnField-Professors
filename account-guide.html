@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>계정 안내문 | 대한민국산업현장교수 경남협의회</title>
+  <meta name="description" content="교수님 및 유관기관 시험용 계정 안내문입니다.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            council: {
+              navy: "#1a365d",
+              sky: "#90cdf4",
+              mist: "#ebf8ff",
+              line: "#d7e6f5",
+              ink: "#1f2937"
+            }
+          },
+          fontFamily: {
+            sans: ["Pretendard", "system-ui", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: "Pretendard", system-ui, sans-serif;
+      background: #f8fbff;
+      color: #1f2937;
+    }
+    .section-shell {
+      border: 1px solid rgba(215, 230, 245, 0.95);
+      border-radius: 2rem;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 22px 54px -30px rgba(26, 54, 93, 0.22);
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: white;
+      }
+      .section-shell {
+        box-shadow: none;
+        border-color: #d1d5db;
+      }
+    }
+  </style>
+</head>
+<body class="text-council-ink" data-auth-page="protected" data-auth-role="admin">
+  <div class="min-h-[100dvh] px-4 py-8 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl">
+      <div class="no-print mb-6 flex flex-wrap items-center justify-between gap-3">
+        <a href="./admin.html" class="inline-flex min-h-[44px] items-center justify-center rounded-full border border-council-line bg-white px-5 py-2 text-sm font-semibold text-council-navy">
+          관리자 페이지로 돌아가기
+        </a>
+        <button type="button" onclick="window.print()" class="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-council-navy px-5 py-2 text-sm font-semibold text-white">
+          <iconify-icon icon="solar:printer-linear"></iconify-icon>
+          인쇄하기
+        </button>
+      </div>
+
+      <section class="section-shell p-8 sm:p-10 lg:p-12">
+        <div class="border-b border-council-line pb-8">
+          <p class="text-sm font-bold uppercase tracking-[0.18em] text-sky-700">Account Guide</p>
+          <h1 class="mt-4 text-4xl font-black text-council-navy sm:text-5xl">시험용 계정 안내문</h1>
+          <p class="mt-4 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">
+            대한민국산업현장교수 경남협의회 홈페이지 접속을 위한 시험용 계정 안내문입니다.
+            아래 아이디와 초기 비밀번호로 로그인한 뒤, 상단의 비밀번호 변경 버튼을 이용해 새 비밀번호로 바꿔 사용할 수 있습니다.
+          </p>
+        </div>
+
+        <div class="mt-8 grid gap-6 lg:grid-cols-3">
+          <div class="rounded-[24px] bg-council-mist p-6">
+            <p class="text-sm font-semibold text-slate-500">홈페이지 주소</p>
+            <p class="mt-2 break-all text-lg font-black text-council-navy">https://kclock-boop.github.io/gnField-Professors/</p>
+          </div>
+          <div class="rounded-[24px] bg-council-mist p-6">
+            <p class="text-sm font-semibold text-slate-500">로그인 방법</p>
+            <p class="mt-2 text-lg font-black text-council-navy">아이디 + 초기 비밀번호 입력</p>
+          </div>
+          <div class="rounded-[24px] bg-council-mist p-6">
+            <p class="text-sm font-semibold text-slate-500">안내 사항</p>
+            <p class="mt-2 text-lg font-black text-council-navy">첫 로그인 후 비밀번호 변경 권장</p>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-3xl font-black text-council-navy">교수님 계정표</h2>
+            <span class="rounded-full bg-emerald-50 px-4 py-2 text-sm font-bold text-emerald-700 ring-1 ring-emerald-200">총 19명</span>
+          </div>
+          <div class="mt-6 overflow-x-auto rounded-[28px] border border-council-line">
+            <table class="min-w-full divide-y divide-council-line bg-white text-left text-sm">
+              <thead class="bg-slate-50 text-council-navy">
+                <tr>
+                  <th class="px-5 py-4 font-bold">성함</th>
+                  <th class="px-5 py-4 font-bold">아이디</th>
+                  <th class="px-5 py-4 font-bold">초기 비밀번호</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-council-line text-slate-600">
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">송경민</td><td class="px-5 py-4">gn101</td><td class="px-5 py-4">1101</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김일록</td><td class="px-5 py-4">gn102</td><td class="px-5 py-4">1102</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이상배</td><td class="px-5 py-4">gn103</td><td class="px-5 py-4">1103</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">강원형</td><td class="px-5 py-4">gn104</td><td class="px-5 py-4">1104</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김성현</td><td class="px-5 py-4">gn105</td><td class="px-5 py-4">1105</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">옥운이</td><td class="px-5 py-4">gn106</td><td class="px-5 py-4">1106</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이종욱</td><td class="px-5 py-4">gn107</td><td class="px-5 py-4">1107</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">현종호</td><td class="px-5 py-4">gn108</td><td class="px-5 py-4">1108</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">박정만</td><td class="px-5 py-4">gn109</td><td class="px-5 py-4">1109</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이동주</td><td class="px-5 py-4">gn110</td><td class="px-5 py-4">1110</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">정만영</td><td class="px-5 py-4">gn111</td><td class="px-5 py-4">1111</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이량훈</td><td class="px-5 py-4">gn112</td><td class="px-5 py-4">1112</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">최영옥</td><td class="px-5 py-4">gn113</td><td class="px-5 py-4">1113</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김태종</td><td class="px-5 py-4">gn114</td><td class="px-5 py-4">1114</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">변점용</td><td class="px-5 py-4">gn115</td><td class="px-5 py-4">1115</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김미종</td><td class="px-5 py-4">gn116</td><td class="px-5 py-4">1116</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">송성빈</td><td class="px-5 py-4">gn117</td><td class="px-5 py-4">1117</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이민호</td><td class="px-5 py-4">gn118</td><td class="px-5 py-4">1118</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">강진규</td><td class="px-5 py-4">gn119</td><td class="px-5 py-4">1119</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-10">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-3xl font-black text-council-navy">유관기관 계정표</h2>
+            <span class="rounded-full bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700 ring-1 ring-sky-200">총 5명</span>
+          </div>
+          <div class="mt-6 overflow-x-auto rounded-[28px] border border-council-line">
+            <table class="min-w-full divide-y divide-council-line bg-white text-left text-sm">
+              <thead class="bg-slate-50 text-council-navy">
+                <tr>
+                  <th class="px-5 py-4 font-bold">성함</th>
+                  <th class="px-5 py-4 font-bold">아이디</th>
+                  <th class="px-5 py-4 font-bold">초기 비밀번호</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-council-line text-slate-600">
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">박창문</td><td class="px-5 py-4">gn301</td><td class="px-5 py-4">1301</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">이성희</td><td class="px-5 py-4">gn302</td><td class="px-5 py-4">1302</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">강소라</td><td class="px-5 py-4">gn303</td><td class="px-5 py-4">1303</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">박성준</td><td class="px-5 py-4">gn304</td><td class="px-5 py-4">1304</td></tr>
+                <tr><td class="px-5 py-4 font-semibold text-council-navy">김종득</td><td class="px-5 py-4">gn305</td><td class="px-5 py-4">1305</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-2">
+          <div class="rounded-[24px] border border-council-line bg-slate-50 p-6">
+            <h2 class="text-2xl font-black text-council-navy">로그인 방법</h2>
+            <ol class="mt-4 space-y-3 text-sm leading-7 text-slate-600">
+              <li>1. 홈페이지 접속</li>
+              <li>2. 배정된 아이디 입력</li>
+              <li>3. 초기 비밀번호 입력</li>
+              <li>4. 로그인 후 상단의 비밀번호 변경 버튼 클릭</li>
+              <li>5. 본인만 아는 새 비밀번호로 변경</li>
+            </ol>
+          </div>
+          <div class="rounded-[24px] border border-amber-200 bg-amber-50 p-6">
+            <h2 class="text-2xl font-black text-amber-800">안내 문구 예시</h2>
+            <p class="mt-4 text-sm leading-7 text-amber-900">
+              아래 배정된 아이디와 초기 비밀번호로 먼저 로그인해 주세요.
+              첫 로그인 후에는 상단의 비밀번호 변경 버튼을 눌러 새 비밀번호로 바꾸어 사용하시면 됩니다.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

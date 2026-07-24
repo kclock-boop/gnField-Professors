@@ -69,6 +69,36 @@
         linear-gradient(145deg, rgba(99,157,212,0.96), rgba(132,186,235,0.92));
     }
 
+    .hero-showcase {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background:
+        linear-gradient(180deg, rgba(13, 35, 75, 0.82), rgba(24, 50, 100, 0.9)),
+        url("https://picsum.photos/seed/gn-smart-manufacturing/1600/900") center/cover no-repeat;
+      box-shadow: 0 35px 90px -42px rgba(26, 54, 93, 0.42);
+      isolation: isolate;
+    }
+
+    .hero-showcase::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(10, 27, 58, 0.82), rgba(24, 50, 100, 0.48)),
+        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: auto, 32px 32px, 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-chip {
+      border: 1px solid rgba(255,255,255,0.24);
+      background: rgba(255,255,255,0.96);
+      box-shadow: 0 22px 40px -28px rgba(15, 23, 42, 0.45);
+    }
+
     .hero-grid::before {
       content: "";
       position: absolute;
@@ -188,133 +218,26 @@
 
     <main class="pb-16">
       <section class="relative overflow-hidden px-4 pt-8 sm:px-6 lg:px-8 lg:pt-10">
-        <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.04fr_0.96fr]">
-          <div class="glass-card reveal rounded-[2rem] p-8 sm:p-10 lg:p-12">
-            <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.24em] text-council-navy">
-              Smart Manufacturing Council
-            </span>
+        <div class="mx-auto max-w-7xl">
+          <div class="hero-showcase reveal rounded-[2.2rem] px-6 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-20">
+            <div class="relative z-10 flex min-h-[520px] flex-col items-center justify-center text-center">
+              <span class="inline-flex rounded-full bg-[#fbbf24] px-6 py-3 text-sm font-black text-[#10284d] shadow-[0_20px_40px_-28px_rgba(251,191,36,0.9)] sm:text-base">
+                2026 고용노동부 위촉 현장형 숙련기술 지원
+              </span>
 
-            <div class="mt-7 max-w-3xl break-keep">
-              <h1 class="text-4xl font-black leading-[1.05] tracking-[-0.04em] text-council-navy sm:text-5xl lg:text-[4.5rem]">
-                숙련기술의 깊이와
-                <br>
-                경남 제조 혁신의 속도를
-                <br>
-                연결하는 플랫폼
-              </h1>
-              <p class="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-                대한민국산업현장교수 경남협의회는 학교와 기업, 산업 현장에 꼭 필요한 숙련기술을 빠르고 정확하게 전파하는 실천형 협력 네트워크입니다. 기술 전수, 현장 자문, 산학연 연계를 통해 경남형 제조 혁신의 마지막 연결 구간을 촘촘하게 메웁니다.
-              </p>
-            </div>
-
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href="#process" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-gradient-to-r from-council-skydeep to-council-navy px-7 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
-                기술지원 절차 보기
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/15">
-                  <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
-                </span>
-              </a>
-              <a href="#gn322g" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full border border-council-line bg-white px-7 py-4 text-base font-semibold text-council-navy transition hover:scale-[1.02] active:scale-[0.98]">
-                GN-322G 보기
-                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-council-mist text-council-navy">
-                  <iconify-icon icon="solar:chart-square-linear"></iconify-icon>
-                </span>
-              </a>
-            </div>
-
-            <div class="mt-10 grid gap-4 sm:grid-cols-3">
-              <article class="soft-panel rounded-[1.6rem] p-5">
-                <p class="text-sm font-bold text-slate-500">제도 출범</p>
-                <strong class="mt-2 block text-3xl font-black text-council-navy">2012</strong>
-              </article>
-              <article class="soft-panel rounded-[1.6rem] p-5">
-                <p class="text-sm font-bold text-slate-500">핵심 방향</p>
-                <strong class="mt-2 block text-3xl font-black text-council-navy">숙련기술 전수</strong>
-              </article>
-              <article class="soft-panel rounded-[1.6rem] p-5">
-                <p class="text-sm font-bold text-slate-500">지원 원칙</p>
-                <strong class="mt-2 block text-3xl font-black text-council-navy">비용 전액 국가 부담</strong>
-              </article>
-            </div>
-          </div>
-
-          <div class="hero-mesh hero-grid reveal relative overflow-hidden rounded-[2rem] border border-white/40 p-6 shadow-glow">
-            <span class="floating-orb left-10 top-10 h-12 w-12 bg-white/12"></span>
-            <span class="floating-orb right-12 top-28 h-7 w-7 bg-sky-200/30" style="animation-delay: 1.2s;"></span>
-            <span class="floating-orb bottom-10 left-16 h-10 w-10 bg-sky-100/20" style="animation-delay: 2.2s;"></span>
-
-            <div class="relative z-10 flex min-h-[560px] flex-col justify-between rounded-[1.8rem] border border-white/35 bg-white/14 p-6 backdrop-blur-sm">
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <span class="hero-pill rounded-full px-4 py-2 text-xs font-black tracking-[0.18em]" style="color:#000000;">
-                  AX 전환 배너
-                </span>
-                <span class="hero-pill rounded-full px-4 py-2 text-xs font-semibold" style="color:#000000;">
-                  4차산업 AX 전환 비주얼 영역
-                </span>
-              </div>
-
-              <div class="grid gap-4">
-                <div class="grid gap-4 md:grid-cols-[1.08fr_0.92fr]">
-                  <article class="hero-crisp-card rounded-[1.6rem] p-5">
-                    <div class="flex items-center gap-3">
-                      <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/18 text-2xl" style="color:#000000;">
-                        <iconify-icon icon="solar:cpu-bolt-linear"></iconify-icon>
-                      </span>
-                      <div>
-                        <p class="text-lg font-black" style="color:#000000;">AX 전환 플랫폼</p>
-                        <p class="text-sm" style="color:#111111;">설비 · 데이터 · AI · 인재 연결</p>
-                      </div>
-                    </div>
-
-                    <div class="mt-5 space-y-3">
-                      <div class="rounded-2xl bg-white/14 p-3">
-                        <div class="flex items-center justify-between text-xs" style="color:#000000;">
-                          <span>스마트 공정 데이터 연계</span>
-                          <span>SYNC</span>
-                        </div>
-                        <div class="mt-3 h-2 rounded-full bg-white/18">
-                          <div class="h-2 w-3/4 rounded-full bg-[#59d5ff]"></div>
-                        </div>
-                      </div>
-                      <div class="rounded-2xl bg-white/14 p-3">
-                        <div class="flex items-center justify-between text-xs" style="color:#000000;">
-                          <span>현장 AX 전환 멘토링</span>
-                          <span>LIVE</span>
-                        </div>
-                        <div class="mt-3 h-2 rounded-full bg-white/18">
-                          <div class="h-2 w-2/3 rounded-full bg-[#c8f2ff]"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-
-                  <article class="hero-crisp-card rounded-[1.6rem] p-5">
-                    <p class="text-lg font-black" style="color:#000000;">4차산업 AX 실행 방향</p>
-                    <p class="mt-3 text-sm leading-7" style="color:#111111;">
-                      스마트팩토리 생산 라인, 협업 로봇, 산업 데이터 패널, AI 분석 화면, 현장교수 컨설팅 장면이 함께 보이도록 구성하면 협의회의 AX 전환 방향성이 메인 화면에서 바로 전달됩니다.
-                    </p>
-                    <div class="mt-8 rounded-[1.4rem] border border-dashed border-white/45 bg-white/10 p-5 text-center">
-                      <p class="text-3xl font-black tracking-[-0.03em]" style="color:#000000;">AX·DX 전환</p>
-                      <p class="mt-2 text-sm" style="color:#111111;">학교와 기업을 잇는 핵심 비전</p>
-                    </div>
-                  </article>
-                </div>
-
-                <div class="grid gap-4 sm:grid-cols-3">
-                  <article class="hero-crisp-card rounded-[1.4rem] p-5">
-                    <p class="text-xs font-black uppercase tracking-[0.22em]" style="color:#111111;">Field</p>
-                    <strong class="mt-3 block text-2xl font-black" style="color:#000000;">학교 AX 교육</strong>
-                  </article>
-                  <article class="hero-crisp-card rounded-[1.4rem] p-5">
-                    <p class="text-xs font-black uppercase tracking-[0.22em]" style="color:#111111;">Factory</p>
-                    <strong class="mt-3 block text-2xl font-black" style="color:#000000;">기업 AX 현장</strong>
-                  </article>
-                  <article class="hero-crisp-card rounded-[1.4rem] p-5">
-                    <p class="text-xs font-black uppercase tracking-[0.22em]" style="color:#111111;">Impact</p>
-                    <strong class="mt-3 block text-2xl font-black" style="color:#000000;">디지털 전환 확산</strong>
-                  </article>
+              <div class="mt-10 max-w-6xl break-keep">
+                <h1 class="text-4xl font-black leading-[1.12] tracking-[-0.06em] text-white sm:text-5xl lg:text-[4.9rem]">
+                  대한민국산업현장교수 경남협의회
+                  <br>
+                  <span class="text-[#47c5ff]">숙련기술 전파 플랫폼</span>
+                </h1>
+                <div class="mx-auto mt-12 max-w-6xl space-y-4 text-lg font-semibold leading-9 text-sky-50 sm:text-[2rem] sm:leading-[1.8]">
+                  <p>복잡한 지원 절차는 줄이고, 학교와 기업 현장에서 바로 체감하는 경남형</p>
+                  <p>숙련기술 전수와 AX 전환 연계 지원을 현장 중심으로 연결합니다.</p>
                 </div>
               </div>
+
+              <div class="mt-12 h-px w-full max-w-5xl bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
             </div>
           </div>
         </div>

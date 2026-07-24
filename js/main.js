@@ -40,6 +40,7 @@ const defaultAccounts = [
 const authStorageKey = "gnFieldProfessorCurrentUser";
 const passwordStorageKey = "gnFieldProfessorPasswords";
 const loginLogStorageKey = "gnFieldProfessorLoginLogs";
+const customAccountsStorageKey = "gnFieldProfessorCustomAccounts";
 const noticeStorageKey = "gnFieldProfessorNotices";
 const resourceMetaKey = "gnFieldProfessorResourceMeta";
 const resourceDbName = "gnFieldProfessorResourceFiles";
@@ -159,9 +160,26 @@ function setPasswordOverrides(overrides) {
   localStorage.setItem(passwordStorageKey, JSON.stringify(overrides));
 }
 
+function readCustomAccounts() {
+  const raw = localStorage.getItem(customAccountsStorageKey);
+  if (!raw) return [];
+
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    localStorage.removeItem(customAccountsStorageKey);
+    return [];
+  }
+}
+
+function writeCustomAccounts(accounts) {
+  localStorage.setItem(customAccountsStorageKey, JSON.stringify(accounts));
+}
+
 function getAccounts() {
   const overrides = getPasswordOverrides();
-  return defaultAccounts.map((account) => ({
+  return [...defaultAccounts, ...readCustomAccounts()].map((account) => ({
     ...account,
     password: overrides[account.id] || account.password
   }));
@@ -545,6 +563,186 @@ function initAdminDashboard() {
   resetButton?.addEventListener("click", () => {
     localStorage.removeItem(loginLogStorageKey);
     window.location.reload();
+  });
+}
+
+function parseAccountNumber(accountId) {
+  const match = /^gn(\d+)$/.exec(accountId || "");
+  return match ? Number(match[1]) : null;
+}
+
+function isAffiliateAccount(account) {
+  const number = parseAccountNumber(account.id);
+  return number !== null && number >= 301;
+}
+
+function isProfessorAccount(account) {
+  const number = parseAccountNumber(account.id);
+  return number !== null && number >= 101 && number < 300;
+}
+
+function getNextGeneratedAccount(type) {
+  const accounts = getAccounts();
+  const numbers = accounts
+    .map((account) => parseAccountNumber(account.id))
+    .filter((number) => Number.isFinite(number));
+
+  if (type === "affiliate") {
+    const nextNumber = Math.max(305, ...numbers.filter((number) => number >= 301 && number < 400)) + 1;
+    return {
+      id: `gn${nextNumber}`,
+      password: `1${String(nextNumber).slice(1)}`
+    };
+  }
+
+  const nextNumber = Math.max(119, ...numbers.filter((number) => number >= 101 && number < 300)) + 1;
+  return {
+    id: `gn${nextNumber}`,
+    password: `1${String(nextNumber).slice(1)}`
+  };
+}
+
+function buildAccountRow(account, typeLabel) {
+  const isCustom = account.source === "custom";
+  const note = typeLabel === "유관기관"
+    ? (account.note || "유관기관")
+    : (account.note || "배정 완료");
+
+  return `
+    <tr>
+      <td class="px-5 py-4 font-semibold text-council-navy">${account.label}</td>
+      <td class="px-5 py-4">${account.id}</td>
+      <td class="px-5 py-4">${account.password}</td>
+      <td class="px-5 py-4">${note}</td>
+      <td class="px-5 py-4">
+        ${isCustom ? `<button type="button" data-account-delete="${account.id}" class="inline-flex min-h-[38px] items-center justify-center rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-semibold text-rose-700 transition hover:bg-rose-100">삭제</button>` : '<span class="text-xs font-semibold text-slate-400">기본</span>'}
+      </td>
+    </tr>
+  `;
+}
+
+function initAdminAccountManager() {
+  const section = document.querySelector("[data-account-manager]");
+  if (!section) return;
+
+  const form = section.querySelector("[data-account-form]");
+  const typeField = form?.querySelector("#accountType");
+  const nameField = form?.querySelector("#accountName");
+  const noteField = form?.querySelector("#accountNote");
+  const nextIdEl = section.querySelector("[data-account-next-id]");
+  const nextPasswordEl = section.querySelector("[data-account-next-password]");
+  const helpEl = section.querySelector("[data-account-form-help]");
+  const resetButton = section.querySelector("[data-account-reset]");
+  const professorBody = document.querySelector("[data-professor-account-body]");
+  const affiliateBody = document.querySelector("[data-affiliate-account-body]");
+  const memberTotalEl = document.querySelector("[data-account-member-total]");
+  const affiliateTotalEl = document.querySelector("[data-account-affiliate-total]");
+  const memberRangeEl = document.querySelector("[data-account-member-range]");
+  const affiliateRangeEl = document.querySelector("[data-account-affiliate-range]");
+
+  function renderAccountSummary() {
+    const accounts = getAccounts();
+    const professors = accounts.filter((account) => account.role === "member" && isProfessorAccount(account));
+    const affiliates = accounts.filter((account) => account.role === "member" && isAffiliateAccount(account));
+
+    if (memberTotalEl) memberTotalEl.textContent = `${professors.length}개`;
+    if (affiliateTotalEl) affiliateTotalEl.textContent = `${affiliates.length}개`;
+    if (memberRangeEl) memberRangeEl.textContent = professors.length ? `gn101 부터 ${professors[professors.length - 1].id} 까지 배정` : "교수 계정 없음";
+    if (affiliateRangeEl) affiliateRangeEl.textContent = affiliates.length ? `gn301 부터 ${affiliates[affiliates.length - 1].id} 까지 배정` : "유관기관 계정 없음";
+
+    if (professorBody) {
+      professorBody.innerHTML = professors.map((account) => buildAccountRow(account, "교수님")).join("");
+    }
+
+    if (affiliateBody) {
+      affiliateBody.innerHTML = affiliates.map((account) => buildAccountRow(account, "유관기관")).join("");
+    }
+  }
+
+  function updateNextPreview() {
+    const nextAccount = getNextGeneratedAccount(typeField?.value || "member");
+    if (nextIdEl) nextIdEl.textContent = nextAccount.id;
+    if (nextPasswordEl) nextPasswordEl.textContent = nextAccount.password;
+  }
+
+  function setHelpMessage(message, tone = "default") {
+    if (!helpEl) return;
+    helpEl.textContent = message;
+    helpEl.className = tone === "error"
+      ? "lg:col-span-2 min-h-[1.5rem] text-sm font-medium text-rose-600"
+      : tone === "success"
+        ? "lg:col-span-2 min-h-[1.5rem] text-sm font-medium text-emerald-700"
+        : "lg:col-span-2 min-h-[1.5rem] text-sm font-medium text-slate-500";
+  }
+
+  renderAccountSummary();
+  updateNextPreview();
+
+  typeField?.addEventListener("change", updateNextPreview);
+
+  resetButton?.addEventListener("click", () => {
+    form?.reset();
+    if (typeField) typeField.value = "member";
+    updateNextPreview();
+    setHelpMessage("등록하면 아래 표와 로그인 계정 목록에 바로 반영됩니다.");
+  });
+
+  section.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest("[data-account-delete]");
+    if (!deleteButton) return;
+
+    const accountId = deleteButton.getAttribute("data-account-delete");
+    const customAccounts = readCustomAccounts();
+    const nextAccounts = customAccounts.filter((account) => account.id !== accountId);
+    writeCustomAccounts(nextAccounts);
+
+    const overrides = getPasswordOverrides();
+    if (overrides[accountId]) {
+      delete overrides[accountId];
+      setPasswordOverrides(overrides);
+    }
+
+    renderAccountSummary();
+    updateNextPreview();
+    setHelpMessage("신규 등록 계정을 삭제했습니다.", "success");
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = nameField?.value.trim() || "";
+    const type = typeField?.value || "member";
+    const note = noteField?.value.trim() || "";
+
+    if (!name) {
+      setHelpMessage("성함 또는 기관명을 입력해 주세요.", "error");
+      return;
+    }
+
+    const nextAccount = getNextGeneratedAccount(type);
+    const existing = getAccountById(nextAccount.id);
+    if (existing) {
+      setHelpMessage("다음 계정 번호를 다시 계산해 주세요. 이미 같은 아이디가 있습니다.", "error");
+      updateNextPreview();
+      return;
+    }
+
+    const customAccounts = readCustomAccounts();
+    customAccounts.push({
+      id: nextAccount.id,
+      password: nextAccount.password,
+      label: name,
+      role: "member",
+      note: note || (type === "affiliate" ? "유관기관" : "신규 등록"),
+      source: "custom"
+    });
+    writeCustomAccounts(customAccounts);
+
+    form.reset();
+    if (typeField) typeField.value = "member";
+    renderAccountSummary();
+    updateNextPreview();
+    setHelpMessage(`${name} 계정을 ${nextAccount.id} / ${nextAccount.password} 로 등록했습니다.`, "success");
   });
 }
 
@@ -1317,6 +1515,7 @@ document.querySelectorAll(".nav-link").forEach((link) => {
 
 protectPage();
 initAdminDashboard();
+initAdminAccountManager();
 initResourceLibrary();
 initNoticeBoard();
 

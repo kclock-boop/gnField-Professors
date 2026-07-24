@@ -131,13 +131,13 @@
           </div>
           <div class="double-card p-6">
             <p class="text-sm font-semibold text-slate-500">교수 계정 수</p>
-            <strong class="mt-2 block text-2xl font-black text-council-navy">19개</strong>
-            <p class="mt-2 text-sm leading-7 text-slate-600">gn101 부터 gn119 까지 배정</p>
+            <strong class="mt-2 block text-2xl font-black text-council-navy" data-account-member-total>19개</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600" data-account-member-range>gn101 부터 gn119 까지 배정</p>
           </div>
           <div class="double-card p-6">
             <p class="text-sm font-semibold text-slate-500">유관기관 계정 수</p>
-            <strong class="mt-2 block text-2xl font-black text-council-navy">5개</strong>
-            <p class="mt-2 text-sm leading-7 text-slate-600">gn301 부터 gn305 까지 배정</p>
+            <strong class="mt-2 block text-2xl font-black text-council-navy" data-account-affiliate-total>5개</strong>
+            <p class="mt-2 text-sm leading-7 text-slate-600" data-account-affiliate-range>gn301 부터 gn305 까지 배정</p>
           </div>
           <div class="double-card p-6 md:col-span-3 lg:col-span-1">
             <p class="text-sm font-semibold text-slate-500">운영 방식</p>
@@ -257,6 +257,62 @@
         </div>
       </section>
 
+      <section class="mx-auto mt-8 max-w-7xl reveal" data-account-manager>
+        <div class="section-shell p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-council-navy">
+                New Account
+              </span>
+              <h2 class="mt-6 text-3xl font-black text-council-navy sm:text-4xl">신규자 등록</h2>
+              <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                관리자 화면에서 신규 교수님 또는 유관기관 계정을 바로 추가할 수 있습니다. 현재 구조상 이 기능은 지금 사용 중인 브라우저에 저장됩니다.
+              </p>
+            </div>
+            <div class="inline-flex rounded-full bg-sky-50 px-5 py-3 text-sm font-bold text-sky-700 ring-1 ring-sky-200" data-account-form-badge>
+              브라우저 저장 방식
+            </div>
+          </div>
+
+          <form class="mt-8 grid gap-5 lg:grid-cols-2" data-account-form>
+            <div>
+              <label for="accountType" class="mb-2 block text-sm font-semibold text-slate-600">구분</label>
+              <select id="accountType" name="accountType" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100">
+                <option value="member">교수님</option>
+                <option value="affiliate">유관기관</option>
+              </select>
+            </div>
+            <div>
+              <label for="accountName" class="mb-2 block text-sm font-semibold text-slate-600">성함 또는 기관명</label>
+              <input id="accountName" name="accountName" type="text" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: 홍길동">
+            </div>
+            <div class="double-card p-5">
+              <p class="text-sm font-semibold text-slate-500">자동 배정 아이디</p>
+              <strong class="mt-2 block text-2xl font-black text-council-navy" data-account-next-id>gn120</strong>
+            </div>
+            <div class="double-card p-5">
+              <p class="text-sm font-semibold text-slate-500">자동 배정 초기 비밀번호</p>
+              <strong class="mt-2 block text-2xl font-black text-council-navy" data-account-next-password>1120</strong>
+            </div>
+            <div class="lg:col-span-2">
+              <label for="accountNote" class="mb-2 block text-sm font-semibold text-slate-600">비고</label>
+              <input id="accountNote" name="accountNote" type="text" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: 신규 등록, 17기 추가, 유관기관 담당자">
+            </div>
+            <div class="lg:col-span-2 flex flex-wrap gap-3">
+              <button type="submit" class="inline-flex min-h-[54px] items-center justify-center rounded-full bg-council-navy px-7 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
+                신규 계정 등록
+              </button>
+              <button type="button" data-account-reset class="inline-flex min-h-[54px] items-center justify-center rounded-full border border-council-line bg-white px-7 py-4 text-base font-semibold text-council-navy transition hover:bg-council-mist">
+                입력 초기화
+              </button>
+            </div>
+            <p class="lg:col-span-2 min-h-[1.5rem] text-sm font-medium text-slate-500" data-account-form-help>
+              등록하면 아래 표와 로그인 계정 목록에 바로 반영됩니다.
+            </p>
+          </form>
+        </div>
+      </section>
+
       <section class="mx-auto mt-8 max-w-7xl reveal">
         <div class="section-shell p-8 sm:p-10 lg:p-12">
           <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -282,29 +338,10 @@
                   <th class="px-5 py-4 font-bold">아이디</th>
                   <th class="px-5 py-4 font-bold">초기 비밀번호</th>
                   <th class="px-5 py-4 font-bold">비고</th>
+                  <th class="px-5 py-4 font-bold">관리</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-council-line text-slate-600">
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">송경민</td><td class="px-5 py-4">gn101</td><td class="px-5 py-4">1101</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">김일록</td><td class="px-5 py-4">gn102</td><td class="px-5 py-4">1102</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">이상배</td><td class="px-5 py-4">gn103</td><td class="px-5 py-4">1103</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">강원형</td><td class="px-5 py-4">gn104</td><td class="px-5 py-4">1104</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">김성현</td><td class="px-5 py-4">gn105</td><td class="px-5 py-4">1105</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">옥운이</td><td class="px-5 py-4">gn106</td><td class="px-5 py-4">1106</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">이종욱</td><td class="px-5 py-4">gn107</td><td class="px-5 py-4">1107</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">현종호</td><td class="px-5 py-4">gn108</td><td class="px-5 py-4">1108</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">박정만</td><td class="px-5 py-4">gn109</td><td class="px-5 py-4">1109</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">이동주</td><td class="px-5 py-4">gn110</td><td class="px-5 py-4">1110</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">정만영</td><td class="px-5 py-4">gn111</td><td class="px-5 py-4">1111</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">이량훈</td><td class="px-5 py-4">gn112</td><td class="px-5 py-4">1112</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">최영옥</td><td class="px-5 py-4">gn113</td><td class="px-5 py-4">1113</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">김태종</td><td class="px-5 py-4">gn114</td><td class="px-5 py-4">1114</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">변점용</td><td class="px-5 py-4">gn115</td><td class="px-5 py-4">1115</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">김미종</td><td class="px-5 py-4">gn116</td><td class="px-5 py-4">1116</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">송성빈</td><td class="px-5 py-4">gn117</td><td class="px-5 py-4">1117</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">이민호</td><td class="px-5 py-4">gn118</td><td class="px-5 py-4">1118</td><td class="px-5 py-4">배정 완료</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">강진규</td><td class="px-5 py-4">gn119</td><td class="px-5 py-4">1119</td><td class="px-5 py-4">배정 완료</td></tr>
-              </tbody>
+              <tbody class="divide-y divide-council-line text-slate-600" data-professor-account-body></tbody>
             </table>
           </div>
         </div>
@@ -335,15 +372,10 @@
                   <th class="px-5 py-4 font-bold">아이디</th>
                   <th class="px-5 py-4 font-bold">초기 비밀번호</th>
                   <th class="px-5 py-4 font-bold">구분</th>
+                  <th class="px-5 py-4 font-bold">관리</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-council-line text-slate-600">
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">박창문</td><td class="px-5 py-4">gn301</td><td class="px-5 py-4">1301</td><td class="px-5 py-4">유관기관</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">이성희</td><td class="px-5 py-4">gn302</td><td class="px-5 py-4">1302</td><td class="px-5 py-4">유관기관</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">강소라</td><td class="px-5 py-4">gn303</td><td class="px-5 py-4">1303</td><td class="px-5 py-4">유관기관</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">박성준</td><td class="px-5 py-4">gn304</td><td class="px-5 py-4">1304</td><td class="px-5 py-4">유관기관</td></tr>
-                <tr><td class="px-5 py-4 font-semibold text-council-navy">김종득</td><td class="px-5 py-4">gn305</td><td class="px-5 py-4">1305</td><td class="px-5 py-4">유관기관</td></tr>
-              </tbody>
+              <tbody class="divide-y divide-council-line text-slate-600" data-affiliate-account-body></tbody>
             </table>
           </div>
         </div>

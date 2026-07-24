@@ -303,10 +303,14 @@ function buildNoticeCard(notice, currentUser) {
           </div>
           <h2 class="mt-4 text-2xl font-black text-council-navy">${notice.title}</h2>
           <p class="mt-3 text-sm leading-7 text-slate-600">${notice.description}</p>
-          <p class="mt-3 text-xs font-semibold text-slate-400">등록자 ${notice.createdBy || "시스템"}</p>
+          <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-semibold text-slate-400">
+            <span>등록자 ${notice.createdBy || "시스템"}</span>
+            ${notice.attachmentName ? `<span>첨부 ${notice.attachmentName}${notice.attachmentSize ? ` · ${formatFileSize(notice.attachmentSize)}` : ""}</span>` : ""}
+          </div>
         </div>
         <div class="flex flex-col items-start gap-3 text-sm font-semibold text-slate-500 lg:items-end">
           <div>${normalizeNoticeDate(notice.date)}</div>
+          ${notice.attachmentName ? `<button type="button" data-notice-open="${notice.id}" class="inline-flex min-h-[42px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:scale-[1.02]">첨부 다운로드</button>` : ""}
           ${canDelete ? `<button type="button" data-notice-delete="${notice.id}" class="inline-flex min-h-[42px] items-center justify-center rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-100">삭제</button>` : ""}
         </div>
       </div>
@@ -798,6 +802,27 @@ async function triggerResourceOpen(resourceId) {
   }
 }
 
+async function triggerNoticeAttachmentOpen(noticeId) {
+  const notices = getAllNotices();
+  const target = notices.find((notice) => notice.id === noticeId);
+  if (!target || !target.attachmentName) return;
+
+  const blob = await getResourceFile(noticeId);
+  if (!blob) {
+    alert("이 브라우저에 저장된 첨부파일을 찾을 수 없습니다.");
+    return;
+  }
+
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = target.attachmentName;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 async function initResourceLibrary() {
   const page = document.querySelector("[data-resource-library]");
   if (!page) return;
@@ -1116,16 +1141,27 @@ function initNoticeBoard() {
 
   search?.addEventListener("input", renderNotices);
 
-  list?.addEventListener("click", (event) => {
-    const target = event.target.closest("[data-notice-delete]");
+  list?.addEventListener("click", async (event) => {
+    const target = event.target.closest("[data-notice-open], [data-notice-delete]");
     if (!target) return;
+
+    const openId = target.getAttribute("data-notice-open");
+    if (openId) {
+      await triggerNoticeAttachmentOpen(openId);
+      return;
+    }
 
     const liveUser = getCurrentUser();
     if (!liveUser || !isAdmin(liveUser)) return;
 
     const deleteId = target.getAttribute("data-notice-delete");
-    const nextNotices = readCustomNotices().filter((notice) => notice.id !== deleteId);
+    const currentNotices = readCustomNotices();
+    const targetNotice = currentNotices.find((notice) => notice.id === deleteId);
+    const nextNotices = currentNotices.filter((notice) => notice.id !== deleteId);
     writeCustomNotices(nextNotices);
+    if (targetNotice?.attachmentName) {
+      await deleteResourceFile(deleteId);
+    }
     renderNotices();
   });
 
@@ -1137,7 +1173,7 @@ function initNoticeBoard() {
     updateFormState();
   });
 
-  form?.addEventListener("submit", (event) => {
+  form?.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const liveUser = getCurrentUser();
@@ -1154,6 +1190,7 @@ function initNoticeBoard() {
     const description = form.noticeDescription.value.trim();
     const date = form.noticeDate.value;
     const pinned = Boolean(form.noticePinned.checked);
+    const file = form.noticeFile.files?.[0] || null;
 
     if (!title) {
       help.textContent = "공지 제목을 입력해 주세요.";
@@ -1174,8 +1211,9 @@ function initNoticeBoard() {
     }
 
     const customNotices = readCustomNotices();
-    customNotices.push({
-      id: `notice-${Date.now()}`,
+    const noticeId = `notice-${Date.now()}`;
+    const notice = {
+      id: noticeId,
       category,
       title,
       description,
@@ -1184,18 +1222,36 @@ function initNoticeBoard() {
       createdAt: new Date().toISOString(),
       createdBy: liveUser.label,
       createdById: liveUser.id,
+      attachmentName: file ? file.name : "",
+      attachmentSize: file ? file.size : 0,
+      attachmentType: file ? file.type : "",
       source: "custom"
-    });
-    writeCustomNotices(customNotices);
-    form.reset();
-    form.noticeDate.value = new Date().toISOString().slice(0, 10);
+    };
 
-    if (help) {
-      help.textContent = "공지사항이 등록되었습니다. 아래 목록에서 바로 확인할 수 있습니다.";
-      help.className = "min-h-[1.5rem] text-sm font-medium text-emerald-600";
+    try {
+      if (file) {
+        await saveResourceFile(noticeId, file);
+      }
+
+      customNotices.push(notice);
+      writeCustomNotices(customNotices);
+      form.reset();
+      form.noticeDate.value = new Date().toISOString().slice(0, 10);
+
+      if (help) {
+        help.textContent = file
+          ? "공지사항과 첨부파일이 등록되었습니다. 아래 목록에서 바로 확인할 수 있습니다."
+          : "공지사항이 등록되었습니다. 아래 목록에서 바로 확인할 수 있습니다.";
+        help.className = "min-h-[1.5rem] text-sm font-medium text-emerald-600";
+      }
+
+      renderNotices();
+    } catch {
+      if (help) {
+        help.textContent = "공지 등록 또는 첨부 저장 중 오류가 발생했습니다. 다시 시도해 주세요.";
+        help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      }
     }
-
-    renderNotices();
   });
 }
 

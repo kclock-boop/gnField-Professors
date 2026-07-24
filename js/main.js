@@ -54,12 +54,12 @@ const resourceCategoryMap = {
 const defaultResources = [
   {
     id: "default-1",
-    title: "AI교재TF 운영 개요",
+    title: "AX교재TF 운영 개요",
     category: "reference",
     description: "자료실 운영 방식과 기본 등록 규칙을 안내하는 기본 자료입니다.",
     kind: "link",
     externalUrl: "./ai-tf.html",
-    fileName: "AI교재TF 페이지 링크",
+    fileName: "AX교재TF 페이지 링크",
     createdAt: "2026-07-24",
     createdBy: "시스템",
     source: "default"
@@ -252,7 +252,7 @@ function createLoginModal() {
       </span>
       <h2 class="mt-5 text-3xl font-black text-[#1a365d]">교수진 로그인</h2>
       <p class="mt-4 break-keep-all text-sm leading-7 text-slate-600">
-        이 페이지는 AI교재TF 전용 화면입니다. 관리자에게 받은 아이디와 비밀번호를 입력한 뒤 접속해 주세요.
+        이 페이지는 AX교재TF 전용 화면입니다. 관리자에게 받은 아이디와 비밀번호를 입력한 뒤 접속해 주세요.
       </p>
       <form id="simpleLoginForm" class="mt-8 space-y-4">
         <div>

@@ -848,6 +848,16 @@ async function initResourceLibrary() {
 
   let currentFilter = "all";
 
+  function setActiveResourceFilter(nextFilter) {
+    currentFilter = nextFilter;
+    filterButtons.forEach((item) => {
+      const active = (item.dataset.resourceFilter || "all") === currentFilter;
+      item.className = active
+        ? "rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+        : "rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist";
+    });
+  }
+
   function getFilteredResources() {
     const keyword = (search?.value || "").trim().toLowerCase();
 
@@ -909,18 +919,16 @@ async function initResourceLibrary() {
     setUploadFormEnabled(form, loggedIn);
   }
 
+  const requestedFilter = new URLSearchParams(window.location.search).get("filter");
+  const validFilters = new Set(["all", ...Object.keys(resourceCategoryMap)]);
+  setActiveResourceFilter(validFilters.has(requestedFilter) ? requestedFilter : "all");
+
   updateFormState();
   renderResources();
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      currentFilter = button.dataset.resourceFilter || "all";
-      filterButtons.forEach((item) => {
-        const active = item === button;
-        item.className = active
-          ? "rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
-          : "rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist";
-      });
+      setActiveResourceFilter(button.dataset.resourceFilter || "all");
       renderResources();
     });
   });

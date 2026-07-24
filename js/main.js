@@ -40,6 +40,7 @@ const defaultAccounts = [
 const authStorageKey = "gnFieldProfessorCurrentUser";
 const passwordStorageKey = "gnFieldProfessorPasswords";
 const loginLogStorageKey = "gnFieldProfessorLoginLogs";
+const noticeStorageKey = "gnFieldProfessorNotices";
 const resourceMetaKey = "gnFieldProfessorResourceMeta";
 const resourceDbName = "gnFieldProfessorResourceFiles";
 const resourceStoreName = "files";
@@ -50,6 +51,52 @@ const resourceCategoryMap = {
   reference: "참고자료",
   archive: "사례아카이브"
 };
+
+const noticeBadgeClassMap = {
+  "공지": "bg-emerald-50 text-emerald-700",
+  "안내": "bg-amber-50 text-amber-700",
+  "배포": "bg-sky-50 text-sky-700",
+  "회의": "bg-violet-50 text-violet-700"
+};
+
+const defaultNotices = [
+  {
+    id: "notice-default-1",
+    category: "공지",
+    title: "시험용 로그인 운영 안내",
+    description: "계정 로그인, 비밀번호 변경, 관리자 안내문 사용 방법을 함께 확인해 주세요.",
+    date: "2026-07-20",
+    pinned: true,
+    createdAt: "2026-07-20T09:00:00+09:00",
+    createdBy: "시스템",
+    createdById: "system",
+    source: "default"
+  },
+  {
+    id: "notice-default-2",
+    category: "배포",
+    title: "교수님 계정 안내문 배포",
+    description: "인쇄용 계정 안내문과 로그인 설명 자료를 관리자 페이지 기준으로 정리했습니다.",
+    date: "2026-07-20",
+    pinned: false,
+    createdAt: "2026-07-20T10:00:00+09:00",
+    createdBy: "시스템",
+    createdById: "system",
+    source: "default"
+  },
+  {
+    id: "notice-default-3",
+    category: "안내",
+    title: "운영 페이지 확장",
+    description: "공지사항, 자료실, 일정, AX교재TF 페이지가 협의회 운영에 맞춰 순차적으로 확장되고 있습니다.",
+    date: "2026-07-20",
+    pinned: false,
+    createdAt: "2026-07-20T11:00:00+09:00",
+    createdBy: "시스템",
+    createdById: "system",
+    source: "default"
+  }
+];
 
 const defaultResources = [
   {
@@ -155,6 +202,40 @@ function setLoginLogs(logs) {
   localStorage.setItem(loginLogStorageKey, JSON.stringify(logs));
 }
 
+function readCustomNotices() {
+  const raw = localStorage.getItem(noticeStorageKey);
+  if (!raw) return [];
+
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    localStorage.removeItem(noticeStorageKey);
+    return [];
+  }
+}
+
+function writeCustomNotices(notices) {
+  localStorage.setItem(noticeStorageKey, JSON.stringify(notices));
+}
+
+function normalizeNoticeDate(value) {
+  if (!value) return "";
+  const parts = String(value).split("-");
+  if (parts.length !== 3) return value;
+  return `${parts[0]}년 ${parts[1]}월 ${parts[2]}일`;
+}
+
+function getAllNotices() {
+  const custom = readCustomNotices();
+  return [...defaultNotices, ...custom].sort((a, b) => {
+    if (Boolean(b.pinned) !== Boolean(a.pinned)) return Number(b.pinned) - Number(a.pinned);
+    const aTime = new Date(a.createdAt || a.date).getTime();
+    const bTime = new Date(b.createdAt || b.date).getTime();
+    return bTime - aTime;
+  });
+}
+
 function recordLoginEvent(user) {
   const logs = getLoginLogs();
   logs.unshift({
@@ -207,6 +288,30 @@ function updateAuthUi(user) {
   authControls.classList.add("flex");
   authUser.textContent = "로그인";
   syncAdminUi(user);
+}
+
+function buildNoticeCard(notice, currentUser) {
+  const badgeClass = noticeBadgeClassMap[notice.category] || "bg-slate-100 text-slate-700";
+  const canDelete = notice.source === "custom" && currentUser && isAdmin(currentUser);
+  return `
+    <article class="glass-card rounded-[2rem] p-7">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div>
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex rounded-full px-3 py-1 text-xs font-bold ${badgeClass}">${notice.category}</span>
+            ${notice.pinned ? '<span class="inline-flex rounded-full bg-rose-50 px-3 py-1 text-xs font-bold text-rose-700">중요</span>' : ""}
+          </div>
+          <h2 class="mt-4 text-2xl font-black text-council-navy">${notice.title}</h2>
+          <p class="mt-3 text-sm leading-7 text-slate-600">${notice.description}</p>
+          <p class="mt-3 text-xs font-semibold text-slate-400">등록자 ${notice.createdBy || "시스템"}</p>
+        </div>
+        <div class="flex flex-col items-start gap-3 text-sm font-semibold text-slate-500 lg:items-end">
+          <div>${normalizeNoticeDate(notice.date)}</div>
+          ${canDelete ? `<button type="button" data-notice-delete="${notice.id}" class="inline-flex min-h-[42px] items-center justify-center rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-sm font-semibold text-rose-700 transition hover:bg-rose-100">삭제</button>` : ""}
+        </div>
+      </div>
+    </article>
+  `;
 }
 
 function initializeAuthUi() {
@@ -278,6 +383,54 @@ function createLoginModal() {
   return wrapper;
 }
 
+function openLoginModal() {
+  if (document.getElementById("simpleLoginModal")) return;
+
+  document.body.classList.add("overflow-hidden");
+  const modal = createLoginModal();
+  document.body.appendChild(modal);
+
+  const form = modal.querySelector("#simpleLoginForm");
+  const idInput = modal.querySelector("#simpleLoginId");
+  const passwordInput = modal.querySelector("#simpleLoginPassword");
+  const helpText = modal.querySelector("#simpleLoginHelp");
+
+  idInput?.focus();
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const userId = idInput?.value.trim() ?? "";
+    const password = passwordInput?.value.trim() ?? "";
+
+    if (!userId || !password) {
+      helpText.textContent = "아이디와 비밀번호를 모두 입력해 주세요.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    const matchedAccount = getAccounts().find((account) => account.id === userId && account.password === password);
+    if (!matchedAccount) {
+      helpText.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (!canAccessPage(matchedAccount)) {
+      helpText.textContent = "이 페이지는 관리자 계정으로만 접속할 수 있습니다.";
+      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
+      return;
+    }
+
+    recordLoginEvent(matchedAccount);
+    setCurrentUser(matchedAccount);
+    updateAuthUi(matchedAccount);
+    modal.remove();
+    document.body.classList.remove("overflow-hidden");
+    window.location.reload();
+  });
+}
+
 function createChangePasswordModal(currentUser) {
   const wrapper = document.createElement("div");
   wrapper.id = "changePasswordModal";
@@ -337,48 +490,7 @@ function protectPage() {
     return;
   }
 
-  document.body.classList.add("overflow-hidden");
-  const modal = createLoginModal();
-  document.body.appendChild(modal);
-
-  const form = modal.querySelector("#simpleLoginForm");
-  const idInput = modal.querySelector("#simpleLoginId");
-  const passwordInput = modal.querySelector("#simpleLoginPassword");
-  const helpText = modal.querySelector("#simpleLoginHelp");
-
-  idInput?.focus();
-
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const userId = idInput?.value.trim() ?? "";
-    const password = passwordInput?.value.trim() ?? "";
-
-    if (!userId || !password) {
-      helpText.textContent = "아이디와 비밀번호를 모두 입력해 주세요.";
-      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
-      return;
-    }
-
-    const matchedAccount = getAccounts().find((account) => account.id === userId && account.password === password);
-    if (!matchedAccount) {
-      helpText.textContent = "아이디 또는 비밀번호가 올바르지 않습니다.";
-      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
-      return;
-    }
-
-    if (!canAccessPage(matchedAccount)) {
-      helpText.textContent = "이 페이지는 관리자 계정으로만 접속할 수 있습니다.";
-      helpText.className = "min-h-[1.5rem] break-keep-all text-sm font-medium text-rose-600";
-      return;
-    }
-
-    recordLoginEvent(matchedAccount);
-    setCurrentUser(matchedAccount);
-    updateAuthUi(matchedAccount);
-    modal.remove();
-    document.body.classList.remove("overflow-hidden");
-  });
+  openLoginModal();
 }
 
 function initAdminDashboard() {
@@ -897,6 +1009,196 @@ async function initResourceLibrary() {
   });
 }
 
+function initNoticeBoard() {
+  const board = document.querySelector("[data-notice-board]");
+  if (!board) return;
+
+  const currentUser = getCurrentUser();
+  const list = document.getElementById("noticeList");
+  const emptyState = document.getElementById("noticeEmptyState");
+  const count = document.querySelector("[data-notice-count]");
+  const visibleCount = document.querySelector("[data-notice-visible-count]");
+  const importantCount = document.querySelector("[data-notice-important-count]");
+  const latestTitle = document.querySelector("[data-notice-latest-title]");
+  const status = document.querySelector("[data-notice-status]");
+  const form = document.getElementById("noticeUploadForm");
+  const help = document.getElementById("noticeUploadHelp");
+  const badge = document.querySelector("[data-notice-form-badge]");
+  const search = document.getElementById("noticeSearch");
+  const resetButton = document.getElementById("noticeUploadReset");
+  const filterButtons = Array.from(document.querySelectorAll("[data-notice-filter]"));
+
+  let currentFilter = "all";
+
+  function setNoticeFormEnabled(enabled) {
+    if (!form) return;
+    form.querySelectorAll("input, select, textarea, button").forEach((field) => {
+      if (field.id === "noticeUploadReset") return;
+      field.disabled = !enabled;
+    });
+  }
+
+  function getFilteredNotices() {
+    const keyword = (search?.value || "").trim().toLowerCase();
+    return getAllNotices().filter((notice) => {
+      const matchesFilter = currentFilter === "all" || notice.category === currentFilter;
+      if (!matchesFilter) return false;
+      if (!keyword) return true;
+
+      const target = [
+        notice.title,
+        notice.description,
+        notice.category,
+        notice.createdBy
+      ].join(" ").toLowerCase();
+
+      return target.includes(keyword);
+    });
+  }
+
+  function updateFormState() {
+    const canWrite = Boolean(currentUser && isAdmin(currentUser));
+
+    if (badge) {
+      badge.textContent = canWrite ? "관리자 등록 가능 상태" : "관리자 로그인 후 등록 가능";
+      badge.className = canWrite
+        ? "inline-flex rounded-full bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-700 ring-1 ring-emerald-200"
+        : "inline-flex rounded-full bg-sky-50 px-5 py-3 text-sm font-bold text-sky-700 ring-1 ring-sky-200";
+    }
+
+    if (help) {
+      help.textContent = canWrite
+        ? "공지 제목과 내용을 입력하면 바로 공지 목록에 반영됩니다."
+        : "공지 등록은 관리자 계정으로 로그인한 뒤 사용할 수 있습니다.";
+      help.className = canWrite
+        ? "min-h-[1.5rem] text-sm font-medium text-emerald-700"
+        : "min-h-[1.5rem] text-sm font-medium text-slate-500";
+    }
+
+    setNoticeFormEnabled(canWrite);
+  }
+
+  function renderNotices() {
+    if (!list || !emptyState) return;
+
+    const allNotices = getAllNotices();
+    const filteredNotices = getFilteredNotices();
+
+    if (count) count.textContent = `${allNotices.length}건`;
+    if (visibleCount) visibleCount.textContent = String(filteredNotices.length);
+    if (importantCount) importantCount.textContent = `${allNotices.filter((notice) => notice.pinned).length}건`;
+    if (latestTitle) latestTitle.textContent = allNotices[0]?.title || "없음";
+    if (status) status.textContent = allNotices.length ? "정상 운영 중" : "등록 대기";
+
+    list.innerHTML = filteredNotices.map((notice) => buildNoticeCard(notice, currentUser)).join("");
+    emptyState.classList.toggle("hidden", filteredNotices.length > 0);
+  }
+
+  updateFormState();
+  renderNotices();
+
+  if (form?.noticeDate && !form.noticeDate.value) {
+    form.noticeDate.value = new Date().toISOString().slice(0, 10);
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      currentFilter = button.dataset.noticeFilter || "all";
+      filterButtons.forEach((item) => {
+        const active = item === button;
+        item.className = active
+          ? "rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+          : "rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist";
+      });
+      renderNotices();
+    });
+  });
+
+  search?.addEventListener("input", renderNotices);
+
+  list?.addEventListener("click", (event) => {
+    const target = event.target.closest("[data-notice-delete]");
+    if (!target) return;
+
+    const liveUser = getCurrentUser();
+    if (!liveUser || !isAdmin(liveUser)) return;
+
+    const deleteId = target.getAttribute("data-notice-delete");
+    const nextNotices = readCustomNotices().filter((notice) => notice.id !== deleteId);
+    writeCustomNotices(nextNotices);
+    renderNotices();
+  });
+
+  resetButton?.addEventListener("click", () => {
+    form?.reset();
+    if (form?.noticeDate) {
+      form.noticeDate.value = new Date().toISOString().slice(0, 10);
+    }
+    updateFormState();
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const liveUser = getCurrentUser();
+    if (!liveUser || !isAdmin(liveUser)) {
+      if (help) {
+        help.textContent = "공지 등록은 관리자 계정으로 로그인한 뒤 사용할 수 있습니다.";
+        help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      }
+      return;
+    }
+
+    const title = form.noticeTitle.value.trim();
+    const category = form.noticeCategory.value;
+    const description = form.noticeDescription.value.trim();
+    const date = form.noticeDate.value;
+    const pinned = Boolean(form.noticePinned.checked);
+
+    if (!title) {
+      help.textContent = "공지 제목을 입력해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (!description) {
+      help.textContent = "공지 내용을 입력해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (!date) {
+      help.textContent = "공지 날짜를 선택해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      return;
+    }
+
+    const customNotices = readCustomNotices();
+    customNotices.push({
+      id: `notice-${Date.now()}`,
+      category,
+      title,
+      description,
+      date,
+      pinned,
+      createdAt: new Date().toISOString(),
+      createdBy: liveUser.label,
+      createdById: liveUser.id,
+      source: "custom"
+    });
+    writeCustomNotices(customNotices);
+    form.reset();
+    form.noticeDate.value = new Date().toISOString().slice(0, 10);
+
+    if (help) {
+      help.textContent = "공지사항이 등록되었습니다. 아래 목록에서 바로 확인할 수 있습니다.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-emerald-600";
+    }
+
+    renderNotices();
+  });
+}
+
 if (logoutButton) {
   logoutButton.addEventListener("click", () => {
     clearCurrentUser();
@@ -906,6 +1208,13 @@ if (logoutButton) {
 
 if (changePasswordButton) {
   changePasswordButton.addEventListener("click", openChangePasswordModal);
+}
+
+if (authUser) {
+  authUser.addEventListener("click", () => {
+    if (getCurrentUser()) return;
+    openLoginModal();
+  });
 }
 
 if (mobileNavButton && navPanel) {
@@ -939,6 +1248,7 @@ document.querySelectorAll(".nav-link").forEach((link) => {
 protectPage();
 initAdminDashboard();
 initResourceLibrary();
+initNoticeBoard();
 
 const revealTargets = document.querySelectorAll(".reveal");
 if (revealTargets.length) {

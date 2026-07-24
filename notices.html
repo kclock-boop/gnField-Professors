@@ -73,7 +73,7 @@
     </header>
 
     <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-      <section class="mx-auto max-w-7xl reveal">
+      <section class="mx-auto max-w-7xl reveal" data-notice-board>
         <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
           <div class="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
             <div>
@@ -82,46 +82,93 @@
               <p class="mt-4 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">공지, 운영 알림, 배포 안내를 우선순위가 보이도록 카드 뉴스형 구조로 정리했습니다.</p>
             </div>
             <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">중요 공지</p><strong class="mt-2 block text-2xl font-black text-council-navy">3건</strong></article>
-              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">최근 배포</p><strong class="mt-2 block text-2xl font-black text-council-navy">계정 안내문</strong></article>
-              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">운영 상태</p><strong class="mt-2 block text-2xl font-black text-council-navy">정상 운영 중</strong></article>
+              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">중요 공지</p><strong class="mt-2 block text-2xl font-black text-council-navy" data-notice-important-count>0건</strong></article>
+              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">최근 공지</p><strong class="mt-2 block text-2xl font-black text-council-navy" data-notice-latest-title>없음</strong></article>
+              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">운영 상태</p><strong class="mt-2 block text-2xl font-black text-council-navy" data-notice-status>정상 운영 중</strong></article>
             </div>
           </div>
         </div>
       </section>
 
       <section class="mx-auto mt-8 max-w-7xl reveal">
-        <div class="grid gap-5">
-          <article class="glass-card rounded-[2rem] p-7">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div class="grid gap-8 lg:grid-cols-[0.92fr_1.08fr]">
+          <article class="glass-card rounded-[2rem] p-7 sm:p-8">
+            <div class="flex items-center justify-between gap-4">
               <div>
-                <span class="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">공지</span>
-                <h2 class="mt-4 text-2xl font-black text-council-navy">시험용 로그인 운영 안내</h2>
-                <p class="mt-3 text-sm leading-7 text-slate-600">계정 로그인, 비밀번호 변경, 관리자 안내문 사용 방법을 함께 확인해 주세요.</p>
+                <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Notice Upload</span>
+                <h2 class="mt-5 text-3xl font-black text-council-navy">공지 등록</h2>
               </div>
-              <div class="text-sm font-semibold text-slate-500">2026년 7월 20일</div>
+              <span data-notice-form-badge class="inline-flex rounded-full bg-sky-50 px-5 py-3 text-sm font-bold text-sky-700 ring-1 ring-sky-200">관리자 로그인 후 등록 가능</span>
+            </div>
+            <p class="mt-4 text-sm leading-7 text-slate-600">시험용 구조에서는 관리자 계정으로 로그인한 상태에서만 공지사항을 추가하거나 삭제할 수 있습니다.</p>
+
+            <form id="noticeUploadForm" class="mt-8 space-y-5">
+              <div>
+                <label for="noticeTitle" class="mb-2 block text-sm font-semibold text-slate-600">공지 제목</label>
+                <input id="noticeTitle" name="noticeTitle" type="text" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: 8월 정기회의 일정 안내">
+              </div>
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="noticeCategory" class="mb-2 block text-sm font-semibold text-slate-600">분류</label>
+                  <select id="noticeCategory" name="noticeCategory" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100">
+                    <option value="공지">공지</option>
+                    <option value="안내">안내</option>
+                    <option value="배포">배포</option>
+                    <option value="회의">회의</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="noticeDate" class="mb-2 block text-sm font-semibold text-slate-600">공지 날짜</label>
+                  <input id="noticeDate" name="noticeDate" type="date" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100">
+                </div>
+              </div>
+              <div>
+                <label for="noticeDescription" class="mb-2 block text-sm font-semibold text-slate-600">공지 내용</label>
+                <textarea id="noticeDescription" name="noticeDescription" rows="5" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm leading-7 text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="공지 내용을 입력해 주세요."></textarea>
+              </div>
+              <label class="flex items-center gap-3 rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm font-semibold text-slate-700">
+                <input id="noticePinned" name="noticePinned" type="checkbox" class="h-4 w-4 rounded border-council-line text-council-navy focus:ring-sky-200">
+                중요 공지로 상단 배치
+              </label>
+              <p id="noticeUploadHelp" class="min-h-[1.5rem] text-sm font-medium text-slate-500">관리자 계정으로 로그인하면 공지를 등록할 수 있습니다.</p>
+              <div class="flex flex-wrap gap-3">
+                <button type="submit" class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">공지 등록</button>
+                <button id="noticeUploadReset" type="button" class="inline-flex min-h-[48px] items-center justify-center rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">입력 초기화</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="glass-card rounded-[2rem] p-7 sm:p-8">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Notice Filter</span>
+                <h2 class="mt-5 text-3xl font-black text-council-navy">등록된 공지 목록</h2>
+              </div>
+              <div class="inline-flex rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600">
+                총 <span class="ml-1 font-black text-council-navy" data-notice-count>0건</span>
+              </div>
+            </div>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button type="button" data-notice-filter="all" class="rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90">전체</button>
+              <button type="button" data-notice-filter="공지" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">공지</button>
+              <button type="button" data-notice-filter="안내" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">안내</button>
+              <button type="button" data-notice-filter="배포" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">배포</button>
+              <button type="button" data-notice-filter="회의" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">회의</button>
+            </div>
+            <div class="mt-5">
+              <input id="noticeSearch" type="search" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="제목, 내용, 등록자로 공지 검색">
+            </div>
+            <div class="mt-6 inline-flex rounded-full bg-council-mist px-4 py-2 text-sm font-semibold text-council-navy">
+              현재 표시 <span class="ml-1 font-black" data-notice-visible-count>0</span>건
             </div>
           </article>
-          <article class="glass-card rounded-[2rem] p-7">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <span class="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700">배포</span>
-                <h2 class="mt-4 text-2xl font-black text-council-navy">교수님 계정 안내문 배포</h2>
-                <p class="mt-3 text-sm leading-7 text-slate-600">인쇄용 계정 안내문과 로그인 설명 자료를 관리자 페이지 기준으로 정리했습니다.</p>
-              </div>
-              <div class="text-sm font-semibold text-slate-500">2026년 7월 20일</div>
-            </div>
-          </article>
-          <article class="glass-card rounded-[2rem] p-7">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <span class="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">안내</span>
-                <h2 class="mt-4 text-2xl font-black text-council-navy">운영 페이지 확장</h2>
-                <p class="mt-3 text-sm leading-7 text-slate-600">공지사항, 자료실, 일정, AX교재TF 페이지가 협의회 운영에 맞춰 순차적으로 확장되고 있습니다.</p>
-              </div>
-              <div class="text-sm font-semibold text-slate-500">2026년 7월 20일</div>
-            </div>
-          </article>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div id="noticeList" class="grid gap-5"></div>
+        <div id="noticeEmptyState" class="hidden glass-card rounded-[2rem] p-8 text-center text-sm font-medium text-slate-500">
+          아직 등록된 공지사항이 없습니다.
         </div>
       </section>
     </main>

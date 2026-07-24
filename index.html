@@ -14,24 +14,25 @@
         extend: {
           colors: {
             council: {
-              navy: "#295286",
-              sky: "#a9dcff",
-              skydeep: "#78c6f6",
-              mist: "#f2f9ff",
-              fog: "#fcfeff",
-              line: "#dbeaf8",
-              text: "#24415f"
+              navy: "#1a365d",
+              sky: "#90cdf4",
+              skydeep: "#53b7ef",
+              mist: "#eef7ff",
+              fog: "#f8fbff",
+              line: "#d9e7f5",
+              text: "#20364f",
+              ink: "#101828"
             }
           },
           fontFamily: {
-            sans: ["Pretendard", "system-ui", "sans-serif"]
+            sans: ["Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"]
           },
           boxShadow: {
-            soft: "0 24px 70px -34px rgba(71, 138, 196, 0.22)",
-            glow: "0 30px 90px -45px rgba(123, 206, 255, 0.62)"
+            soft: "0 24px 80px -40px rgba(32, 54, 79, 0.16)",
+            panel: "0 18px 50px -34px rgba(26, 54, 93, 0.18)"
           },
           backgroundImage: {
-            premium: "radial-gradient(circle at top left, rgba(169,220,255,0.44), transparent 26%), radial-gradient(circle at 85% 15%, rgba(120,198,246,0.16), transparent 28%), linear-gradient(180deg, #f7fbff 0%, #ffffff 52%, #fafdff 100%)"
+            premium: "radial-gradient(circle at top left, rgba(144,205,244,0.28), transparent 28%), radial-gradient(circle at 85% 14%, rgba(255,255,255,0.95), transparent 26%), linear-gradient(180deg, #f7fbff 0%, #ffffff 45%, #f8fbff 100%)"
           }
         }
       }
@@ -39,9 +40,9 @@
   </script>
   <style>
     body {
-      font-family: "Pretendard", system-ui, sans-serif;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       background: #f8fbff;
-      color: #24415f;
+      color: #20364f;
     }
 
     .break-keep {
@@ -49,34 +50,27 @@
     }
 
     .glass-card {
-      border: 1px solid rgba(215, 230, 245, 0.95);
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 24px 70px -34px rgba(71, 138, 196, 0.22);
-      backdrop-filter: blur(14px);
+      border: 1px solid rgba(217, 231, 245, 0.95);
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 24px 80px -40px rgba(32, 54, 79, 0.16);
+      backdrop-filter: blur(24px);
     }
 
     .soft-panel {
-      border: 1px solid rgba(215, 230, 245, 0.9);
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,249,255,0.96));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.92), 0 16px 45px -34px rgba(71,138,196,0.24);
-    }
-
-    .hero-mesh {
-      background:
-        radial-gradient(circle at 16% 18%, rgba(196,235,255,0.58), transparent 18%),
-        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.34), transparent 10%),
-        radial-gradient(circle at 72% 68%, rgba(169,220,255,0.34), transparent 15%),
-        linear-gradient(145deg, rgba(99,157,212,0.96), rgba(132,186,235,0.92));
+      border: 1px solid rgba(217, 231, 245, 0.92);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,249,255,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.92), 0 18px 50px -34px rgba(26, 54, 93, 0.18);
     }
 
     .hero-showcase {
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.85);
       background:
-        linear-gradient(180deg, rgba(13, 35, 75, 0.82), rgba(24, 50, 100, 0.9)),
-        url("https://picsum.photos/seed/gn-smart-manufacturing/1600/900") center/cover no-repeat;
-      box-shadow: 0 35px 90px -42px rgba(26, 54, 93, 0.42);
+        radial-gradient(circle at 18% 18%, rgba(144,205,244,0.42), transparent 20%),
+        radial-gradient(circle at 82% 20%, rgba(255,255,255,0.96), transparent 14%),
+        linear-gradient(145deg, rgba(248,251,255,0.98), rgba(235,244,255,0.98));
+      box-shadow: 0 30px 90px -48px rgba(32, 54, 79, 0.22);
       isolation: isolate;
     }
 
@@ -85,54 +79,42 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(10, 27, 58, 0.82), rgba(24, 50, 100, 0.48)),
-        linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
-      background-size: auto, 32px 32px, 32px 32px;
+        linear-gradient(rgba(26,54,93,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,54,93,0.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.18));
       pointer-events: none;
       z-index: 0;
     }
 
     .hero-chip {
-      border: 1px solid rgba(255,255,255,0.24);
-      background: rgba(255,255,255,0.96);
-      box-shadow: 0 22px 40px -28px rgba(15, 23, 42, 0.45);
-    }
-
-    .hero-grid::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: linear-gradient(180deg, rgba(0,0,0,0.92), rgba(0,0,0,0.18));
-      pointer-events: none;
+      border: 1px solid rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 20px 40px -28px rgba(26, 54, 93, 0.18);
     }
 
     .hero-crisp-card {
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      background: linear-gradient(180deg, rgba(255,255,255,0.17), rgba(255,255,255,0.11));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.24), 0 18px 40px -30px rgba(41,82,134,0.26);
+      border: 1px solid rgba(217, 231, 245, 0.96);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(241,247,255,0.92));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.96), 0 18px 40px -30px rgba(26,54,93,0.12);
     }
 
     .hero-pill {
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(217,231,245,0.9);
+      background: rgba(255,255,255,0.72);
     }
 
     .floating-orb {
       position: absolute;
       border-radius: 9999px;
-      filter: blur(6px);
-      animation: float 8s ease-in-out infinite;
+      filter: blur(8px);
+      animation: float 8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
     }
 
     .reveal {
       opacity: 0;
       transform: translateY(26px);
-      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .reveal.is-visible {
@@ -147,7 +129,7 @@
       top: 3.25rem;
       bottom: -1.75rem;
       width: 2px;
-      background: linear-gradient(180deg, rgba(144,205,244,0.95), rgba(26,54,93,0.1));
+      background: linear-gradient(180deg, rgba(83,183,239,0.85), rgba(26,54,93,0.12));
     }
 
     .step-rail:last-child::before {
@@ -173,8 +155,8 @@
 </head>
 <body class="bg-premium text-council-text" data-auth-page="public">
   <div class="min-h-[100dvh]">
-    <header class="sticky top-0 z-40 border-b border-white/70 bg-white/80 backdrop-blur-xl">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <header class="sticky top-0 z-40 px-4 pt-4 sm:px-6 lg:px-8">
+      <div class="glass-card mx-auto flex max-w-7xl items-center justify-between rounded-full px-4 py-3 sm:px-6">
         <a href="./index.html" class="flex items-center">
           <img src="./assets/header-logo.png" alt="대한민국산업현장교수 경남협의회 로고" class="h-14 w-auto sm:h-16" loading="eager" decoding="async">
         </a>
@@ -215,25 +197,115 @@
     <main class="pb-16">
       <section class="relative overflow-hidden px-4 pt-8 sm:px-6 lg:px-8 lg:pt-10">
         <div class="mx-auto max-w-7xl">
-          <div class="hero-showcase reveal rounded-[2.2rem] px-6 py-10 sm:px-10 sm:py-14 lg:px-16 lg:py-20">
-            <div class="relative z-10 flex min-h-[520px] flex-col items-center justify-center text-center">
-              <span class="inline-flex rounded-full bg-[#fbbf24] px-6 py-3 text-sm font-black text-[#10284d] shadow-[0_20px_40px_-28px_rgba(251,191,36,0.9)] sm:text-base">
-                2026 고용노동부 위촉 현장형 숙련기술 지원
-              </span>
+          <div class="hero-showcase reveal rounded-[2.4rem] px-6 py-8 sm:px-10 sm:py-12 lg:px-14 lg:py-14">
+            <div class="floating-orb left-10 top-10 h-24 w-24 bg-council-sky/50"></div>
+            <div class="floating-orb bottom-14 right-14 h-20 w-20 bg-white/80" style="animation-delay: 1.2s;"></div>
 
-              <div class="mt-10 max-w-6xl break-keep">
-                <h1 class="text-4xl font-black leading-[1.12] tracking-[-0.06em] text-white sm:text-5xl lg:text-[4.9rem]">
+            <div class="relative z-10 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+              <div class="break-keep">
+                <span class="hero-chip inline-flex rounded-full px-5 py-3 text-sm font-black text-council-navy sm:text-base">
+                  2026 고용노동부 위촉 현장형 숙련기술 지원
+                </span>
+
+                <h1 class="mt-8 text-4xl font-black leading-[1.1] tracking-[-0.06em] text-council-ink sm:text-5xl lg:text-[5rem]">
                   대한민국산업현장교수 경남협의회
                   <br>
-                  <span class="text-[#47c5ff]">숙련기술 전파 플랫폼</span>
+                  <span class="text-council-skydeep">숙련기술 전파 플랫폼</span>
                 </h1>
-                <div class="mx-auto mt-12 max-w-6xl space-y-4 text-lg font-semibold leading-9 text-sky-50 sm:text-[2rem] sm:leading-[1.8]">
+
+                <div class="mt-8 max-w-3xl space-y-4 text-lg font-semibold leading-9 text-slate-600 sm:text-[1.6rem] sm:leading-[1.75]">
                   <p>복잡한 지원 절차는 줄이고, 학교와 기업 현장에서 바로 체감하는 경남형</p>
                   <p>숙련기술 전수와 AX 전환 연계 지원을 현장 중심으로 연결합니다.</p>
                 </div>
+
+                <div class="mt-9 flex flex-wrap gap-3">
+                  <a href="#process" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full bg-council-navy px-7 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
+                    기술지원 절차 보기
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
+                      <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                    </span>
+                  </a>
+                  <a href="#gn322g" class="inline-flex min-h-[54px] items-center justify-center gap-3 rounded-full border border-council-line bg-white/80 px-7 py-4 text-base font-semibold text-council-navy transition hover:bg-white">
+                    GN-322G 보기
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-council-mist">
+                      <iconify-icon icon="solar:chart-square-linear"></iconify-icon>
+                    </span>
+                  </a>
+                </div>
               </div>
 
-              <div class="mt-12 h-px w-full max-w-5xl bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+              <div class="grid gap-4">
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <article class="hero-crisp-card rounded-[1.9rem] p-6 sm:col-span-2">
+                    <div class="flex items-center justify-between gap-4">
+                      <span class="hero-pill inline-flex rounded-full px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Hero Banner</span>
+                      <span class="hero-pill inline-flex rounded-full px-4 py-2 text-xs font-bold text-slate-500">만화 스타일 스마트 팩토리 일러스트 영역</span>
+                    </div>
+
+                    <div class="mt-6 grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+                      <article class="hero-crisp-card rounded-[1.7rem] p-5">
+                        <div class="flex items-start gap-4">
+                          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-council-mist text-2xl text-council-navy">
+                            <iconify-icon icon="solar:cpu-bolt-linear"></iconify-icon>
+                          </div>
+                          <div>
+                            <h3 class="text-2xl font-black text-council-ink">AX Manufacturing</h3>
+                            <p class="mt-1 text-base font-medium text-slate-500">설비 · 공정 · 인재 연결</p>
+                          </div>
+                        </div>
+
+                        <div class="mt-7 space-y-5">
+                          <div>
+                            <div class="flex items-center justify-between text-sm font-semibold text-slate-500">
+                              <span>스마트 공정 모니터링</span>
+                              <span>SYNC</span>
+                            </div>
+                            <div class="mt-3 h-3 rounded-full bg-slate-100">
+                              <div class="h-3 w-[72%] rounded-full bg-gradient-to-r from-council-skydeep to-council-sky"></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="flex items-center justify-between text-sm font-semibold text-slate-500">
+                              <span>현장기술 멘토링</span>
+                              <span>LIVE</span>
+                            </div>
+                            <div class="mt-3 h-3 rounded-full bg-slate-100">
+                              <div class="h-3 w-[64%] rounded-full bg-gradient-to-r from-sky-200 to-blue-200"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+
+                      <article class="hero-crisp-card rounded-[1.7rem] p-5">
+                        <h3 class="text-2xl font-black text-council-ink">일러스트 삽입 가이드</h3>
+                        <p class="mt-4 text-sm leading-7 text-slate-600">
+                          스마트 팩토리 생산 라인, 협업 로봇, 데이터 패널, 현장교수 캐릭터가 함께 보이는 대표 일러스트를
+                          넣을 수 있도록 배너 전용 영역을 구성했습니다.
+                        </p>
+                        <div class="mt-6 rounded-[1.5rem] border border-dashed border-council-line bg-white/72 px-5 py-7 text-center">
+                          <p class="text-4xl font-black tracking-[-0.05em] text-council-navy">16:10 비율</p>
+                          <p class="mt-2 text-sm font-medium text-slate-500">메인 일러스트 권장</p>
+                        </div>
+                      </article>
+                    </div>
+                  </article>
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-3">
+                  <article class="hero-crisp-card rounded-[1.6rem] p-5">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Field</p>
+                    <h3 class="mt-4 text-2xl font-black leading-tight text-council-ink">학교 현장</h3>
+                  </article>
+                  <article class="hero-crisp-card rounded-[1.6rem] p-5">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Factory</p>
+                    <h3 class="mt-4 text-2xl font-black leading-tight text-council-ink">기업 현장</h3>
+                  </article>
+                  <article class="hero-crisp-card rounded-[1.6rem] p-5">
+                    <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">Impact</p>
+                    <h3 class="mt-4 text-2xl font-black leading-tight text-council-ink">숙련기술 전파</h3>
+                  </article>
+                </div>
+              </div>
             </div>
           </div>
         </div>

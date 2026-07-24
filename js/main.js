@@ -46,10 +46,16 @@ const resourceDbName = "gnFieldProfessorResourceFiles";
 const resourceStoreName = "files";
 
 const resourceCategoryMap = {
-  teaching: "교육자료",
-  forms: "운영양식",
-  reference: "참고자료",
-  archive: "사례아카이브"
+  general: "종합",
+  division1: "1분과",
+  division2: "2분과",
+  division3: "3분과",
+  division4: "4분과",
+  practice: "실습 자료 모음",
+  archive: "사례 아카이브",
+  teaching: "종합",
+  forms: "종합",
+  reference: "종합"
 };
 
 const noticeBadgeClassMap = {
@@ -102,7 +108,7 @@ const defaultResources = [
   {
     id: "default-1",
     title: "AX교재TF 운영 개요",
-    category: "reference",
+    category: "general",
     description: "자료실 운영 방식과 기본 등록 규칙을 안내하는 기본 자료입니다.",
     kind: "link",
     externalUrl: "./ai-tf.html",
@@ -114,7 +120,7 @@ const defaultResources = [
   {
     id: "default-2",
     title: "협의회 공지사항 바로가기",
-    category: "forms",
+    category: "general",
     description: "운영 공지와 제출 일정은 공지사항 페이지에서도 함께 확인할 수 있습니다.",
     kind: "link",
     externalUrl: "./notices.html",

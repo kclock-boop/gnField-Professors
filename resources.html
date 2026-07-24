@@ -137,7 +137,7 @@
               </article>
               <article class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
                 <p class="text-sm font-bold text-sky-100">운영 분류</p>
-                <strong class="mt-2 block text-3xl font-black">4개 카테고리</strong>
+                <strong class="mt-2 block text-3xl font-black">7개 카테고리</strong>
               </article>
               <article class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
                 <p class="text-sm font-bold text-sky-100">저장 방식</p>
@@ -149,26 +149,48 @@
       </section>
 
       <section class="mx-auto mt-8 max-w-7xl reveal">
-        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          <article class="glass-card rounded-[1.8rem] p-6">
-            <span class="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700">교육자료</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">교안 · 실습자료</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">강의 교안, 실습지, 체크리스트, 평가표를 분류해 저장합니다.</p>
+        <div class="grid gap-5 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+          <article class="glass-card rounded-[1.8rem] p-6 lg:row-span-2">
+            <span class="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700">교안 초안 모음</span>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">분과별 초안 자료 구역</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">교안 초안 자료를 `종합`, `1분과`, `2분과`, `3분과`, `4분과` 기준으로 나누어 올리고 관리할 수 있습니다.</p>
+            <div class="mt-6 grid gap-3 sm:grid-cols-2">
+              <div class="soft-panel rounded-[1.4rem] p-4">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">종합</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">공통 초안, 전체 공유본, 통합 검토본</p>
+              </div>
+              <div class="soft-panel rounded-[1.4rem] p-4">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">1분과</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">1분과 교안 초안 및 회의자료</p>
+              </div>
+              <div class="soft-panel rounded-[1.4rem] p-4">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">2분과</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">2분과 교안 초안 및 검토자료</p>
+              </div>
+              <div class="soft-panel rounded-[1.4rem] p-4">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">3분과</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">3분과 과제, 초안, 수정 이력</p>
+              </div>
+              <div class="soft-panel rounded-[1.4rem] p-4 sm:col-span-2">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-500">4분과</p>
+                <p class="mt-2 text-sm leading-6 text-slate-600">4분과 교재 초안, 발표본, 공유 문서</p>
+              </div>
+            </div>
           </article>
           <article class="glass-card rounded-[1.8rem] p-6">
-            <span class="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">운영양식</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">회의 · 제출양식</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">회의자료, 제출서식, 요청서, 공문 양식을 함께 보관합니다.</p>
+            <span class="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">실습 자료</span>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">실습 자료 모음</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">실습지, 작업지시서, 체크리스트, 평가표 자료를 모아 관리합니다.</p>
           </article>
           <article class="glass-card rounded-[1.8rem] p-6">
-            <span class="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">참고자료</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">사례 · 연구자료</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">현장사례, 벤치마킹 자료, 참고 링크를 아카이브 형태로 관리합니다.</p>
+            <span class="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">사례 자료</span>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">사례 아카이브</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">현장 적용 사례, 참고 링크, 우수 운영 사례를 축적합니다.</p>
           </article>
-          <article class="glass-card rounded-[1.8rem] p-6">
+          <article class="glass-card rounded-[1.8rem] p-6 lg:col-span-2">
             <span class="inline-flex rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700">업로드 안내</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">시험 운영형 업로드</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">업로드한 파일은 현재 사용하는 브라우저에 저장됩니다. 링크 등록은 어느 브라우저에서나 바로 열 수 있습니다.</p>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">분과별 자료 업로드</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">자료 등록 시 분류를 `종합` 또는 `1분과~4분과`로 선택하면 분과별로 따로 모아서 검색하고 확인할 수 있습니다.</p>
           </article>
         </div>
       </section>
@@ -193,10 +215,13 @@
 
           <div class="mt-6 flex flex-wrap gap-3">
             <button type="button" data-resource-filter="all" class="rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90">전체</button>
-            <button type="button" data-resource-filter="teaching" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">교육자료</button>
-            <button type="button" data-resource-filter="forms" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">운영양식</button>
-            <button type="button" data-resource-filter="reference" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">참고자료</button>
-            <button type="button" data-resource-filter="archive" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">사례아카이브</button>
+            <button type="button" data-resource-filter="general" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">종합</button>
+            <button type="button" data-resource-filter="division1" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">1분과</button>
+            <button type="button" data-resource-filter="division2" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">2분과</button>
+            <button type="button" data-resource-filter="division3" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">3분과</button>
+            <button type="button" data-resource-filter="division4" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">4분과</button>
+            <button type="button" data-resource-filter="practice" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">실습 자료</button>
+            <button type="button" data-resource-filter="archive" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">사례 아카이브</button>
           </div>
         </div>
       </section>
@@ -281,10 +306,13 @@
               <div>
                 <label for="resourceCategory" class="mb-2 block text-sm font-semibold text-slate-600">카테고리</label>
                 <select id="resourceCategory" name="resourceCategory" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100">
-                  <option value="teaching">교육자료</option>
-                  <option value="forms">운영양식</option>
-                  <option value="reference">참고자료</option>
-                  <option value="archive">사례아카이브</option>
+                  <option value="general">종합</option>
+                  <option value="division1">1분과</option>
+                  <option value="division2">2분과</option>
+                  <option value="division3">3분과</option>
+                  <option value="division4">4분과</option>
+                  <option value="practice">실습 자료 모음</option>
+                  <option value="archive">사례 아카이브</option>
                 </select>
               </div>
               <div>

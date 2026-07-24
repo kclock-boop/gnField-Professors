@@ -39,6 +39,55 @@ const defaultAccounts = [
 
 const authStorageKey = "gnFieldProfessorCurrentUser";
 const passwordStorageKey = "gnFieldProfessorPasswords";
+const resourceMetaKey = "gnFieldProfessorResourceMeta";
+const resourceDbName = "gnFieldProfessorResourceFiles";
+const resourceStoreName = "files";
+
+const resourceCategoryMap = {
+  teaching: "교육자료",
+  forms: "운영양식",
+  reference: "참고자료",
+  archive: "사례아카이브"
+};
+
+const defaultResources = [
+  {
+    id: "default-1",
+    title: "AI교재TF 운영 개요",
+    category: "reference",
+    description: "자료실 운영 방식과 기본 등록 규칙을 안내하는 기본 자료입니다.",
+    kind: "link",
+    externalUrl: "./ai-tf.html",
+    fileName: "AI교재TF 페이지 링크",
+    createdAt: "2026-07-24",
+    createdBy: "시스템",
+    source: "default"
+  },
+  {
+    id: "default-2",
+    title: "협의회 공지사항 바로가기",
+    category: "forms",
+    description: "운영 공지와 제출 일정은 공지사항 페이지에서도 함께 확인할 수 있습니다.",
+    kind: "link",
+    externalUrl: "./notices.html",
+    fileName: "공지사항 링크",
+    createdAt: "2026-07-24",
+    createdBy: "시스템",
+    source: "default"
+  },
+  {
+    id: "default-3",
+    title: "협의회 일정 페이지",
+    category: "archive",
+    description: "회의 일정과 진행 상황을 확인할 수 있는 연결 자료입니다.",
+    kind: "link",
+    externalUrl: "./schedule.html",
+    fileName: "일정 페이지 링크",
+    createdAt: "2026-07-24",
+    createdBy: "시스템",
+    source: "default"
+  }
+];
 
 function getPasswordOverrides() {
   const raw = localStorage.getItem(passwordStorageKey);
@@ -351,6 +400,406 @@ function openChangePasswordModal() {
   });
 }
 
+function openResourceDb() {
+  return new Promise((resolve, reject) => {
+    if (!("indexedDB" in window)) {
+      reject(new Error("indexedDB_not_supported"));
+      return;
+    }
+
+    const request = indexedDB.open(resourceDbName, 1);
+
+    request.onupgradeneeded = () => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains(resourceStoreName)) {
+        db.createObjectStore(resourceStoreName);
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function saveResourceFile(resourceId, file) {
+  const db = await openResourceDb();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(resourceStoreName, "readwrite");
+    const store = transaction.objectStore(resourceStoreName);
+    const request = store.put(file, resourceId);
+
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function getResourceFile(resourceId) {
+  const db = await openResourceDb();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(resourceStoreName, "readonly");
+    const store = transaction.objectStore(resourceStoreName);
+    const request = store.get(resourceId);
+
+    request.onsuccess = () => resolve(request.result || null);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function deleteResourceFile(resourceId) {
+  const db = await openResourceDb();
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(resourceStoreName, "readwrite");
+    const store = transaction.objectStore(resourceStoreName);
+    const request = store.delete(resourceId);
+
+    request.onsuccess = () => resolve();
+    request.onerror = () => reject(request.error);
+  });
+}
+
+function readCustomResourceMeta() {
+  const raw = localStorage.getItem(resourceMetaKey);
+  if (!raw) return [];
+
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    localStorage.removeItem(resourceMetaKey);
+    return [];
+  }
+}
+
+function writeCustomResourceMeta(resources) {
+  localStorage.setItem(resourceMetaKey, JSON.stringify(resources));
+}
+
+function formatResourceDate(value) {
+  if (!value) return "-";
+
+  try {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+
+    return new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit"
+    }).format(date);
+  } catch {
+    return value;
+  }
+}
+
+function formatFileSize(size) {
+  if (!size && size !== 0) return "";
+
+  if (size < 1024) return `${size}B`;
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)}KB`;
+  return `${(size / (1024 * 1024)).toFixed(1)}MB`;
+}
+
+function getAllResources() {
+  const custom = readCustomResourceMeta();
+  return [...defaultResources, ...custom].sort((a, b) => {
+    const left = new Date(b.createdAt).getTime();
+    const right = new Date(a.createdAt).getTime();
+    return left - right;
+  });
+}
+
+function buildResourceCard(resource, currentUser) {
+  const canDelete = resource.source === "custom" && currentUser && (isAdmin(currentUser) || currentUser.id === resource.createdById);
+  const kindLabel = resource.kind === "file" ? "파일" : "링크";
+  const actionLabel = resource.kind === "file" ? "다운로드" : "열기";
+  const metaLine = [
+    resourceCategoryMap[resource.category] || "기타",
+    resource.fileName || "",
+    resource.kind === "file" && resource.fileSize ? formatFileSize(resource.fileSize) : ""
+  ].filter(Boolean).join(" · ");
+
+  return `
+    <article class="soft-panel rounded-[1.6rem] p-6">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div class="min-w-0 flex-1 break-keep">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rounded-full bg-council-mist px-3 py-1 text-xs font-bold text-council-navy">${resourceCategoryMap[resource.category] || "기타"}</span>
+            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">${kindLabel}</span>
+          </div>
+          <h3 class="mt-4 text-2xl font-black text-council-navy">${resource.title}</h3>
+          <p class="mt-3 text-sm leading-7 text-slate-600">${resource.description || "설명 없음"}</p>
+          <div class="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold text-slate-500">
+            <span>등록일 ${formatResourceDate(resource.createdAt)}</span>
+            <span>등록자 ${resource.createdBy || "시스템"}</span>
+            ${metaLine ? `<span>${metaLine}</span>` : ""}
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <button type="button" data-resource-open="${resource.id}" class="inline-flex min-h-[46px] items-center justify-center rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">
+            ${actionLabel}
+          </button>
+          ${canDelete ? `
+            <button type="button" data-resource-delete="${resource.id}" class="inline-flex min-h-[46px] items-center justify-center rounded-full border border-rose-200 bg-rose-50 px-5 py-3 text-sm font-semibold text-rose-700 transition hover:bg-rose-100">
+              삭제
+            </button>
+          ` : ""}
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function setUploadFormEnabled(form, enabled) {
+  if (!form) return;
+  const fields = form.querySelectorAll("input, select, textarea, button");
+  fields.forEach((field) => {
+    if (field.id === "resourceUploadReset") return;
+    field.disabled = !enabled;
+  });
+}
+
+async function triggerResourceOpen(resourceId) {
+  const resources = getAllResources();
+  const target = resources.find((resource) => resource.id === resourceId);
+  if (!target) return;
+
+  if (target.kind === "link" && target.externalUrl) {
+    window.open(target.externalUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  if (target.kind === "file") {
+    const blob = await getResourceFile(resourceId);
+    if (!blob) {
+      alert("이 브라우저에 저장된 파일을 찾을 수 없습니다.");
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = target.fileName || target.title;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+}
+
+async function initResourceLibrary() {
+  const page = document.querySelector("[data-resource-library]");
+  if (!page) return;
+
+  const currentUser = getCurrentUser();
+  const list = document.getElementById("resourceList");
+  const emptyState = document.getElementById("resourceEmptyState");
+  const count = document.querySelector("[data-resource-count]");
+  const visibleCount = document.querySelector("[data-resource-visible-count]");
+  const loginState = document.querySelector("[data-resource-login-state]");
+  const form = document.getElementById("resourceUploadForm");
+  const help = document.getElementById("resourceUploadHelp");
+  const badge = document.querySelector("[data-resource-form-badge]");
+  const search = document.getElementById("resourceSearch");
+  const resetButton = document.getElementById("resourceUploadReset");
+  const filterButtons = Array.from(document.querySelectorAll("[data-resource-filter]"));
+
+  let currentFilter = "all";
+
+  function getFilteredResources() {
+    const keyword = (search?.value || "").trim().toLowerCase();
+
+    return getAllResources().filter((resource) => {
+      const matchesFilter = currentFilter === "all" || resource.category === currentFilter;
+      if (!matchesFilter) return false;
+
+      if (!keyword) return true;
+
+      const target = [
+        resource.title,
+        resource.description,
+        resource.fileName,
+        resource.createdBy
+      ].join(" ").toLowerCase();
+
+      return target.includes(keyword);
+    });
+  }
+
+  function renderResources() {
+    if (!list || !emptyState) return;
+
+    const allResources = getAllResources();
+    const filteredResources = getFilteredResources();
+
+    if (count) count.textContent = `${allResources.length}건`;
+    if (visibleCount) visibleCount.textContent = String(filteredResources.length);
+
+    list.innerHTML = filteredResources.map((resource) => buildResourceCard(resource, currentUser)).join("");
+    emptyState.classList.toggle("hidden", filteredResources.length > 0);
+  }
+
+  function updateFormState() {
+    const loggedIn = Boolean(currentUser);
+    if (loginState) {
+      loginState.textContent = loggedIn ? `${currentUser.label} 로그인` : "비로그인";
+      loginState.className = loggedIn
+        ? "rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700"
+        : "rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600";
+    }
+
+    if (badge) {
+      badge.textContent = loggedIn ? "현재 등록 가능 상태" : "로그인 후 등록 가능";
+      badge.className = loggedIn
+        ? "inline-flex rounded-full bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-700 ring-1 ring-emerald-200"
+        : "inline-flex rounded-full bg-sky-50 px-5 py-3 text-sm font-bold text-sky-700 ring-1 ring-sky-200";
+    }
+
+    if (help) {
+      help.textContent = loggedIn
+        ? "파일 또는 링크를 등록해 자료 목록을 바로 업데이트할 수 있습니다."
+        : "자료 등록은 로그인 후 사용할 수 있습니다.";
+      help.className = loggedIn
+        ? "min-h-[1.5rem] text-sm font-medium text-emerald-700"
+        : "min-h-[1.5rem] text-sm font-medium text-slate-500";
+    }
+
+    setUploadFormEnabled(form, loggedIn);
+  }
+
+  updateFormState();
+  renderResources();
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      currentFilter = button.dataset.resourceFilter || "all";
+      filterButtons.forEach((item) => {
+        const active = item === button;
+        item.className = active
+          ? "rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+          : "rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist";
+      });
+      renderResources();
+    });
+  });
+
+  search?.addEventListener("input", renderResources);
+
+  list?.addEventListener("click", async (event) => {
+    const target = event.target.closest("[data-resource-open], [data-resource-delete]");
+    if (!target) return;
+
+    const openId = target.getAttribute("data-resource-open");
+    if (openId) {
+      await triggerResourceOpen(openId);
+      return;
+    }
+
+    const deleteId = target.getAttribute("data-resource-delete");
+    if (deleteId) {
+      const resources = readCustomResourceMeta();
+      const targetResource = resources.find((resource) => resource.id === deleteId);
+      if (!targetResource) return;
+
+      const canDelete = currentUser && (isAdmin(currentUser) || currentUser.id === targetResource.createdById);
+      if (!canDelete) return;
+
+      const nextResources = resources.filter((resource) => resource.id !== deleteId);
+      writeCustomResourceMeta(nextResources);
+      await deleteResourceFile(deleteId);
+      renderResources();
+    }
+  });
+
+  resetButton?.addEventListener("click", () => {
+    form?.reset();
+    if (help) {
+      help.textContent = currentUser
+        ? "파일 또는 링크를 등록해 자료 목록을 바로 업데이트할 수 있습니다."
+        : "자료 등록은 로그인 후 사용할 수 있습니다.";
+      help.className = currentUser
+        ? "min-h-[1.5rem] text-sm font-medium text-emerald-700"
+        : "min-h-[1.5rem] text-sm font-medium text-slate-500";
+    }
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const liveUser = getCurrentUser();
+    if (!liveUser) {
+      if (help) {
+        help.textContent = "자료 등록은 로그인 후 사용할 수 있습니다.";
+        help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      }
+      return;
+    }
+
+    const title = form.resourceTitle.value.trim();
+    const category = form.resourceCategory.value;
+    const description = form.resourceDescription.value.trim();
+    const externalUrl = form.resourceLink.value.trim();
+    const file = form.resourceFile.files?.[0] || null;
+
+    if (!title) {
+      help.textContent = "자료 제목을 입력해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (!externalUrl && !file) {
+      help.textContent = "외부 링크 또는 파일 업로드 중 하나는 반드시 입력해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      return;
+    }
+
+    if (externalUrl && file) {
+      help.textContent = "링크와 파일 중 하나만 선택해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+      return;
+    }
+
+    const resourceId = `resource-${Date.now()}`;
+    const createdAt = new Date().toISOString();
+    const customResources = readCustomResourceMeta();
+
+    const resource = {
+      id: resourceId,
+      title,
+      category,
+      description,
+      kind: file ? "file" : "link",
+      externalUrl: file ? "" : externalUrl,
+      fileName: file ? file.name : externalUrl,
+      fileSize: file ? file.size : 0,
+      mimeType: file ? file.type : "",
+      createdAt,
+      createdBy: liveUser.label,
+      createdById: liveUser.id,
+      source: "custom"
+    };
+
+    try {
+      if (file) {
+        await saveResourceFile(resourceId, file);
+      }
+
+      customResources.push(resource);
+      writeCustomResourceMeta(customResources);
+      form.reset();
+
+      help.textContent = "자료가 등록되었습니다. 목록에서 바로 확인할 수 있습니다.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-emerald-600";
+      renderResources();
+    } catch {
+      help.textContent = "자료 등록 중 오류가 발생했습니다. 다시 시도해 주세요.";
+      help.className = "min-h-[1.5rem] text-sm font-medium text-rose-600";
+    }
+  });
+}
+
 if (logoutButton) {
   logoutButton.addEventListener("click", () => {
     clearCurrentUser();
@@ -391,6 +840,7 @@ document.querySelectorAll(".nav-link").forEach((link) => {
 });
 
 protectPage();
+initResourceLibrary();
 
 const revealTargets = document.querySelectorAll(".reveal");
 if (revealTargets.length) {

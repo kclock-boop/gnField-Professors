@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>자료실 | 대한민국산업현장교수 경남협의회</title>
-  <meta name="description" content="대한민국산업현장교수 경남협의회의 교안, 회의자료, 배포 서식, 참고 자료를 관리하는 자료실 페이지입니다.">
+  <meta name="description" content="대한민국산업현장교수 경남협의회 자료실입니다. 교육자료, 양식, 회의자료, 참고자료를 검색하고 등록할 수 있습니다.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.min.css">
   <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
@@ -25,7 +25,8 @@
             sans: ["Pretendard", "system-ui", "sans-serif"]
           },
           boxShadow: {
-            soft: "0 24px 70px -34px rgba(26, 54, 93, 0.30)"
+            soft: "0 24px 70px -34px rgba(26, 54, 93, 0.30)",
+            glow: "0 30px 90px -45px rgba(90, 169, 230, 0.40)"
           },
           backgroundImage: {
             premium: "radial-gradient(circle at top left, rgba(144,205,244,0.28), transparent 25%), radial-gradient(circle at 85% 15%, rgba(26,54,93,0.10), transparent 28%), linear-gradient(180deg, #f4f9ff 0%, #ffffff 52%, #f8fbff 100%)"
@@ -35,11 +36,46 @@
     };
   </script>
   <style>
-    body { font-family: "Pretendard", system-ui, sans-serif; background: #f8fbff; color: #1f2937; }
-    .glass-card { border: 1px solid rgba(215,230,245,0.95); background: rgba(255,255,255,0.9); box-shadow: 0 24px 70px -34px rgba(26,54,93,0.3); backdrop-filter: blur(14px); }
-    .soft-panel { border: 1px solid rgba(215,230,245,0.9); background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,249,255,0.96)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 16px 45px -34px rgba(26,54,93,0.38); }
-    .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1); }
-    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    body {
+      font-family: "Pretendard", system-ui, sans-serif;
+      background: #f8fbff;
+      color: #1f2937;
+    }
+
+    .break-keep {
+      word-break: keep-all;
+    }
+
+    .glass-card {
+      border: 1px solid rgba(215, 230, 245, 0.95);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 24px 70px -34px rgba(26, 54, 93, 0.3);
+      backdrop-filter: blur(14px);
+    }
+
+    .soft-panel {
+      border: 1px solid rgba(215, 230, 245, 0.9);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(244,249,255,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 16px 45px -34px rgba(26,54,93,0.38);
+    }
+
+    .hero-panel {
+      background:
+        radial-gradient(circle at 18% 16%, rgba(144,205,244,0.24), transparent 18%),
+        radial-gradient(circle at 80% 14%, rgba(255,255,255,0.12), transparent 10%),
+        linear-gradient(145deg, rgba(18,42,74,0.98), rgba(43,85,135,0.94));
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body class="bg-premium text-council-text" data-auth-page="public">
@@ -53,7 +89,11 @@
             <span class="block text-base font-black text-council-navy sm:text-lg">대한민국산업현장교수 경남협의회</span>
           </span>
         </a>
-        <button type="button" class="mobile-nav-toggle inline-flex items-center rounded-full border border-council-line px-4 py-2 text-sm font-semibold text-council-navy lg:hidden" aria-expanded="false" aria-controls="global-nav">메뉴</button>
+
+        <button type="button" class="mobile-nav-toggle inline-flex items-center rounded-full border border-council-line px-4 py-2 text-sm font-semibold text-council-navy lg:hidden" aria-expanded="false" aria-controls="global-nav">
+          메뉴
+        </button>
+
         <div class="flex items-center gap-3">
           <nav id="global-nav" class="nav-panel hidden lg:block" aria-label="주요 메뉴">
             <ul class="flex items-center gap-2">
@@ -66,6 +106,7 @@
               <li><a class="nav-link inline-flex rounded-full px-4 py-3 text-sm font-bold text-slate-500 transition hover:bg-council-mist hover:text-council-navy" href="./schedule.html">일정</a></li>
             </ul>
           </nav>
+
           <div class="hidden items-center gap-3 lg:flex" data-auth-controls>
             <span class="rounded-full bg-council-mist px-4 py-2 text-xs font-bold text-council-navy" data-auth-user>로그인 확인 중</span>
             <a href="./admin.html" data-admin-link class="hidden min-h-[44px] items-center justify-center rounded-full bg-council-navy px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">관리자</a>
@@ -76,51 +117,225 @@
       </div>
     </header>
 
-    <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+    <main class="px-4 pb-16 pt-8 sm:px-6 lg:px-8" data-resource-library>
       <section class="mx-auto max-w-7xl reveal">
-        <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
-          <div class="grid gap-8 lg:grid-cols-[1fr_0.9fr] lg:items-end">
-            <div>
-              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Resource Library</span>
-              <h1 class="mt-6 text-4xl font-black tracking-[-0.04em] text-council-navy sm:text-5xl">협의회 자료 아카이브</h1>
-              <p class="mt-4 max-w-3xl text-base leading-8 text-slate-600 sm:text-lg">교안, 회의자료, 공문 서식, 참고 자료를 성격별로 보관하는 라이브러리형 페이지입니다.</p>
+        <div class="hero-panel overflow-hidden rounded-[2rem] p-8 text-white shadow-glow sm:p-10 lg:p-12">
+          <div class="grid gap-8 lg:grid-cols-[1.04fr_0.96fr] lg:items-end">
+            <div class="break-keep">
+              <span class="inline-flex rounded-full bg-white/10 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-sky-100">Resource Room</span>
+              <h1 class="mt-6 text-4xl font-black leading-tight tracking-[-0.04em] sm:text-5xl">
+                협의회 자료실
+                <br>
+                운영형 라이브러리
+              </h1>
+              <p class="mt-5 max-w-3xl text-base leading-8 text-sky-50 sm:text-lg">
+                교육자료, 회의양식, 참고문서, 사례 아카이브를 한곳에서 관리하는 자료실입니다.
+                로그인한 사용자는 자료를 등록할 수 있고, 등록된 자료는 목록 검색과 분류 기능으로 빠르게 찾을 수 있습니다.
+              </p>
             </div>
+
             <div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
-              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">운영 카테고리</p><strong class="mt-2 block text-2xl font-black text-council-navy">3개</strong></article>
-              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">주요 문서</p><strong class="mt-2 block text-2xl font-black text-council-navy">교안 · 서식 · 참고자료</strong></article>
-              <article class="soft-panel rounded-[1.5rem] p-5"><p class="text-sm font-bold text-slate-500">확장 가능</p><strong class="mt-2 block text-2xl font-black text-council-navy">파일 다운로드 구역</strong></article>
+              <article class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
+                <p class="text-sm font-bold text-sky-100">자료 건수</p>
+                <strong class="mt-2 block text-3xl font-black" data-resource-count>0건</strong>
+              </article>
+              <article class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
+                <p class="text-sm font-bold text-sky-100">운영 분류</p>
+                <strong class="mt-2 block text-3xl font-black">4개 카테고리</strong>
+              </article>
+              <article class="rounded-[1.5rem] border border-white/10 bg-white/10 p-5">
+                <p class="text-sm font-bold text-sky-100">저장 방식</p>
+                <strong class="mt-2 block text-2xl font-black">브라우저 업로드 + 링크 등록</strong>
+              </article>
             </div>
           </div>
         </div>
       </section>
 
       <section class="mx-auto mt-8 max-w-7xl reveal">
-        <div class="grid gap-5 lg:grid-cols-3">
-          <article class="glass-card rounded-[2rem] p-7">
+        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <article class="glass-card rounded-[1.8rem] p-6">
             <span class="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-bold text-sky-700">교육자료</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">교안·실습 자료</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">강의안, 실습지, 체크리스트, 평가표 등 교육 현장용 자료를 정리합니다.</p>
-            <button type="button" class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">자료 준비중</button>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">교안 · 실습자료</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">강의 교안, 실습지, 체크리스트, 평가표를 분류해 저장합니다.</p>
           </article>
-          <article class="glass-card rounded-[2rem] p-7">
-            <span class="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">행정문서</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">공문·배포 서식</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">운영 안내문, 요청서, 회의 서식, 배포용 문서를 한곳에서 관리합니다.</p>
-            <button type="button" class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">서식 준비중</button>
+          <article class="glass-card rounded-[1.8rem] p-6">
+            <span class="inline-flex rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">운영양식</span>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">회의 · 제출양식</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">회의자료, 제출서식, 요청서, 공문 양식을 함께 보관합니다.</p>
           </article>
-          <article class="glass-card rounded-[2rem] p-7">
+          <article class="glass-card rounded-[1.8rem] p-6">
             <span class="inline-flex rounded-full bg-amber-50 px-3 py-1 text-xs font-bold text-amber-700">참고자료</span>
-            <h2 class="mt-4 text-2xl font-black text-council-navy">외부·참고 문서</h2>
-            <p class="mt-3 text-sm leading-7 text-slate-600">현장 사례, 참고 링크, 교육 운영 참고문서를 아카이브 형태로 보관합니다.</p>
-            <button type="button" class="mt-6 inline-flex min-h-[48px] items-center justify-center rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">아카이브 준비중</button>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">사례 · 연구자료</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">현장사례, 벤치마킹 자료, 참고 링크를 아카이브 형태로 관리합니다.</p>
           </article>
+          <article class="glass-card rounded-[1.8rem] p-6">
+            <span class="inline-flex rounded-full bg-violet-50 px-3 py-1 text-xs font-bold text-violet-700">업로드 안내</span>
+            <h2 class="mt-4 text-2xl font-black text-council-navy">시험 운영형 업로드</h2>
+            <p class="mt-3 text-sm leading-7 text-slate-600">업로드한 파일은 현재 사용하는 브라우저에 저장됩니다. 링크 등록은 어느 브라우저에서나 바로 열 수 있습니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="glass-card rounded-[2rem] p-8 sm:p-10">
+          <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div class="max-w-2xl break-keep">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Search & Filter</span>
+              <h2 class="mt-5 text-3xl font-black text-council-navy">자료 검색 및 분류</h2>
+              <p class="mt-3 text-sm leading-7 text-slate-600">제목, 설명, 파일명 기준으로 검색하고 카테고리별로 빠르게 좁혀볼 수 있습니다.</p>
+            </div>
+
+            <div class="w-full max-w-xl">
+              <label for="resourceSearch" class="sr-only">자료 검색</label>
+              <div class="flex items-center gap-3 rounded-full border border-council-line bg-white px-5 py-4 shadow-[0_18px_40px_-30px_rgba(26,54,93,0.2)]">
+                <iconify-icon icon="solar:magnifer-linear" class="text-xl text-slate-400"></iconify-icon>
+                <input id="resourceSearch" type="search" placeholder="자료명, 설명, 파일명을 검색해 보세요" class="w-full bg-transparent text-sm text-slate-700 outline-none placeholder:text-slate-400">
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button type="button" data-resource-filter="all" class="rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90">전체</button>
+            <button type="button" data-resource-filter="teaching" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">교육자료</button>
+            <button type="button" data-resource-filter="forms" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">운영양식</button>
+            <button type="button" data-resource-filter="reference" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">참고자료</button>
+            <button type="button" data-resource-filter="archive" class="rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">사례아카이브</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="grid gap-8 xl:grid-cols-[1.05fr_0.95fr]">
+          <article class="glass-card rounded-[2rem] p-8 sm:p-10">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Live Library</span>
+                <h2 class="mt-5 text-3xl font-black text-council-navy">등록 자료 목록</h2>
+              </div>
+              <div class="rounded-full bg-council-mist px-4 py-2 text-sm font-semibold text-council-navy">
+                현재 <span data-resource-visible-count>0</span>건 표시 중
+              </div>
+            </div>
+
+            <div id="resourceEmptyState" class="mt-8 rounded-[1.6rem] border border-dashed border-council-line bg-council-mist/70 p-8 text-center text-slate-600">
+              아직 등록된 자료가 없습니다. 아래 등록 폼에서 첫 자료를 올려보세요.
+            </div>
+
+            <div id="resourceList" class="mt-8 grid gap-4"></div>
+          </article>
+
+          <div class="grid gap-8">
+            <article class="glass-card rounded-[2rem] p-8 sm:p-10">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Upload Guide</span>
+              <h2 class="mt-5 text-3xl font-black text-council-navy">자료 등록 안내</h2>
+              <ul class="mt-5 space-y-3 text-sm leading-7 text-slate-600">
+                <li>브라우저 업로드 파일은 현재 사용 중인 브라우저에 저장됩니다.</li>
+                <li>링크 등록은 웹주소만 입력하면 바로 공개 목록에 반영됩니다.</li>
+                <li>로그인한 계정만 자료 등록이 가능하며, 등록자는 자신의 자료를 삭제할 수 있습니다.</li>
+                <li>관리자 계정은 모든 등록 자료를 정리할 수 있습니다.</li>
+              </ul>
+              <div class="mt-6 rounded-[1.4rem] border border-amber-200 bg-amber-50 p-5 text-sm leading-7 text-amber-900">
+                GitHub Pages는 정적 사이트라 서버 저장 업로드는 바로 지원하지 않습니다.
+                그래서 현재는 시험 운영용으로 브라우저 저장형 업로드를 적용했습니다.
+              </div>
+            </article>
+
+            <article class="glass-card rounded-[2rem] p-8 sm:p-10">
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Login Status</span>
+                  <h2 class="mt-5 text-3xl font-black text-council-navy">등록 가능 상태</h2>
+                </div>
+                <span class="rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-600" data-resource-login-state>비로그인</span>
+              </div>
+              <p class="mt-4 text-sm leading-7 text-slate-600">
+                자료 등록은 로그인 후 사용할 수 있습니다. 현재 페이지는 공개로 열리지만, 등록 기능은 로그인한 사용자만 사용할 수 있습니다.
+              </p>
+              <div class="mt-5 flex flex-wrap gap-3">
+                <a href="./ai-tf.html" class="inline-flex min-h-[48px] items-center justify-center rounded-full bg-council-navy px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">AI교재TF 로그인</a>
+                <a href="./admin.html" class="inline-flex min-h-[48px] items-center justify-center rounded-full border border-council-line bg-white px-5 py-3 text-sm font-semibold text-council-navy transition hover:bg-council-mist">관리자 페이지</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto mt-8 max-w-7xl reveal">
+        <div class="glass-card rounded-[2rem] p-8 sm:p-10 lg:p-12">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div class="max-w-3xl break-keep">
+              <span class="inline-flex rounded-full bg-council-mist px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-council-navy">Resource Upload</span>
+              <h2 class="mt-6 text-3xl font-black text-council-navy sm:text-4xl">자료 등록 폼</h2>
+              <p class="mt-4 text-base leading-8 text-slate-600 sm:text-lg">
+                제목, 분류, 설명을 입력하고 파일 또는 링크를 등록해 주세요. 파일 업로드와 링크 등록 중 하나만 입력해도 자료를 만들 수 있습니다.
+              </p>
+            </div>
+            <div class="inline-flex rounded-full bg-emerald-50 px-5 py-3 text-sm font-bold text-emerald-700 ring-1 ring-emerald-200" data-resource-form-badge>
+              로그인 후 등록 가능
+            </div>
+          </div>
+
+          <form id="resourceUploadForm" class="mt-8 grid gap-5 lg:grid-cols-2">
+            <div class="space-y-5">
+              <div>
+                <label for="resourceTitle" class="mb-2 block text-sm font-semibold text-slate-600">자료 제목</label>
+                <input id="resourceTitle" name="resourceTitle" type="text" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="예: AI교재TF 7월 회의자료">
+              </div>
+              <div>
+                <label for="resourceCategory" class="mb-2 block text-sm font-semibold text-slate-600">카테고리</label>
+                <select id="resourceCategory" name="resourceCategory" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100">
+                  <option value="teaching">교육자료</option>
+                  <option value="forms">운영양식</option>
+                  <option value="reference">참고자료</option>
+                  <option value="archive">사례아카이브</option>
+                </select>
+              </div>
+              <div>
+                <label for="resourceDescription" class="mb-2 block text-sm font-semibold text-slate-600">설명</label>
+                <textarea id="resourceDescription" name="resourceDescription" rows="5" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="자료의 용도, 대상, 포함 내용 등을 적어 주세요."></textarea>
+              </div>
+            </div>
+
+            <div class="space-y-5">
+              <div>
+                <label for="resourceLink" class="mb-2 block text-sm font-semibold text-slate-600">외부 링크 등록</label>
+                <input id="resourceLink" name="resourceLink" type="url" class="w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 outline-none transition focus:border-sky-300 focus:ring-4 focus:ring-sky-100" placeholder="https://...">
+              </div>
+              <div>
+                <label for="resourceFile" class="mb-2 block text-sm font-semibold text-slate-600">파일 업로드</label>
+                <input id="resourceFile" name="resourceFile" type="file" class="block w-full rounded-[1.2rem] border border-council-line bg-white px-4 py-4 text-sm text-slate-700 file:mr-4 file:rounded-full file:border-0 file:bg-council-mist file:px-4 file:py-2 file:font-semibold file:text-council-navy">
+                <p class="mt-2 text-xs leading-6 text-slate-500">파일 업로드는 현재 브라우저 저장형입니다. 다른 PC나 브라우저에서는 자동 공유되지 않습니다.</p>
+              </div>
+              <div class="rounded-[1.5rem] border border-council-line bg-council-mist/60 p-5">
+                <p class="text-sm font-semibold text-council-navy">등록 규칙</p>
+                <ul class="mt-3 space-y-2 text-sm leading-7 text-slate-600">
+                  <li>제목은 필수입니다.</li>
+                  <li>링크 또는 파일 중 하나는 반드시 있어야 합니다.</li>
+                  <li>등록자는 로그인한 계정 이름으로 자동 기록됩니다.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="lg:col-span-2">
+              <p id="resourceUploadHelp" class="min-h-[1.5rem] text-sm font-medium text-slate-500">로그인 후 자료를 등록할 수 있습니다.</p>
+              <div class="mt-4 flex flex-wrap gap-3">
+                <button id="resourceUploadSubmit" type="submit" class="inline-flex min-h-[54px] items-center justify-center rounded-full bg-council-navy px-7 py-4 text-base font-semibold text-white transition hover:scale-[1.02] active:scale-[0.98]">
+                  자료 등록
+                </button>
+                <button id="resourceUploadReset" type="button" class="inline-flex min-h-[54px] items-center justify-center rounded-full border border-council-line bg-white px-7 py-4 text-base font-semibold text-council-navy transition hover:bg-council-mist">
+                  입력 초기화
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </section>
     </main>
 
     <footer class="px-4 py-10 sm:px-6 lg:px-8">
       <div class="mx-auto flex max-w-7xl flex-col gap-4 border-t border-council-line pt-8 text-sm text-slate-500 lg:flex-row lg:items-center lg:justify-between">
-        <p>© 2026 대한민국산업현장교수 경남협의회. All rights reserved.</p>
+        <p>© 2026 대한민국산업현장교수 경남협의회 All rights reserved.</p>
         <div class="flex flex-wrap gap-4">
           <a href="./index.html" class="font-semibold text-council-navy">메인</a>
           <a href="./organization.html" class="font-semibold text-council-navy">조직도</a>
@@ -133,6 +348,7 @@
       </div>
     </footer>
   </div>
+
   <script src="./js/main.js"></script>
 </body>
 </html>

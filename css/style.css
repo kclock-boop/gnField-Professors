@@ -116,15 +116,40 @@ canvas {
   align-items: center;
   border-radius: 9999px;
   padding: 0.8rem 1rem;
-  color: var(--color-muted);
-  font-size: 0.95rem;
-  font-weight: 700;
+  color: #314a6e;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 0 0 0 rgba(0, 0, 0, 0.01);
 }
 
 .nav-link:hover,
 .nav-link.is-active {
   background: rgba(144, 205, 244, 0.18);
   color: var(--color-navy);
+}
+
+header [data-auth-controls] > span,
+header [data-auth-controls] > a,
+header [data-auth-controls] > button {
+  letter-spacing: -0.01em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+}
+
+header [data-auth-controls] > a,
+header [data-auth-controls] > button {
+  font-weight: 800;
+}
+
+header [data-auth-controls] > button {
+  color: #28456d;
+}
+
+header [data-auth-controls] > a[data-admin-link] {
+  color: #ffffff;
 }
 
 .panel-card,

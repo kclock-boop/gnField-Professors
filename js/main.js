@@ -217,7 +217,7 @@ function initializeAuthUi() {
   }
 
   if (authUser) {
-    authUser.textContent = "기업 전용";
+    authUser.textContent = "로그인";
   }
   syncAdminUi(null);
   return null;

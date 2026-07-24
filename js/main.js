@@ -205,7 +205,7 @@ function updateAuthUi(user) {
 
   authControls.classList.remove("hidden");
   authControls.classList.add("flex");
-  authUser.textContent = `${user.label} 로그인`;
+  authUser.textContent = "로그인";
   syncAdminUi(user);
 }
 

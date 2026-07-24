@@ -39,6 +39,7 @@ const defaultAccounts = [
 
 const authStorageKey = "gnFieldProfessorCurrentUser";
 const passwordStorageKey = "gnFieldProfessorPasswords";
+const loginLogStorageKey = "gnFieldProfessorLoginLogs";
 const resourceMetaKey = "gnFieldProfessorResourceMeta";
 const resourceDbName = "gnFieldProfessorResourceFiles";
 const resourceStoreName = "files";
@@ -135,6 +136,53 @@ function setCurrentUser(user) {
 
 function clearCurrentUser() {
   localStorage.removeItem(authStorageKey);
+}
+
+function getLoginLogs() {
+  const raw = localStorage.getItem(loginLogStorageKey);
+  if (!raw) return [];
+
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    localStorage.removeItem(loginLogStorageKey);
+    return [];
+  }
+}
+
+function setLoginLogs(logs) {
+  localStorage.setItem(loginLogStorageKey, JSON.stringify(logs));
+}
+
+function recordLoginEvent(user) {
+  const logs = getLoginLogs();
+  logs.unshift({
+    id: `login-${Date.now()}`,
+    userId: user.id,
+    label: user.label,
+    role: user.role,
+    page: window.location.pathname,
+    timestamp: new Date().toISOString()
+  });
+
+  setLoginLogs(logs.slice(0, 200));
+}
+
+function formatDateTime(value) {
+  if (!value) return "-";
+
+  try {
+    return new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    }).format(new Date(value));
+  } catch {
+    return value;
+  }
 }
 
 function isAdmin(user) {
@@ -322,10 +370,56 @@ function protectPage() {
       return;
     }
 
+    recordLoginEvent(matchedAccount);
     setCurrentUser(matchedAccount);
     updateAuthUi(matchedAccount);
     modal.remove();
     document.body.classList.remove("overflow-hidden");
+  });
+}
+
+function initAdminDashboard() {
+  const dashboard = document.querySelector("[data-login-dashboard]");
+  if (!dashboard) return;
+
+  const logs = getLoginLogs();
+  const totalEl = dashboard.querySelector("[data-login-total]");
+  const memberEl = dashboard.querySelector("[data-login-member-count]");
+  const adminEl = dashboard.querySelector("[data-login-admin-count]");
+  const latestEl = dashboard.querySelector("[data-login-latest]");
+  const tableBody = dashboard.querySelector("[data-login-log-body]");
+  const emptyState = dashboard.querySelector("[data-login-empty]");
+  const resetButton = dashboard.querySelector("[data-login-reset]");
+
+  const memberLogins = logs.filter((log) => log.role === "member").length;
+  const adminLogins = logs.filter((log) => log.role === "admin").length;
+  const latest = logs[0];
+
+  if (totalEl) totalEl.textContent = `${logs.length}건`;
+  if (memberEl) memberEl.textContent = `${memberLogins}건`;
+  if (adminEl) adminEl.textContent = `${adminLogins}건`;
+  if (latestEl) latestEl.textContent = latest ? `${latest.label} · ${formatDateTime(latest.timestamp)}` : "기록 없음";
+
+  if (tableBody) {
+    tableBody.innerHTML = logs.slice(0, 20).map((log, index) => `
+      <tr>
+        <td class="px-5 py-4">${index + 1}</td>
+        <td class="px-5 py-4 font-semibold text-council-navy">${log.label}</td>
+        <td class="px-5 py-4">${log.userId}</td>
+        <td class="px-5 py-4">${log.role === "admin" ? "관리자" : "교수/기관"}</td>
+        <td class="px-5 py-4">${formatDateTime(log.timestamp)}</td>
+        <td class="px-5 py-4">${log.page || "-"}</td>
+      </tr>
+    `).join("");
+  }
+
+  if (emptyState) {
+    emptyState.classList.toggle("hidden", logs.length > 0);
+  }
+
+  resetButton?.addEventListener("click", () => {
+    localStorage.removeItem(loginLogStorageKey);
+    window.location.reload();
   });
 }
 
@@ -840,6 +934,7 @@ document.querySelectorAll(".nav-link").forEach((link) => {
 });
 
 protectPage();
+initAdminDashboard();
 initResourceLibrary();
 
 const revealTargets = document.querySelectorAll(".reveal");

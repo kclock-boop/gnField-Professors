@@ -1,6 +1,6 @@
 const mobileNavButton = document.querySelector(".mobile-nav-toggle");
 const navPanel = document.querySelector(".nav-panel");
-const authPageType = document.body.dataset.authPage;
+const authPageType = document.body.dataset.authPage || "public";
 const authRequiredRole = document.body.dataset.authRole || "member";
 const authControls = document.querySelector("[data-auth-controls]");
 const authUser = document.querySelector("[data-auth-user]");
@@ -103,6 +103,26 @@ function syncAdminUi(user) {
   }
 }
 
+function updateAuthUi(user) {
+  if (!authControls || !authUser) return;
+
+  authControls.classList.remove("hidden");
+  authControls.classList.add("flex");
+  authUser.textContent = `${user.label} 로그인`;
+  syncAdminUi(user);
+}
+
+function initializeAuthUi() {
+  const currentUser = getCurrentUser();
+  if (currentUser) {
+    updateAuthUi(currentUser);
+    return currentUser;
+  }
+
+  syncAdminUi(null);
+  return null;
+}
+
 function showAdminOnlyMessage() {
   const wrapper = document.createElement("div");
   wrapper.className = "fixed inset-0 z-[99] flex items-center justify-center bg-slate-900/60 px-4 py-8 backdrop-blur-md";
@@ -135,7 +155,7 @@ function createLoginModal() {
       </span>
       <h2 class="mt-5 text-3xl font-black text-[#1a365d]">교수진 로그인</h2>
       <p class="mt-4 break-keep-all text-sm leading-7 text-slate-600">
-        관리자에게 받은 아이디와 비밀번호를 입력해 주세요. 로그인해야 홈페이지 내용을 확인할 수 있습니다.
+        이 페이지는 AI교재TF 전용 화면입니다. 관리자에게 받은 아이디와 비밀번호를 입력한 뒤 접속해 주세요.
       </p>
       <form id="simpleLoginForm" class="mt-8 space-y-4">
         <div>
@@ -172,7 +192,7 @@ function createChangePasswordModal(currentUser) {
           <h2 class="mt-4 text-3xl font-black text-[#1a365d]">비밀번호 변경</h2>
         </div>
         <button type="button" data-close-password-modal class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:bg-slate-50">
-          ✕
+          ×
         </button>
       </div>
       <p class="mt-4 break-keep-all text-sm leading-7 text-slate-600">
@@ -203,26 +223,16 @@ function createChangePasswordModal(currentUser) {
   return wrapper;
 }
 
-function updateAuthUi(user) {
-  if (!authControls || !authUser) return;
-
-  authControls.classList.remove("hidden");
-  authControls.classList.add("flex");
-  authUser.textContent = `${user.label} 로그인`;
-  syncAdminUi(user);
-}
-
 function canAccessPage(user) {
   if (authRequiredRole !== "admin") return true;
   return isAdmin(user);
 }
 
 function protectPage() {
+  const currentUser = initializeAuthUi();
   if (authPageType !== "protected") return;
 
-  const currentUser = getCurrentUser();
   if (currentUser) {
-    updateAuthUi(currentUser);
     if (!canAccessPage(currentUser)) showAdminOnlyMessage();
     return;
   }
